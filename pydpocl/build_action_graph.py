@@ -206,9 +206,15 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 		pass
 
 	elif literal.name == "has-scale":
+		"""
+		[note] if no argument is type scale, then raise TypeError
+		"""
 		pass
 
 	elif literal.name == "effect":
+		"""
+
+		"""
 		pass
 
 	elif literal.name == "precond":
@@ -245,6 +251,13 @@ def build_decomp(dformula, dparams, dschema, op_graphs):
 	return dschema
 
 
+def make_decomp(action_name, schema_args, dparams, dformula, schemata):
+	decomp_graph = PlanElementGraph(name=action_name, type_graph="decomp")
+	params = convert_params(dparams, obj_types) + schema_args
+	decomp_schema = build_decomp(dformula, params, decomp_graph, schemata)
+	decomp_schema.updateArgs()
+	return decomp_schema
+
 def build_actions(action, obj_types):
 	opGraphs = []
 	dopGraphs = []
@@ -257,27 +270,17 @@ def build_actions(action, obj_types):
 
 		if action.decomp is not None:
 
+			dschema = make_decomp(action.name, args, action.decomp.sub_params, action.decomp.formula, opGraphs)
+
+			# bipartite has second decomposition method
 			if type(action.decomp) == BipartiteStmt:
-
-				ddg = PlanElementGraph(name=action.name, type_graph='decomp_decomp')
-
-				fabula_params = convert_params(action.decomp.fab_params, obj_types) + args
-				decomp_schema = build_decomp(action.decomp.fab_formula, fabula_params, ddg, all_ops)
-				decomp_schema.updateArgs()
-
 				disc_params = convert_params(action.decomp.disc_params, obj_types)
-				build_decomp(action.decomp.disc_formula, disc_params, decomp_schema, all_ops)
+				build_decomp(action.decomp.disc_formula, disc_params, dschema, all_ops)
 
-			else:
-
-				decomp_graph = PlanElementGraph(name=action.name, type_graph='decomp')
-				params = convert_params(action.decomp.sub_params, obj_types) + args
-				decomp_schema = build_decomp(action.decomp.formula, params, decomp_graph, opGraphs)
-
-			schema.subgraphs = decomp_schema
+			schema.sub_graph = dschema
 			dopGraphs.append(schema)
-		else:
-			opGraphs.append(schema)
+
+		opGraphs.append(schema)
 		all_ops.append(schema)
 
 	return opGraphs, dopGraphs
@@ -294,8 +297,8 @@ if __name__ == '__main__':
 	# GC.object_types.update()
 	obj_types = obTypesDict(domain.types)
 
-	args, init, goal = problemToGraphs(problem)
-	objects = set(args.values())
+	omega_args, init, goal = problemToGraphs(problem)
+	objects = set(omega_args.values())
 
 	addNegativeInitStates(domain.predicates.predicates, init, objects)
 

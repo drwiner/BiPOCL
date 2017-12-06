@@ -159,11 +159,11 @@ class BipartiteStmt(Visitable):
 		Keyword arguments:
 		keywords -- the list of requirements, represented as keywords
 		"""
-		self.fab_params = fab_params
+		self.sub_params = fab_params
 		self.disc_params = disc_params
 		self._visitorName = 'visit_bipartite_stmt'
 		#self.keywords = keywords or []	# a list of keywords
-		self.fab_formula = fab_formula
+		self.formula = fab_formula
 		self.disc_formula = disc_formula
 
 class DomainStmt(Visitable):
