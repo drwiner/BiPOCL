@@ -336,9 +336,6 @@ def evalActionParams(params, op_graph):
 		elif 'person' in parameter.types:
 			arg = Actor(typ='person', arg_name=parameter.name)
 			op_graph.elements.add(arg)
-		# elif 'literal' in parameter.types or 'lit' in parameter.types:
-		# 	lit = Literal(arg_name=parameter.name, typ='Condition')
-		# 	op_graph.elements.add(lit)
 		else:
 			arg_type = next(iter(parameter.types))
 			if arg_type in {'lit', 'literal'}:
@@ -348,53 +345,7 @@ def evalActionParams(params, op_graph):
 		op_graph.edges.add(Edge(op_graph.root, arg, i))
 
 
-""" Convert pddl file to set of operator graphs"""
-
-
-@clock
-def domainToOperatorGraphs(domain, obj_types):
-	opGraphs = set()
-	dopGraphs = set()
-	for action in domain.actions:
-		op = Operator(name=action.name, num_args=len(action.parameters))
-		op_graph = Action(name=action.name, root_element=op)
-		evalActionParams(action.parameters, op_graph)
-
-		if action.precond is not None:
-			getFormulaGraph(action.precond.formula, op_graph, parent=op, relationship='precond-of',
-							elements=op_graph.elements, edges=op_graph.edges)
-		if action.effect is not None:
-			getFormulaGraph(action.effect.formula, op_graph, parent=op, relationship='effect-of',
-							elements=op_graph.elements,
-							edges=op_graph.edges)
-
-		if action.decomp is not None:
-			# henceforth, action.decomp is tuple (sub-params, decomp)
-			decomp_graph = PlanElementGraph(name=action.name, type_graph='decomp')
-			params = action.parameters + action.decomp.sub_params
-			param_types = [obj_types[next(iter(p.types))] for p in params]
-			p_type_dict = dict(zip(params, param_types))
-			getDecompGraph(action.decomp.formula, decomp_graph, params, p_type_dict)
-			op_graph.subplan = decomp_graph
-
-			# This searches for params that are listed as params and sub-params, may not be needed
-			# opelms = list(op_graph.elements)
-			# dpelms = list(decomp_graph.elements)
-			# for step_elm in opelms:
-			# 	for d_elm in dpelms:
-			# 		if not isinstance(d_elm, Argument):
-			# 			continue
-			# 		if d_elm.arg_name == step_elm.arg_name:
-			# 			op_graph.assign(step_elm, d_elm)
-			dopGraphs.add(op_graph)
-		else:
-			opGraphs.add(op_graph)
-	return opGraphs, dopGraphs
-
-
 """ Convert pddl problem file to usable structures"""
-
-
 @clock
 def problemToGraphs(problem):
 	"""
@@ -465,14 +416,6 @@ def addNegativeInitStates(predicates, initAction, objects):
 				initAction.edges.add(Edge(initAction.root, pc, 'effect-of'))
 
 
-def domainAxiomsToGraphs(domain):
-	if len(domain.axioms) > 0:
-		from pddl.parser import ActionStmt
-	for ax in domain.axioms:
-		domain.actions.append(ActionStmt(name=ax.name, parameters=ax.vars_, precond=ax.context,
-										 effect=ax.implies))
-
-
 def parseDomAndProb(domain_file, problem_file):
 
 	parser = Parser(domain_file, problem_file)
@@ -523,14 +466,6 @@ def obTypesDict(object_types):
 
 
 
-def rFollowHierarchy(object_types, child_name, accumulated=None):
-	if accumulated is None:
-		accumulated = []
-	for ob in object_types:
-		if ob.name not in accumulated:
-			if ob.name == child_name:
-				accumulated.append(ob.parent)
-				rFollowHierarchy(object_types, ob.parent, accumulated)
 
 
 import sys

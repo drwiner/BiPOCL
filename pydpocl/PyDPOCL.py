@@ -439,15 +439,15 @@ if __name__ == '__main__':
 			problem_file = sys.argv[2]
 	else:
 		# domain_file = 'Ground_Compiler_Library//domains/travel_domain_primitive_only.pddl'
-		domain_file = 'Ground_Compiler_Library//domains/travel_domain.pddl'
-		problem_file = 'Ground_Compiler_Library//domains/travel-to-la.pddl'
+		domain_file = 'Ground_Compiler_Library//domains/Unity_Western_Domain.pddl'
+		problem_file = 'Ground_Compiler_Library//domains/unity_western_problem.pddl'
 		# problem_file = 'Ground_Compiler_Library//domains/travel-to-la.pddl'
 	d_name = domain_file.split('/')[-1].split('.')[0]
 	p_name = problem_file.split('/')[-1].split('.')[0]
 	uploadable_ground_step_library_name = 'Ground_Compiler_Library//' + d_name + '.' + p_name
 
 
-	RELOAD = 0
+	RELOAD = 1
 	if RELOAD:
 		ground_steps = just_compile(domain_file, problem_file, uploadable_ground_step_library_name)
 

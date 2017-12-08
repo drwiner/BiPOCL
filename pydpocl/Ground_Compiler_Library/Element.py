@@ -151,7 +151,7 @@ class Operator(InternalElement):
 	stepnumber = 0
 	""" An operator element is an internal element with an executed status and orphan status"""
 
-	def __init__(self, ID=None, typ=None, name=None, stepnumber=None, num_args=None, executed=None, arg_name=None):
+	def __init__(self, ID=None, typ=None, name=None, stepnumber=None, num_args=None, executed=None, arg_name=None, ptypes=None):
 		if typ is None:
 			typ = 'Action'
 		if num_args is None:
@@ -167,6 +167,11 @@ class Operator(InternalElement):
 		self.executed = executed
 		self.is_decomp = False
 		self.height = 0
+
+		if ptypes is None:
+			self.p_types = [name]
+		else:
+			self.p_types = ptypes
 
 	def __hash__(self):
 		return hash(self.ID)
@@ -215,7 +220,7 @@ class Literal(InternalElement):
 	""" A Literal element is an internal element with a truth status
 	"""
 
-	def __init__(self, ID=None, typ=None, name=None, arg_name=None, num_args=None, truth=None):
+	def __init__(self, ID=None, typ=None, name=None, arg_name=None, num_args=None, truth=None, ptypes=None):
 		if num_args is None:
 			num_args = 0
 		if typ is None:
@@ -223,6 +228,10 @@ class Literal(InternalElement):
 
 		super(Literal, self).__init__(ID, typ, name, arg_name, num_args)
 		self.truth = truth
+		if ptypes is None:
+			self.p_types = [typ]
+		else:
+			self.p_types = ptypes
 
 	def __hash__(self):
 		return hash(self.name) ^ hash(self.truth)
@@ -273,11 +282,14 @@ class Literal(InternalElement):
 
 
 class Argument(Element):
-	def __init__(self, ID=None, typ=None, name=None, arg_name=None):
+	def __init__(self, ID=None, typ=None, name=None, arg_name=None, ptypes=None):
 		if typ is None:
 			typ = 'Arg'
 		super(Argument, self).__init__(ID, typ, name, arg_name)
-		self.p_types = [typ]
+		if ptypes is None:
+			self.p_types = [typ]
+		else:
+			self.p_types = ptypes
 
 	def isEquivalent(self, other):
 		""" 'equivalent' arguments are consistent and have been assigned the same name """
@@ -315,6 +327,11 @@ class Argument(Element):
 			self.typ = other.typ
 		return self
 
+	def deepcopy(self):
+		new_self = copy.deepcopy(self)
+		new_self.ID = uuid4()
+		return new_self
+
 	def __repr__(self):
 		shrt_id = str(self.ID)[19:23]
 		if self.arg_name is None:
@@ -331,10 +348,10 @@ class Argument(Element):
 class Actor(Argument):
 	""" An actor is an argument """
 
-	def __init__(self, ID=None, typ=None, name=None, arg_name=None):
+	def __init__(self, ID=None, typ=None, name=None, arg_name=None, ptypes=None):
 		if typ is None:
 			typ = 'character'
-		super(Actor, self).__init__(ID, typ, name, arg_name)
+		super(Actor, self).__init__(ID, typ, name, arg_name, ptypes)
 
 	def merge(self, other):
 		if super(Actor, self).merge(other) is None:

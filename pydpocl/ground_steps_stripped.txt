@@ -1,1859 +1,2164 @@
 
 0
-get-in-car['roger', 'accord', 'la']_5e61
+strut['cowboy', 'far-left', 'left']_ccad
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		at['roger', 'la']
-			cndts:	[64, 84]
-			risks:	[0, 148]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
 
 
 1
-get-in-car['roger', 'accord', 'raleigh']_0f9f
+strut['cowboy', 'far-left', 'duel-left']_ca7e
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		at['roger', 'raleigh']
-			cndts:	[65, 85]
-			risks:	[1, 149]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
 
 
 2
-get-in-car['roger', 'accord', 'ny']_cc54
+strut['cowboy', 'far-left', 'duel-right']_232f
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		at['roger', 'ny']
-			cndts:	[66, 86]
-			risks:	[2, 150]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
 
 
 3
-get-in-car['roger', 'accord', 'slc']_3e98
+strut['cowboy', 'far-left', 'right']_2f8b
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		at['roger', 'slc']
-			cndts:	[67, 164, 87]
-			risks:	[3, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
 
 
 4
-get-in-car['bob', 'accord', 'la']_b82c
+strut['cowboy', 'far-left', 'far-right']_62df
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		at['bob', 'la']
-			cndts:	[88, 68]
-			risks:	[152, 4]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
 
 
 5
-get-in-car['bob', 'accord', 'raleigh']_c55c
+strut['cowboy', 'left', 'far-left']_3472
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		at['bob', 'raleigh']
-			cndts:	[89, 164, 69]
-			risks:	[153, 5]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
 
 
 6
-get-in-car['bob', 'accord', 'ny']_1372
+strut['cowboy', 'left', 'duel-left']_e66a
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		at['bob', 'ny']
-			cndts:	[90, 70]
-			risks:	[154, 6]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
 
 
 7
-get-in-car['bob', 'accord', 'slc']_6ae8
+strut['cowboy', 'left', 'duel-right']_3812
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		at['bob', 'slc']
-			cndts:	[91, 71]
-			risks:	[155, 7]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
 
 
 8
-get-in-car['sara', 'accord', 'la']_b2b9
+strut['cowboy', 'left', 'right']_6a3d
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		at['sara', 'la']
-			cndts:	[72, 92]
-			risks:	[8, 156]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
 
 
 9
-get-in-car['sara', 'accord', 'raleigh']_effd
+strut['cowboy', 'left', 'far-right']_948a
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		at['sara', 'raleigh']
-			cndts:	[73, 164, 93]
-			risks:	[9, 157]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
 
 
 10
-get-in-car['sara', 'accord', 'ny']_6a2e
+strut['cowboy', 'duel-left', 'far-left']_df0d
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		at['sara', 'ny']
-			cndts:	[74, 94]
-			risks:	[10, 158]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
 
 
 11
-get-in-car['sara', 'accord', 'slc']_b8e4
+strut['cowboy', 'duel-left', 'left']_64e5
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		at['sara', 'slc']
-			cndts:	[75, 95]
-			risks:	[11, 159]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
 
 
 12
-get-in-car['dave', 'accord', 'la']_6917
+strut['cowboy', 'duel-left', 'duel-right']_4c30
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		at['dave', 'la']
-			cndts:	[96, 76]
-			risks:	[160, 12]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
 
 
 13
-get-in-car['dave', 'accord', 'raleigh']_4bd4
+strut['cowboy', 'duel-left', 'right']_1e0c
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		at['dave', 'raleigh']
-			cndts:	[97, 77]
-			risks:	[161, 13]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
 
 
 14
-get-in-car['dave', 'accord', 'ny']_bb5d
+strut['cowboy', 'duel-left', 'far-right']_cdc0
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		at['dave', 'ny']
-			cndts:	[98, 78]
-			risks:	[162, 14]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
 
 
 15
-get-in-car['dave', 'accord', 'slc']_f7b8
+strut['cowboy', 'duel-right', 'far-left']_4a40
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		at['dave', 'slc']
-			cndts:	[99, 164, 79]
-			risks:	[163, 15]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
 
 
 16
-drive['roger', 'accord', 'la', 'raleigh']_236d
+strut['cowboy', 'duel-right', 'left']_c9e3
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
 
 
 17
-drive['roger', 'accord', 'la', 'ny']_91ac
+strut['cowboy', 'duel-right', 'duel-left']_3320
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
 
 
 18
-drive['roger', 'accord', 'la', 'slc']_1f74
+strut['cowboy', 'duel-right', 'right']_09df
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
 
 
 19
-drive['roger', 'accord', 'raleigh', 'la']_7538
+strut['cowboy', 'duel-right', 'far-right']_f1f2
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
 
 
 20
-drive['roger', 'accord', 'raleigh', 'ny']_adda
+strut['cowboy', 'right', 'far-left']_3d9f
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
 
 
 21
-drive['roger', 'accord', 'raleigh', 'slc']_56c2
+strut['cowboy', 'right', 'left']_4d99
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
 
 
 22
-drive['roger', 'accord', 'ny', 'la']_0962
+strut['cowboy', 'right', 'duel-left']_511e
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
 
 
 23
-drive['roger', 'accord', 'ny', 'raleigh']_a5c3
+strut['cowboy', 'right', 'duel-right']_842a
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
 
 
 24
-drive['roger', 'accord', 'ny', 'slc']_9ff4
+strut['cowboy', 'right', 'far-right']_f53d
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
 
 
 25
-drive['roger', 'accord', 'slc', 'la']_0f50
+strut['cowboy', 'far-right', 'far-left']_1672
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
 
 
 26
-drive['roger', 'accord', 'slc', 'raleigh']_12d6
+strut['cowboy', 'far-right', 'left']_f924
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
 
 
 27
-drive['roger', 'accord', 'slc', 'ny']_4ace
+strut['cowboy', 'far-right', 'duel-left']_fa11
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
 
 
 28
-drive['bob', 'accord', 'la', 'raleigh']_df29
+strut['cowboy', 'far-right', 'duel-right']_fdaf
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
 
 
 29
-drive['bob', 'accord', 'la', 'ny']_eeab
+strut['cowboy', 'far-right', 'right']_d6c8
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
 
 
 30
-drive['bob', 'accord', 'la', 'slc']_d2de
+strut['bandit', 'far-left', 'left']_e5f6
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
 
 
 31
-drive['bob', 'accord', 'raleigh', 'la']_7da4
+strut['bandit', 'far-left', 'duel-left']_f287
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
 
 
 32
-drive['bob', 'accord', 'raleigh', 'ny']_34ee
+strut['bandit', 'far-left', 'duel-right']_a6e7
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
 
 
 33
-drive['bob', 'accord', 'raleigh', 'slc']_febb
+strut['bandit', 'far-left', 'right']_a46a
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
 
 
 34
-drive['bob', 'accord', 'ny', 'la']_0933
+strut['bandit', 'far-left', 'far-right']_bc58
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
 
 
 35
-drive['bob', 'accord', 'ny', 'raleigh']_3fac
+strut['bandit', 'left', 'far-left']_fdc2
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
 
 
 36
-drive['bob', 'accord', 'ny', 'slc']_adaa
+strut['bandit', 'left', 'duel-left']_65d9
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
 
 
 37
-drive['bob', 'accord', 'slc', 'la']_ef8d
+strut['bandit', 'left', 'duel-right']_625a
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
 
 
 38
-drive['bob', 'accord', 'slc', 'raleigh']_4c81
+strut['bandit', 'left', 'right']_7e05
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
 
 
 39
-drive['bob', 'accord', 'slc', 'ny']_4c53
+strut['bandit', 'left', 'far-right']_18e2
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
 
 
 40
-drive['sara', 'accord', 'la', 'raleigh']_7492
+strut['bandit', 'duel-left', 'far-left']_46cb
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
 
 
 41
-drive['sara', 'accord', 'la', 'ny']_f959
+strut['bandit', 'duel-left', 'left']_ccd5
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
 
 
 42
-drive['sara', 'accord', 'la', 'slc']_573b
+strut['bandit', 'duel-left', 'duel-right']_93ff
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
 
 
 43
-drive['sara', 'accord', 'raleigh', 'la']_002d
+strut['bandit', 'duel-left', 'right']_e87b
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
 
 
 44
-drive['sara', 'accord', 'raleigh', 'ny']_10e6
+strut['bandit', 'duel-left', 'far-right']_8bee
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
 
 
 45
-drive['sara', 'accord', 'raleigh', 'slc']_2713
+strut['bandit', 'duel-right', 'far-left']_1b5d
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
 
 
 46
-drive['sara', 'accord', 'ny', 'la']_1aa0
+strut['bandit', 'duel-right', 'left']_2f95
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
 
 
 47
-drive['sara', 'accord', 'ny', 'raleigh']_e78d
+strut['bandit', 'duel-right', 'duel-left']_a02d
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
 
 
 48
-drive['sara', 'accord', 'ny', 'slc']_b3e5
+strut['bandit', 'duel-right', 'right']_3714
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
 
 
 49
-drive['sara', 'accord', 'slc', 'la']_9814
+strut['bandit', 'duel-right', 'far-right']_439c
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
 
 
 50
-drive['sara', 'accord', 'slc', 'raleigh']_7add
+strut['bandit', 'right', 'far-left']_af9b
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
 
 
 51
-drive['sara', 'accord', 'slc', 'ny']_a795
+strut['bandit', 'right', 'left']_eaa4
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
 
 
 52
-drive['dave', 'accord', 'la', 'raleigh']_5b9b
+strut['bandit', 'right', 'duel-left']_7cf9
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
 
 
 53
-drive['dave', 'accord', 'la', 'ny']_b32a
+strut['bandit', 'right', 'duel-right']_8745
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
 
 
 54
-drive['dave', 'accord', 'la', 'slc']_f2b4
+strut['bandit', 'right', 'far-right']_e954
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
 
 
 55
-drive['dave', 'accord', 'raleigh', 'la']_314b
+strut['bandit', 'far-right', 'far-left']_4df1
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
 
 
 56
-drive['dave', 'accord', 'raleigh', 'ny']_93e8
+strut['bandit', 'far-right', 'left']_31a9
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
 
 
 57
-drive['dave', 'accord', 'raleigh', 'slc']_8de7
+strut['bandit', 'far-right', 'duel-left']_ab06
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
 
 
 58
-drive['dave', 'accord', 'ny', 'la']_9a88
+strut['bandit', 'far-right', 'duel-right']_101f
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
 
 
 59
-drive['dave', 'accord', 'ny', 'raleigh']_bed7
+strut['bandit', 'far-right', 'right']_fe58
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
 
 
 60
-drive['dave', 'accord', 'ny', 'slc']_44ad
+run['cowboy', 'far-left', 'left']_24db
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 61
-drive['dave', 'accord', 'slc', 'la']_00eb
+run['cowboy', 'far-left', 'duel-left']_6da7
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 62
-drive['dave', 'accord', 'slc', 'raleigh']_dd0a
+run['cowboy', 'far-left', 'duel-right']_268b
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 63
-drive['dave', 'accord', 'slc', 'ny']_ae60
+run['cowboy', 'far-left', 'right']_96b9
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 64
-deplane['roger', '747', 'la']_737b
+run['cowboy', 'far-left', 'far-right']_c031
 	preconditions:
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
+		at['cowboy', 'far-left']
+			cndts:	[65, 5, 70, 10, 75, 15, 80, 20, 85, 151, 25]
+			risks:	[0, 1, 2, 3, 4, 64, 60, 61, 62, 63]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 65
-deplane['roger', '747', 'raleigh']_4d0a
+run['cowboy', 'left', 'far-left']_cd05
 	preconditions:
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 66
-deplane['roger', '747', 'ny']_c791
+run['cowboy', 'left', 'duel-left']_442a
 	preconditions:
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 67
-deplane['roger', '747', 'slc']_4e55
+run['cowboy', 'left', 'duel-right']_3744
 	preconditions:
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 68
-deplane['bob', '747', 'la']_c9a2
+run['cowboy', 'left', 'right']_4dd9
 	preconditions:
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 69
-deplane['bob', '747', 'raleigh']_37cd
+run['cowboy', 'left', 'far-right']_02cb
 	preconditions:
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
+		at['cowboy', 'left']
+			cndts:	[0, 71, 11, 76, 16, 81, 21, 86, 26, 60]
+			risks:	[65, 66, 67, 68, 5, 6, 7, 8, 9, 151, 69]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 70
-deplane['bob', '747', 'ny']_68aa
+run['cowboy', 'duel-left', 'far-left']_8820
 	preconditions:
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 71
-deplane['bob', '747', 'slc']_c47b
+run['cowboy', 'duel-left', 'left']_7b04
 	preconditions:
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 72
-deplane['sara', '747', 'la']_5057
+run['cowboy', 'duel-left', 'duel-right']_46fe
 	preconditions:
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 73
-deplane['sara', '747', 'raleigh']_8082
+run['cowboy', 'duel-left', 'right']_e222
 	preconditions:
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 74
-deplane['sara', '747', 'ny']_daba
+run['cowboy', 'duel-left', 'far-right']_ec25
 	preconditions:
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
+		at['cowboy', 'duel-left']
+			cndts:	[1, 66, 6, 77, 17, 82, 22, 87, 27, 61]
+			risks:	[70, 71, 72, 73, 10, 11, 12, 13, 14, 74]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 75
-deplane['sara', '747', 'slc']_636f
+run['cowboy', 'duel-right', 'far-left']_3308
 	preconditions:
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 76
-deplane['dave', '747', 'la']_13e7
+run['cowboy', 'duel-right', 'left']_fa2d
 	preconditions:
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 77
-deplane['dave', '747', 'raleigh']_db6b
+run['cowboy', 'duel-right', 'duel-left']_598d
 	preconditions:
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 78
-deplane['dave', '747', 'ny']_29d3
+run['cowboy', 'duel-right', 'right']_d22b
 	preconditions:
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 79
-deplane['dave', '747', 'slc']_d716
+run['cowboy', 'duel-right', 'far-right']_6520
 	preconditions:
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
+		at['cowboy', 'duel-right']
+			cndts:	[2, 67, 7, 72, 12, 83, 23, 88, 28, 62]
+			risks:	[75, 76, 77, 78, 15, 16, 17, 18, 19, 79]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 80
-buy-tickets['roger']_1d73
+run['cowboy', 'right', 'far-left']_0fa1
 	preconditions:
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 81
-buy-tickets['bob']_b849
+run['cowboy', 'right', 'left']_65ed
 	preconditions:
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 82
-buy-tickets['sara']_4426
+run['cowboy', 'right', 'duel-left']_77e1
 	preconditions:
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 83
-buy-tickets['dave']_527c
+run['cowboy', 'right', 'duel-right']_6566
 	preconditions:
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 84
-get-out-of-car['roger', 'accord', 'la']_34dd
+run['cowboy', 'right', 'far-right']_3c0f
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		at['cowboy', 'right']
+			cndts:	[3, 68, 8, 73, 13, 78, 18, 89, 29, 63]
+			risks:	[80, 81, 82, 83, 20, 21, 22, 23, 24, 84]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 85
-get-out-of-car['roger', 'accord', 'raleigh']_c77a
+run['cowboy', 'far-right', 'far-left']_686e
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 86
-get-out-of-car['roger', 'accord', 'ny']_c616
+run['cowboy', 'far-right', 'left']_d80f
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 87
-get-out-of-car['roger', 'accord', 'slc']_4420
+run['cowboy', 'far-right', 'duel-left']_3d23
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['roger', 'accord']
-			cndts:	[0, 1, 2, 3]
-			risks:	[84, 85, 86, 87]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 88
-get-out-of-car['bob', 'accord', 'la']_8938
+run['cowboy', 'far-right', 'duel-right']_2024
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 89
-get-out-of-car['bob', 'accord', 'raleigh']_f731
+run['cowboy', 'far-right', 'right']_f882
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		at['cowboy', 'far-right']
+			cndts:	[64, 4, 69, 9, 74, 14, 79, 19, 84, 24]
+			risks:	[89, 85, 86, 87, 88, 25, 26, 27, 28, 29]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 90
-get-out-of-car['bob', 'accord', 'ny']_d635
+run['bandit', 'far-left', 'left']_7b26
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 91
-get-out-of-car['bob', 'accord', 'slc']_c6a5
+run['bandit', 'far-left', 'duel-left']_fe52
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['bob', 'accord']
-			cndts:	[4, 5, 6, 7]
-			risks:	[88, 89, 90, 91]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 92
-get-out-of-car['sara', 'accord', 'la']_5845
+run['bandit', 'far-left', 'duel-right']_a086
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 93
-get-out-of-car['sara', 'accord', 'raleigh']_2816
+run['bandit', 'far-left', 'right']_41a2
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 94
-get-out-of-car['sara', 'accord', 'ny']_8f3d
+run['bandit', 'far-left', 'far-right']_6de2
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		at['bandit', 'far-left']
+			cndts:	[35, 100, 40, 105, 45, 110, 50, 115, 55, 95]
+			risks:	[32, 33, 34, 94, 90, 91, 92, 93, 30, 31]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 95
-get-out-of-car['sara', 'accord', 'slc']_ad48
+run['bandit', 'left', 'far-left']_7600
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['sara', 'accord']
-			cndts:	[8, 9, 10, 11]
-			risks:	[92, 93, 94, 95]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 96
-get-out-of-car['dave', 'accord', 'la']_c8af
+run['bandit', 'left', 'duel-left']_0a53
 	preconditions:
-		at['accord', 'la']
-			cndts:	[34, 37, 43, 46, 49, 19, 22, 55, 25, 58, 61, 31]
-			risks:	[40, 41, 42, 16, 17, 18, 52, 53, 54, 28, 29, 30]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 97
-get-out-of-car['dave', 'accord', 'raleigh']_aece
+run['bandit', 'left', 'duel-right']_05d4
 	preconditions:
-		at['accord', 'raleigh']
-			cndts:	[35, 164, 38, 40, 47, 16, 50, 52, 23, 26, 59, 28, 62]
-			risks:	[32, 33, 43, 44, 45, 19, 20, 21, 55, 56, 57, 31]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 98
-get-out-of-car['dave', 'accord', 'ny']_9ce7
+run['bandit', 'left', 'right']_8ebd
 	preconditions:
-		at['accord', 'ny']
-			cndts:	[32, 39, 41, 44, 17, 51, 20, 53, 56, 27, 29, 63]
-			risks:	[34, 35, 36, 46, 47, 48, 22, 23, 24, 58, 59, 60]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 99
-get-out-of-car['dave', 'accord', 'slc']_5a83
+run['bandit', 'left', 'far-right']_bfb3
 	preconditions:
-		at['accord', 'slc']
-			cndts:	[33, 36, 42, 45, 48, 18, 21, 54, 24, 57, 60, 30]
-			risks:	[37, 38, 39, 49, 50, 51, 25, 26, 27, 61, 62, 63]
-		in['dave', 'accord']
-			cndts:	[12, 13, 14, 15]
-			risks:	[96, 97, 98, 99]
+		at['bandit', 'left']
+			cndts:	[101, 41, 106, 46, 111, 51, 116, 56, 90, 30]
+			risks:	[96, 97, 98, 35, 36, 37, 38, 39, 99, 95]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 100
-fly['roger', '747', 'la', 'raleigh']_e83e
+run['bandit', 'duel-left', 'far-left']_952b
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 101
-fly['roger', '747', 'la', 'ny']_f182
+run['bandit', 'duel-left', 'left']_9769
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 102
-fly['roger', '747', 'la', 'slc']_2532
+run['bandit', 'duel-left', 'duel-right']_7e13
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 103
-fly['roger', '747', 'raleigh', 'la']_b597
+run['bandit', 'duel-left', 'right']_38da
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 104
-fly['roger', '747', 'raleigh', 'ny']_5204
+run['bandit', 'duel-left', 'far-right']_138b
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		at['bandit', 'duel-left']
+			cndts:	[96, 36, 107, 47, 112, 52, 117, 57, 91, 31]
+			risks:	[100, 101, 102, 103, 40, 41, 42, 43, 44, 104]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 105
-fly['roger', '747', 'raleigh', 'slc']_6f63
+run['bandit', 'duel-right', 'far-left']_a442
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 106
-fly['roger', '747', 'ny', 'la']_d35a
+run['bandit', 'duel-right', 'left']_5a45
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 107
-fly['roger', '747', 'ny', 'raleigh']_c336
+run['bandit', 'duel-right', 'duel-left']_9e56
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 108
-fly['roger', '747', 'ny', 'slc']_3c06
+run['bandit', 'duel-right', 'right']_d2f8
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 109
-fly['roger', '747', 'slc', 'la']_b530
+run['bandit', 'duel-right', 'far-right']_7367
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		at['bandit', 'duel-right']
+			cndts:	[32, 97, 37, 102, 42, 113, 53, 118, 58, 92]
+			risks:	[105, 106, 107, 108, 45, 46, 47, 48, 49, 109]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 110
-fly['roger', '747', 'slc', 'raleigh']_f375
+run['bandit', 'right', 'far-left']_b765
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 111
-fly['roger', '747', 'slc', 'ny']_0e49
+run['bandit', 'right', 'left']_ebb7
 	preconditions:
-		in['roger', '747']
-			cndts:	[148, 149, 150, 151]
-			risks:	[64, 65, 66, 67]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 112
-fly['bob', '747', 'la', 'raleigh']_9771
+run['bandit', 'right', 'duel-left']_c4f5
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 113
-fly['bob', '747', 'la', 'ny']_0af7
+run['bandit', 'right', 'duel-right']_a4fa
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 114
-fly['bob', '747', 'la', 'slc']_d587
+run['bandit', 'right', 'far-right']_70c9
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		at['bandit', 'right']
+			cndts:	[33, 98, 38, 103, 43, 108, 48, 119, 59, 93]
+			risks:	[114, 110, 111, 112, 113, 50, 51, 52, 53, 54]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 115
-fly['bob', '747', 'raleigh', 'la']_8c96
+run['bandit', 'far-right', 'far-left']_7a07
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 116
-fly['bob', '747', 'raleigh', 'ny']_e432
+run['bandit', 'far-right', 'left']_cbce
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 117
-fly['bob', '747', 'raleigh', 'slc']_2cfd
+run['bandit', 'far-right', 'duel-left']_7115
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 118
-fly['bob', '747', 'ny', 'la']_6818
+run['bandit', 'far-right', 'duel-right']_e8ad
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 119
-fly['bob', '747', 'ny', 'raleigh']_2f1f
+run['bandit', 'far-right', 'right']_949a
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		at['bandit', 'far-right']
+			cndts:	[34, 99, 39, 104, 44, 109, 49, 114, 54, 151, 94]
+			risks:	[119, 115, 116, 117, 118, 55, 56, 57, 58, 59]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 120
-fly['bob', '747', 'ny', 'slc']_ad08
+call['cowboy']_f8d7
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 121
-fly['bob', '747', 'slc', 'la']_dda6
+call['bandit']_ef93
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 122
-fly['bob', '747', 'slc', 'raleigh']_c4a4
+turn-to['cowboy', 'bandit']_9503
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
 
 
 123
-fly['bob', '747', 'slc', 'ny']_71c1
+turn-to['bandit', 'cowboy']_1b2e
 	preconditions:
-		in['bob', '747']
-			cndts:	[152, 153, 154, 155]
-			risks:	[68, 69, 70, 71]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
 
 
 124
-fly['sara', '747', 'la', 'raleigh']_1864
+draw-gun['cowboy', 'cowboy-gun']_f34b
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		has['cowboy', 'cowboy-gun']
+			cndts:	[151]
+			risks:	[]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		holstered['cowboy-gun']
+			cndts:	[151]
+			risks:	[124, 126]
 
 
 125
-fly['sara', '747', 'la', 'ny']_8ffe
+draw-gun['cowboy', 'bandit-gun']_cfe5
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		has['cowboy', 'bandit-gun']
+			cndts:	[]
+			risks:	[151]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		holstered['bandit-gun']
+			cndts:	[]
+			risks:	[151, 125, 127]
 
 
 126
-fly['sara', '747', 'la', 'slc']_a091
+draw-gun['bandit', 'cowboy-gun']_bc54
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		has['bandit', 'cowboy-gun']
+			cndts:	[]
+			risks:	[]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		holstered['cowboy-gun']
+			cndts:	[151]
+			risks:	[124, 126]
 
 
 127
-fly['sara', '747', 'raleigh', 'la']_32f4
+draw-gun['bandit', 'bandit-gun']_f18f
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		has['bandit', 'bandit-gun']
+			cndts:	[151]
+			risks:	[]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		holstered['bandit-gun']
+			cndts:	[]
+			risks:	[151, 125, 127]
 
 
 128
-fly['sara', '747', 'raleigh', 'ny']_3d7a
+fire-gun['cowboy', 'cowboy-gun', 'cowboy']_24b0
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'cowboy-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 129
-fly['sara', '747', 'raleigh', 'slc']_5f9f
+fire-gun['cowboy', 'cowboy-gun', 'bandit']_bc44
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'cowboy-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 130
-fly['sara', '747', 'ny', 'la']_8515
+fire-gun['cowboy', 'cowboy-gun', 'cowboy-gun']_0b6d
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'cowboy-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 131
-fly['sara', '747', 'ny', 'raleigh']_bf62
+fire-gun['cowboy', 'cowboy-gun', 'bandit-gun']_71f5
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'cowboy-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 132
-fly['sara', '747', 'ny', 'slc']_94af
+fire-gun['cowboy', 'bandit-gun', 'cowboy']_164d
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'bandit-gun']
+			cndts:	[]
+			risks:	[151]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 133
-fly['sara', '747', 'slc', 'la']_4eee
+fire-gun['cowboy', 'bandit-gun', 'bandit']_0d3e
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'bandit-gun']
+			cndts:	[]
+			risks:	[151]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 134
-fly['sara', '747', 'slc', 'raleigh']_be04
+fire-gun['cowboy', 'bandit-gun', 'cowboy-gun']_00f3
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'bandit-gun']
+			cndts:	[]
+			risks:	[151]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 135
-fly['sara', '747', 'slc', 'ny']_8493
+fire-gun['cowboy', 'bandit-gun', 'bandit-gun']_9bc0
 	preconditions:
-		in['sara', '747']
-			cndts:	[156, 157, 158, 159]
-			risks:	[72, 73, 74, 75]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		alive['cowboy']
+			cndts:	[151]
+			risks:	[148]
+		has['cowboy', 'bandit-gun']
+			cndts:	[]
+			risks:	[151]
+		not-is-shot['cowboy']
+			cndts:	[]
+			risks:	[144, 146, 151]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 136
-fly['dave', '747', 'la', 'raleigh']_9a48
+fire-gun['bandit', 'cowboy-gun', 'cowboy']_86cc
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'cowboy-gun']
+			cndts:	[]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 137
-fly['dave', '747', 'la', 'ny']_eb11
+fire-gun['bandit', 'cowboy-gun', 'bandit']_e04f
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'cowboy-gun']
+			cndts:	[]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 138
-fly['dave', '747', 'la', 'slc']_6104
+fire-gun['bandit', 'cowboy-gun', 'cowboy-gun']_231b
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'cowboy-gun']
+			cndts:	[]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 139
-fly['dave', '747', 'raleigh', 'la']_329a
+fire-gun['bandit', 'cowboy-gun', 'bandit-gun']_9b01
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'cowboy-gun']
+			cndts:	[]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['cowboy-gun']
+			cndts:	[124, 126]
+			risks:	[151]
 
 
 140
-fly['dave', '747', 'raleigh', 'ny']_dacf
+fire-gun['bandit', 'bandit-gun', 'cowboy']_e1c8
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'bandit-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 141
-fly['dave', '747', 'raleigh', 'slc']_e15b
+fire-gun['bandit', 'bandit-gun', 'bandit']_a540
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'bandit-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 142
-fly['dave', '747', 'ny', 'la']_651c
+fire-gun['bandit', 'bandit-gun', 'cowboy-gun']_72e7
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'bandit-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 143
-fly['dave', '747', 'ny', 'raleigh']_f990
+fire-gun['bandit', 'bandit-gun', 'bandit-gun']_1a9a
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		alive['bandit']
+			cndts:	[151]
+			risks:	[149]
+		has['bandit', 'bandit-gun']
+			cndts:	[151]
+			risks:	[]
+		not-is-shot['bandit']
+			cndts:	[]
+			risks:	[145, 147]
+		not-holstered['bandit-gun']
+			cndts:	[125, 127]
+			risks:	[151]
 
 
 144
-fly['dave', '747', 'ny', 'slc']_8586
+get-shot['cowboy', 'cowboy', 'shooting-distance', 'shooting-distance']_de18
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
+		less-than['shooting-distance', 'shooting-distance']
+			cndts:	[]
+			risks:	[]
+		fired-at['cowboy']
+			cndts:	[128, 136, 140, 132]
+			risks:	[151]
 
 
 145
-fly['dave', '747', 'slc', 'la']_ba88
+get-shot['cowboy', 'bandit', 'shooting-distance', 'shooting-distance']_4f6f
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		less-than['shooting-distance', 'shooting-distance']
+			cndts:	[]
+			risks:	[]
+		fired-at['bandit']
+			cndts:	[141, 129, 133, 137]
+			risks:	[]
 
 
 146
-fly['dave', '747', 'slc', 'raleigh']_5a12
+get-shot['bandit', 'cowboy', 'shooting-distance', 'shooting-distance']_c1d3
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		less-than['shooting-distance', 'shooting-distance']
+			cndts:	[]
+			risks:	[]
+		fired-at['cowboy']
+			cndts:	[128, 136, 140, 132]
+			risks:	[151]
 
 
 147
-fly['dave', '747', 'slc', 'ny']_105e
+get-shot['bandit', 'bandit', 'shooting-distance', 'shooting-distance']_4aef
 	preconditions:
-		in['dave', '747']
-			cndts:	[160, 161, 162, 163]
-			risks:	[76, 77, 78, 79]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		less-than['shooting-distance', 'shooting-distance']
+			cndts:	[]
+			risks:	[]
+		fired-at['bandit']
+			cndts:	[141, 129, 133, 137]
+			risks:	[]
 
 
 148
-board-plane['roger', '747', 'la']_8a0b
+fall-and-die['cowboy']_937d
 	preconditions:
-		at['roger', 'la']
-			cndts:	[64, 84]
-			risks:	[0, 148]
-		has-ticket['roger']
-			cndts:	[80]
-			risks:	[164, 148, 149, 150, 151]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
+		is-shot['cowboy']
+			cndts:	[144, 146]
+			risks:	[151]
 
 
 149
-board-plane['roger', '747', 'raleigh']_3666
+fall-and-die['bandit']_4603
 	preconditions:
-		at['roger', 'raleigh']
-			cndts:	[65, 85]
-			risks:	[1, 149]
-		has-ticket['roger']
-			cndts:	[80]
-			risks:	[164, 148, 149, 150, 151]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
+		is-shot['bandit']
+			cndts:	[145, 147]
+			risks:	[]
 
 
 150
-board-plane['roger', '747', 'ny']_fd51
+virtual-shot['main-master-shot']_6bfe
 	preconditions:
-		at['roger', 'ny']
-			cndts:	[66, 86]
-			risks:	[2, 150]
-		has-ticket['roger']
-			cndts:	[80]
-			risks:	[164, 148, 149, 150, 151]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
 
 
 151
-board-plane['roger', '747', 'slc']_c315
+dummy_init['cowboy', 'bandit', 'far-left', 'left', 'duel-left', 'duel-right', 'right', 'far-right', 'cowboy-gun', 'bandit-gun', 'shooting-distance', '12', 'main-master-shot', 'start', 'mid', 'end', 'low', 'eye', 'high', 'ecu', 'cu', 'med', 'full', 'wide', 'ewide', 'behind', 'front', 'right', 'left', 'front-right', 'front-left', 'behind-right', 'behind-left', '0', '1', '12', '25', '36', '48', '60']_00ae
 	preconditions:
-		at['roger', 'slc']
-			cndts:	[67, 164, 87]
-			risks:	[3, 151]
-		has-ticket['roger']
-			cndts:	[80]
-			risks:	[164, 148, 149, 150, 151]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
+		distance-between[literal-b5ab-True-left, literal-9116-True-right, literal-a2a6-True-32.74]
+		bel[literal-998b-True-at]
+		distance-between[literal-97c3-True-left, literal-bb9c-True-far-left, literal-b11a-True-18.01]
+		not-holstered['bandit-gun']
+		distance-between[literal-9c9c-True-duel-right, literal-868d-True-right, literal-99dd-True-13.22]
+		alive[literal-8d04-True-bandit]
+		distance-between[literal-ae33-True-far-right, literal-ac07-True-duel-left, literal-9f46-True-37.86]
+		distance-between[literal-bb87-True-duel-right, literal-bb5f-True-far-right, literal-8cf3-True-28.94]
+		distance-between[literal-bb21-True-right, literal-9760-True-far-right, literal-8c5e-True-15.76]
+		distance-between[literal-b53e-True-right, literal-bd86-True-duel-left, literal-aeb5-True-23.17]
+		distance-between[literal-8c00-True-right, literal-95ce-True-left, literal-a544-True-32.74]
+		distance-between[literal-9466-True-duel-left, literal-94f3-True-far-right, literal-9256-True-37.86]
+		distance-between[literal-99b4-True-duel-left, literal-8e3c-True-far-left, literal-8a4a-True-33.56]
+		distance-between[literal-b1fb-True-far-right, literal-b30a-True-right, literal-a26e-True-15.76]
+		distance-between[literal-8acf-True-far-left, literal-9ac1-True-right, literal-9f78-True-47.27]
+		distance-between[literal-b6cc-True-duel-right, literal-b062-True-far-left, literal-900d-True-42.75]
+		distance-between[literal-9b5a-True-right, literal-b016-True-far-left, literal-94ec-True-47.27]
+		alive[literal-929b-True-cowboy]
+		holstered[literal-b470-True-band-gun]
+		not-fired-at['cowboy']
+		not-at['cowboy', 'left']
+		distance-between[literal-8c99-True-far-right, literal-8450-True-left, literal-8cc3-True-44.02]
+		holstered[literal-b5d5-True-cowboy-gun]
+		not-has['cowboy', 'bandit-gun']
+		has[literal-a40c-True-cowboy, literal-a58c-True-cowboy-gun]
+		distance-between[literal-b0d8-True-far-right, literal-ae39-True-far-left, literal-bcda-True-54.97]
+		distance-between[literal-ad12-True-duel-right, literal-920e-True-duel-left, literal-b314-True-11.80]
+		=[literal-881b-True-shooting-distance, literal-91c8-True-12]
+		distance-between[literal-a058-True-left, literal-a8d2-True-duel-right, literal-8916-True-25.56]
+		distance-between[literal-a243-True-far-left, literal-976e-True-left, literal-8f6f-True-18.01]
+		distance-between[literal-a626-True-duel-left, literal-a6b5-True-right, literal-a4ad-True-23.17]
+		not-is-shot['cowboy']
+		distance-between[literal-9d7a-True-left, literal-a9ca-True-duel-left, literal-bed1-True-15.58]
+		distance-between[literal-8c36-True-far-left, literal-9ff8-True-duel-right, literal-ba9e-True-42.75]
+		distance-between[literal-a2ff-True-duel-right, literal-9e72-True-left, literal-affa-True-25.56]
+		distance-between[literal-ad10-True-far-right, literal-bc96-True-duel-right, literal-8e0a-True-28.94]
+		at[literal-87d7-True-cowboy, literal-8b01-True-far-left]
+		distance-between[literal-8ca2-True-duel-left, literal-bdbc-True-left, literal-adcb-True-15.58]
+		distance-between[literal-8a32-True-left, literal-8c07-True-far-right, literal-9c04-True-44.02]
+		distance-between[literal-adfc-True-right, literal-879b-True-duel-right, literal-863b-True-13.22]
+		distance-between[literal-a2b4-True-far-left, literal-8a40-True-duel-left, literal-b40d-True-33.56]
+		at[literal-8448-True-bandit, literal-9ba2-True-far-right]
+		distance-between[literal-b677-True-duel-left, literal-9cbc-True-duel-right, literal-8bf5-True-11.80]
+		distance-between[literal-96ca-True-far-left, literal-bc7b-True-far-right, literal-b049-True-54.97]
+		not-facing['cowboy', 'cowboy']
+		has[literal-bd2f-True-bandit, literal-af82-True-bandit-gun]
 
 
 152
-board-plane['bob', '747', 'la']_2867
+dummy_goal['cowboy', 'bandit', 'far-left', 'left', 'duel-left', 'duel-right', 'right', 'far-right', 'cowboy-gun', 'bandit-gun', 'shooting-distance', '12', 'main-master-shot', 'start', 'mid', 'end', 'low', 'eye', 'high', 'ecu', 'cu', 'med', 'full', 'wide', 'ewide', 'behind', 'front', 'right', 'left', 'front-right', 'front-left', 'behind-right', 'behind-left', '0', '1', '12', '25', '36', '48', '60']_3174
 	preconditions:
-		at['bob', 'la']
-			cndts:	[88, 68]
-			risks:	[152, 4]
-		has-ticket['bob']
-			cndts:	[81]
-			risks:	[152, 153, 154, 155, 164]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-
-
-153
-board-plane['bob', '747', 'raleigh']_9a25
-	preconditions:
-		at['bob', 'raleigh']
-			cndts:	[89, 164, 69]
-			risks:	[153, 5]
-		has-ticket['bob']
-			cndts:	[81]
-			risks:	[152, 153, 154, 155, 164]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-
-
-154
-board-plane['bob', '747', 'ny']_24b4
-	preconditions:
-		at['bob', 'ny']
-			cndts:	[90, 70]
-			risks:	[154, 6]
-		has-ticket['bob']
-			cndts:	[81]
-			risks:	[152, 153, 154, 155, 164]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-
-
-155
-board-plane['bob', '747', 'slc']_f427
-	preconditions:
-		at['bob', 'slc']
-			cndts:	[91, 71]
-			risks:	[155, 7]
-		has-ticket['bob']
-			cndts:	[81]
-			risks:	[152, 153, 154, 155, 164]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-
-
-156
-board-plane['sara', '747', 'la']_3285
-	preconditions:
-		at['sara', 'la']
-			cndts:	[72, 92]
-			risks:	[8, 156]
-		has-ticket['sara']
-			cndts:	[82]
-			risks:	[164, 156, 157, 158, 159]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-
-
-157
-board-plane['sara', '747', 'raleigh']_841f
-	preconditions:
-		at['sara', 'raleigh']
-			cndts:	[73, 164, 93]
-			risks:	[9, 157]
-		has-ticket['sara']
-			cndts:	[82]
-			risks:	[164, 156, 157, 158, 159]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-
-
-158
-board-plane['sara', '747', 'ny']_9e67
-	preconditions:
-		at['sara', 'ny']
-			cndts:	[74, 94]
-			risks:	[10, 158]
-		has-ticket['sara']
-			cndts:	[82]
-			risks:	[164, 156, 157, 158, 159]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-
-
-159
-board-plane['sara', '747', 'slc']_ac97
-	preconditions:
-		at['sara', 'slc']
-			cndts:	[75, 95]
-			risks:	[11, 159]
-		has-ticket['sara']
-			cndts:	[82]
-			risks:	[164, 156, 157, 158, 159]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-
-
-160
-board-plane['dave', '747', 'la']_98d9
-	preconditions:
-		at['dave', 'la']
-			cndts:	[96, 76]
-			risks:	[160, 12]
-		has-ticket['dave']
-			cndts:	[83]
-			risks:	[160, 161, 162, 163, 164]
-		at['747', 'la']
-			cndts:	[130, 133, 103, 106, 139, 109, 142, 145, 115, 118, 121, 127]
-			risks:	[100, 101, 102, 136, 137, 138, 112, 113, 114, 124, 125, 126]
-
-
-161
-board-plane['dave', '747', 'raleigh']_f5f6
-	preconditions:
-		at['dave', 'raleigh']
-			cndts:	[97, 77]
-			risks:	[161, 13]
-		has-ticket['dave']
-			cndts:	[83]
-			risks:	[160, 161, 162, 163, 164]
-		at['747', 'raleigh']
-			cndts:	[131, 100, 134, 136, 107, 110, 143, 112, 146, 119, 164, 122, 124]
-			risks:	[128, 129, 103, 104, 105, 139, 140, 141, 115, 116, 117, 127]
-
-
-162
-board-plane['dave', '747', 'ny']_7e21
-	preconditions:
-		at['dave', 'ny']
-			cndts:	[98, 78]
-			risks:	[162, 14]
-		has-ticket['dave']
-			cndts:	[83]
-			risks:	[160, 161, 162, 163, 164]
-		at['747', 'ny']
-			cndts:	[128, 101, 135, 104, 137, 140, 111, 113, 147, 116, 123, 125]
-			risks:	[130, 131, 132, 106, 107, 108, 142, 143, 144, 118, 119, 120]
-
-
-163
-board-plane['dave', '747', 'slc']_1d64
-	preconditions:
-		at['dave', 'slc']
-			cndts:	[99, 164, 79]
-			risks:	[163, 15]
-		has-ticket['dave']
-			cndts:	[83]
-			risks:	[160, 161, 162, 163, 164]
-		at['747', 'slc']
-			cndts:	[129, 132, 102, 105, 138, 108, 141, 144, 114, 117, 120, 126]
-			risks:	[133, 134, 135, 109, 110, 111, 145, 146, 147, 121, 122, 123]
-
-
-164
-dummy_init[]_f965
-	preconditions:
-		at['dave', 'slc']
-		not-person['sara']
-		at['accord', 'raleigh']
-		not-has-ticket['dave']
-		at['sara', 'raleigh']
-		not-person['bob']
-		not-place['slc']
-		not-place['ny']
-		not-has-ticket['roger']
-		not-place['la']
-		not-has-ticket['sara']
-		not-has-ticket['bob']
-		at['747', 'raleigh']
-		not-person['roger']
-		at['roger', 'slc']
-		not-person['dave']
-		at['bob', 'raleigh']
-		not-place['raleigh']
-
-
-165
-dummy_goal[]_e979
-	preconditions:
-		at['dave', 'ny']
-			cndts:	[98, 78]
-			risks:	[162, 14]
+		not-alive[literal-af5a-True-bandit]
+			cndts:	[149]
+			risks:	[151]
 

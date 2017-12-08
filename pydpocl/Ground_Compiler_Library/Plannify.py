@@ -13,7 +13,7 @@ def Plannify(RQ, GL, h):
 	#An ActionLib for steps in RQ - ActionLib is a container w/ all of its possible instances as ground steps
 	print('...ActionLibs')
 	try:
-		Libs = [ActionLib(i, RS, GL) for i, RS in enumerate(RQ.Step_Graphs)]
+		Libs = [ActionLib(i, copy.deepcopy(RS), GL) for i, RS in enumerate(RQ.Step_Graphs)]
 	except:
 		return []
 
@@ -217,6 +217,15 @@ class ActionLib:
 			# start with checking consistency at root as shortcut
 			if not gs.root.isConsistent(self.RS.root):
 				continue
+
+			if len(self.RS.elements) == 1:
+				# then it only has a root
+				RS_copy = copy.deepcopy(self.RS)
+				RS_copy.root.merge(gs.root)
+				RS_copy.root.replaced_ID = gs.root.replaced_ID
+				self.append(RS_copy, gs)
+				continue
+			# if
 			# return a set of E(RS) --> E(gs) mappings, if possible
 			elm_maps = gs.findConsistentSubgraph(self.RS)
 			if len(elm_maps) == 0:
@@ -227,9 +236,12 @@ class ActionLib:
 			for map in elm_maps:
 				if len(map) == 0:
 					# why?
-					self.RS.root.merge(gs.root)
-					self.RS.root.replaced_ID = gs.root.replaced_ID
-				self.append(partialUnify(self.RS, map), gs)
+					RS_copy = copy.deepcopy(self.RS)
+					RS_copy.root.merge(gs.root)
+					RS_copy.root.replaced_ID = gs.root.replaced_ID
+					self.append(partialUnify(RS_copy, map), gs)
+				else:
+					self.append(partialUnify(self.RS, map), gs)
 		if len(self) == 0:
 			raise ValueError('no gstep compatible with RS {}'.format(self))
 

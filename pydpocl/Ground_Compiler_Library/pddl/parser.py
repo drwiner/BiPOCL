@@ -18,9 +18,9 @@
 
 from .parser_common import *
 from .errors import *
-from .tree_visitor import Visitable, TraversePDDLDomain, TraversePDDLProblem
+from .tree_visitor import Visitable
 from .lisp_parser import parse_lisp_iterator
-
+import copy
 """
 This module contains the main parser logic.
 Partial parser for each AST node are implemented
@@ -99,16 +99,22 @@ class Predicate(Visitable):
 		self.name = name
 		self.parameters = parameters or []	# a list of Variables
 
+	def is_structure(self):
+		"""Returns true iff the tree is a structure (has subtrees)."""
+		return isinstance(self.children, list)
+
 class Context(Visitable):
 	def __init__(self, formula):
 		self._visitorName = 'visit_context'
 		#self.exist_vars = exist_vars
 		self.formula = formula
 
+
 class Implies(Visitable):
 	def __init(self, formula):
 		self._visitorName = 'visit_implies'
 		self.formula = formula
+
 
 class PredicateInstance(Visitable):
 	"""This class represents the AST node for a pddl predicate instance."""
@@ -124,6 +130,7 @@ class PredicateInstance(Visitable):
 		self.name = name
 		self.parameters = parameters  # a list of object names
 
+
 class RequirementsStmt(Visitable):
 	"""This class represents the AST node for a pddl requirements statement."""
 
@@ -134,6 +141,7 @@ class RequirementsStmt(Visitable):
 		"""
 		self._visitorName = 'visit_requirements_stmt'
 		self.keywords = keywords or []	# a list of keywords
+
 
 class DecompStmt(Visitable):
 	"""This class represents the AST node for a pddl requirements statement."""
@@ -241,6 +249,7 @@ class Formula(Visitable):
 		self.type = type  # a Type
 
 
+
 class ActionStmt(Visitable):
 	"""This class represents the AST node for a pddl action."""
 
@@ -285,7 +294,7 @@ class AxiomStmt(Visitable):
 class PredicatesStmt(Visitable):
 	"""Represents the AST node for a pddl domain predicates definition."""
 
-	def __init__(self, predicates):
+	def __init__(self, predicates, formulas):
 		""" Construct a new Action.
 
 		Keyword arguments:
@@ -293,6 +302,7 @@ class PredicatesStmt(Visitable):
 		"""
 		self._visitorName = 'visit_predicates_stmt'
 		self.predicates = predicates  # a list of Predicates
+		self.formulas = formulas
 
 
 class DomainDef(Visitable):
@@ -814,8 +824,12 @@ def parse_predicates_stmt(iter):
 	if not iter.try_match(':predicates'):
 		raise ValueError('Error predicate definition must start with '
 						 '":predicates" keyword!')
-	preds = parse_predicate_list(iter)
-	return PredicatesStmt(preds)
+
+	iter2 = copy.deepcopy(iter)
+	preds = parse_predicate_list(iter2)
+
+	formulas = [parse_formula(item) for item in iter]
+	return PredicatesStmt(preds, formulas)
 
 
 def parse_domain_def(iter):
@@ -934,8 +948,9 @@ def parse_init_stmt(iter):
 	"""
 	if not iter.try_match(':init'):
 		raise ValueError('Error found invalid keyword when parsing InitStmt')
-	preds = parse_predicate_instance_list(iter)
-	return InitStmt(preds)
+	# preds = parse_predicate_instance_list(iter)
+	init_literals = [parse_formula(item) for item in iter]
+	return InitStmt(init_literals)
 
 
 def parse_goal_stmt(iter):
@@ -985,30 +1000,8 @@ class Parser(object):
 		result = parse_lisp_iterator(source)
 		return result
 
-	def parse_domain(self, read_from_file=True):
-		"""
-		Method that parses a domain, this method will be called from outside
-		the parser.
-
-		Keyword arguments:
-		read_from_file -- defines whether the input should be read from a file
-						  or directly from the input string
-		"""
-		if read_from_file:
-			with open(self.domFile, encoding='utf-8') as file:
-				self.domInput = self._read_input(file)
-		else:
-			input = self.domInput.split('\n')
-			self.domInput = self._read_input(input)
-		domAST = parse_domain_def(self.domInput)
-		# initialize the translation visitor
-		visitor = TraversePDDLDomain()
-		# and traverse the AST
-		domAST.accept(visitor)
-		# finally return the pddl.Domain
-		return visitor.domain
 		
-	def parse_domain_drw(self, read_from_file=True):
+	def parse_domain(self, read_from_file=True):
 		"""
 		Return the domAST instead
 		"""
@@ -1016,40 +1009,15 @@ class Parser(object):
 			with open(self.domFile, encoding='utf-8') as file:
 				self.domInput = self._read_input(file)
 		else:
-			input = self.domInput.split('\n')
-			self.domInput = self._read_input(input)
+			_input = self.domInput.split('\n')
+			self.domInput = self._read_input(_input)
+
 		domAST = parse_domain_def(self.domInput)
-		# initialize the translation visitor
-		visitor = TraversePDDLDomain()
-		# and traverse the AST
-		domAST.accept(visitor)
-		# finally return the pddl.Domain
-		return (domAST, visitor.domain)
 
-	def parse_problem(self, dom, read_from_file=True):
-		"""
-		Method that parses a problem, this method will be called from outside
-		the parser.
+		return domAST
 
-		Keyword arguments:
-		read_from_file -- defines whether the input should be read from a file
-						  or directly from the input string
-		"""
-		if read_from_file:
-			with open(self.probFile, encoding='utf-8') as file:
-				self.probInput = self._read_input(file)
-		else:
-			input = self.probInput.split('\n')
-			self.probInput = self._read_input(input)
-		probAST = parse_problem_def(self.probInput)
-		# initialize the translation visitor
-		visitor = TraversePDDLProblem(dom)
-		# and traverse the AST
-		probAST.accept(visitor)
-		# finally return the pddl.Problem
-		return visitor.get_problem()
 		
-	def parse_problem_drw(self, dom, read_from_file=True):
+	def parse_problem(self, read_from_file=True):
 		"""
 		Method that parses a problem, this method will be called from outside
 		the parser.
@@ -1065,22 +1033,22 @@ class Parser(object):
 			input = self.probInput.split('\n')
 			self.probInput = self._read_input(input)
 		probAST = parse_problem_def(self.probInput)
-		# initialize the translation visitor
-		visitor = TraversePDDLProblem(dom)
-		# and traverse the AST
-		probAST.accept(visitor)
-		# finally return the pddl.Problem
-		return (probAST, visitor.get_problem())
+
+		return probAST
+
 
 	# some setter and getter functions
 	def set_domain_file(self, fname):
 		self.domFile = fname
 
+
 	def set_prob_file(self, fname):
 		self.probFile = fname
 
+
 	def get_domain_file(self):
 		return self.domFile
+
 
 	def get_prob_file(self):
 		return self.probFile
