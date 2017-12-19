@@ -253,7 +253,7 @@ class Formula(Visitable):
 class ActionStmt(Visitable):
 	"""This class represents the AST node for a pddl action."""
 
-	def __init__(self, name, parameters, precond, effect, decomp=None, agents=None):
+	def __init__(self, name, action_type, parameters, precond, effect, decomp=None, agents=None):
 		""" Construct a new Action.
 
 		Keyword arguments:
@@ -264,6 +264,7 @@ class ActionStmt(Visitable):
 		"""
 		self._visitorName = 'visit_action_stmt'
 		self.name = name
+		self.action_type = action_type
 		self.parameters = parameters  # a list of parameters
 		self.precond = precond	# right now: a Formula << PreconditionStmt
 		# right now also a Formula << EffectStmt
@@ -308,7 +309,7 @@ class PredicatesStmt(Visitable):
 class DomainDef(Visitable):
 	"""This class represents the AST node for a pddl domain."""
 
-	def __init__(self, name, requirements=None, types=None, predicates=None, axioms = None,
+	def __init__(self, name, requirements=None, types=None, predicates=None, decomp_predicates=None, axioms=None,
 				 actions=None, constants=None):
 		""" Construct a new Domain AST node.
 
@@ -324,6 +325,7 @@ class DomainDef(Visitable):
 		self.requirements = requirements  # a RequirementsStmt
 		self.types = types	# a list of Types
 		self.predicates = predicates  # a PredicatesStmt
+		self.decomp_predicates = decomp_predicates
 
 		if axioms is None:
 			self.axioms = []
@@ -798,6 +800,11 @@ def parse_action_stmt(iter):
 	if not iter.try_match(':action'):
 		raise ValueError('Error: action must start with ":action" keyword!')
 	name = parse_name(iter, 'action')
+	if iter.try_match(":type"):
+		# this action has a typology
+		action_type = parse_name(iter, "type")
+	else:
+		action_type = None
 	# call parsers to parse parameters, precondition, effect
 	param = parse_parameters(iter)
 	pre = parse_precondition_stmt(iter)
@@ -811,7 +818,7 @@ def parse_action_stmt(iter):
 	if iter.try_match(':agents'):
 		agents = parse_agents_stmt(iter)
 
-	return ActionStmt(name, param, pre, eff, decomp, agents)
+	return ActionStmt(name, action_type, param, pre, eff, decomp, agents)
 
 
 def parse_predicates_stmt(iter):
@@ -824,6 +831,18 @@ def parse_predicates_stmt(iter):
 	if not iter.try_match(':predicates'):
 		raise ValueError('Error predicate definition must start with '
 						 '":predicates" keyword!')
+
+	iter2 = copy.deepcopy(iter)
+	preds = parse_predicate_list(iter2)
+
+	formulas = [parse_formula(item) for item in iter]
+	return PredicatesStmt(preds, formulas)
+
+
+def parse_decomp_predicates_stmt(iter):
+	if not iter.try_match(':decomp-predicates'):
+		raise ValueError('Error predicate definition must start with '
+						 '":decomp-predicates" keyword!')
 
 	iter2 = copy.deepcopy(iter)
 	preds = parse_predicate_list(iter2)
@@ -859,6 +878,9 @@ def parse_domain_def(iter):
 		elif key.name == 'predicates':
 			pred = parse_predicates_stmt(next_iter)
 			domain.predicates = pred
+		elif key.name == "decomp-predicates":
+			pred = parse_decomp_predicates_stmt(next_iter)
+			domain.decomp_predicates = pred
 		elif key.name == 'constants':
 			const = parse_constants_stmt(next_iter)
 			domain.constants = const

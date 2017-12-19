@@ -16,15 +16,10 @@ import hashlib
 Antestep = namedtuple('Antestep', 'action eff_link')
 
 
-def groundStoryList(operators, objects, obtypes):
-	"""
+def cache_ground_steps(operators, objects, obtypes, stepnum=None):
 
-	:param operators: non-ground operator schemas
-	:param objects: constants/values
-	:param obtypes: object type ontology
-	:return: primitive ground steps
-	"""
-	stepnum = 0
+	if stepnum is None:
+		stepnum = 0
 	gsteps = []
 	print('...Creating Primitive Ground Steps')
 	for op in operators:
@@ -58,7 +53,7 @@ def groundStoryList(operators, objects, obtypes):
 			# append the step to our growin glist
 			gsteps.append(gstep)
 
-			print('Creating ground step {}'.format(gstep))
+			print('Creating ground fabula step {}'.format(gstep))
 
 			# not sure why one would need the following:
 			# gstep.replaceInternals()
@@ -69,8 +64,10 @@ def groundStoryList(operators, objects, obtypes):
 
 	return gsteps
 
+
 def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 	gsteps = []
+
 	print('...Creating Ground Decomp Steps')
 	for op in doperators:
 		#Subplans = Plannify(op.subplan, GL)
@@ -139,15 +136,15 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 				gsteps.append(gdo)
 				# print('Creating ground step w/ height {}, h={}'.format(gdo, height))
 
+	return gsteps, cndt_comparison_sets
 
-	return gsteps
 
 @clock
 def rewriteElms(GDO, sp, op, objects, obtypes, h):
 
 	for elm in sp.elements:
 		EG = elm
-		if elm.typ in {'Action', 'Condition'}:
+		if type(elm) == Operator or type(elm) == Literal:
 			EG = eval(elm.typ).subgraph(sp, elm)
 			if EG.arg_name is None:
 				EG.arg_name = EG.root.arg_name
@@ -242,27 +239,31 @@ def reload(name):
 
 ALU_TERMS = ["obs-seg-alu", "obs-alu", "bel-seg-alu", "bel-alu"]
 
+
 class GLib:
 
-	def __init__(self, domain, problem):
-		operators, dops, objects, obtypes, init_action, goal_action = parseDomAndProb(domain, problem)
+	def __init__(self, prim_ops, comp_ops, objects, obtypes, init_action, goal_action):
 		self.non_static_preds = FlawLib.non_static_preds
 		self.object_types = obtypes
 		self.objects = objects
 
-		# primitive steps
-		self._gsteps = groundStoryList(operators, self.objects, obtypes)
+		# primitive fabula steps
+		prim_fab_operators = [op for op in operators if op.root.typ == "step-s"]
+		self.fab_steps = cache_ground_steps(prim_fab_operators, self.objects, obtypes)
 
-		#dictionaries
-		# a candidate map is a dictionary such that cndt_map[step_id][pre_id] = [(s_1, e_1),...,(s_k, e_k)] values are steps whose effect is same
-		# self.cndt_map = defaultdict(lambda x: defaultdict(list))
-		# self.threat_map = defaultdict(lambda x: defaultdict(list))
-		# cndts (key is step number, value is set of step numbers)
+		# camera steps
+		cam_operators = [op for op in operators if op.root.typ == "step-c"]
+		ground_objects = objects + [fab.root for fab in self.fab_steps]
+		self.cam_steps = cache_ground_steps(cam_operators, ground_objects, obtypes, self.fab_steps[-1].stepnumber+1)
+		# group these into sets based on only whether the preconditions and effects are different
+
+		# axioms? need axioms such as if you believe all preconditions of a step s then you (bel (preconds s))
+
+		self._gsteps = self.fab_steps + self.cam_steps
+
 		self.ante_dict = defaultdict(set)
-		# threats (key is step number, value is set of step numbers)
 		self.threat_dict = defaultdict(set)
 		self.flaw_threat_dict = defaultdict(set)
-		# id_dict is just by precondition ID
 		self.id_dict = defaultdict(set)
 		self.eff_dict = defaultdict(set)
 
@@ -272,7 +273,7 @@ class GLib:
 		for i in range(3):
 			print('...Creating PlanGraph decompositional level {}'.format(i+1))
 			try:
-				D = groundDecompStepList(dops, self, stepnum=len(self._gsteps), height=i)
+				D = groundDecompStepList(comp_ops, self, stepnum=len(self._gsteps), height=i)
 			except:
 				break
 			if not D or len(D) == 0:
@@ -297,10 +298,10 @@ class GLib:
 		self.loadPartition([init_action, goal_action])
 
 		print('{} ground steps created'.format(len(self)))
-		print('uploading')
-		d_name = domain.split('/')[1].split('.')[0]
-		p_name = problem.split('/')[1].split('.')[0]
-		self.name = d_name + '.' + p_name
+		# print('uploading')
+		# d_name = domain.split('/')[1].split('.')[0]
+		# p_name = problem.split('/')[1].split('.')[0]
+		# self.name = d_name + '.' + p_name
 
 	def insert(self, _pre, antestep, eff):
 		self.id_dict[_pre.replaced_ID].add(antestep.stepnumber)
@@ -325,6 +326,7 @@ class GLib:
 				print('... Processing antecedents for {} \t\tof step {}'.format(pre, ante))
 				self._loadAntecedentPerConsequent(consequents, ante, pre)
 
+	@clock
 	def _loadAntecedentPerConsequent(self, antecedents, _step, _pre):
 		for gstep in antecedents:
 			# skip steps which cannever be a candidate (such as goal)
@@ -332,6 +334,7 @@ class GLib:
 				continue
 			if self._parseEffects(gstep, _step, _pre) > 0:
 				self.ante_dict[_step.stepnumber].add(gstep.stepnumber)
+
 
 	def _parseEffects(self, gstep, _step, _pre):
 		count = 0
@@ -415,17 +418,25 @@ class GLib:
 
 
 if __name__ ==  '__main__':
-	domain_file = 'domains/ark-domain.pddl'
-	problem_file = 'domains/ark-problem.pddl'
+	# domain_file = 'domains/ark-domain.pddl'
+	# problem_file = 'domains/ark-problem.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem.pddl'
+	d_name = domain_file.split('/')[-1].split('.')[0]
+	p_name = problem_file.split('/')[-1].split('.')[0]
+	uploadable_pickle_name = d_name + '.' + p_name
 
-	operators, objects, object_types, initAction, goalAction = parseDomAndProb(domain_file, problem_file)
-
-	# from Planner import preprocessDomain, obTypesDict
-	FlawLib.non_static_preds = preprocessDomain(operators)
-	obtypes = obTypesDict(object_types)
+	operators, decomps, objects, object_types, initAction, goalAction = parseDomAndProb(domain_file, problem_file)
 
 	print("creating ground actions......\n")
-	GL = GLib(operators, objects, obtypes, initAction, goalAction)
+	GL = GLib(operators, decomps, objects, object_types, initAction, goalAction)
+
+	from Ground_Compiler_Library import precompile
+	ground_step_list = precompile.deelementize_ground_library(GL)
+	for i, gstep in enumerate(ground_step_list):
+		with open("pickles/" + uploadable_pickle_name + "_" + str(i), 'wb') as ugly:
+			pickle.dump(gstep, ugly)
+
 
 	print('\n')
 	print(GL)

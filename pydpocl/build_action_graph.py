@@ -39,9 +39,9 @@ def convert_params(params, obj_types):
 
 		# if it's a step-typed variable...
 		if "step" in ptypes:
-			arg = Operator(typ="Action", arg_name=parameter.name)
+			arg = Operator(typ=ptype, arg_name=parameter.name)
 		elif "literal" in ptypes:
-			arg = Literal(typ="Condition", arg_name=parameter.name, ptypes=ptypes)
+			arg = Literal(typ=ptype, arg_name=parameter.name, ptypes=ptypes)
 		elif "person" in ptypes or "character" in ptypes or "actor" in ptypes:
 			arg = Actor(typ=ptype, arg_name=parameter.name, ptypes=ptypes)
 		else:
@@ -298,11 +298,12 @@ def build_operators(actions, obj_types, cnsts):
 	primitive_operators = []
 	composite_operators = []
 	all_operators = []
+	operator_type_dict = dict()
 
 	for action in actions:
 
 		# create operator token (a step-typed variable)
-		step_typed_var = Operator(name=action.name, num_args=len(action.parameters))
+		step_typed_var = Operator(name=action.name, typ=action.action_type, num_args=len(action.parameters))
 		# create operator with step-typed variable as root
 		operator_template = Action(name=action.name, root_element=step_typed_var)
 		# convert args

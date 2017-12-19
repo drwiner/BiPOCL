@@ -382,9 +382,6 @@ def upload(GL, name):
 	with open(name, 'wb') as afile:
 		pickle.dump(GL, afile)
 
-# def just_compile_no_saving_steps(domain_file, problem_file):
-# 	GL = Ground.GLib(domain_file, problem_file)
-# 	ground_step_list = precompile.deelementize_ground_library(GL)
 
 def just_compile(domain_file, problem_file, pickle_names):
 	GL = Ground.GLib(domain_file, problem_file)
@@ -439,9 +436,16 @@ if __name__ == '__main__':
 			problem_file = sys.argv[2]
 	else:
 		# domain_file = 'Ground_Compiler_Library//domains/travel_domain_primitive_only.pddl'
-		domain_file = 'Ground_Compiler_Library//domains/Unity_Western_Domain.pddl'
-		problem_file = 'Ground_Compiler_Library//domains/unity_western_problem.pddl'
 		# problem_file = 'Ground_Compiler_Library//domains/travel-to-la.pddl'
+
+		# domain_file = 'Ground_Compiler_Library//domains/Unity_Western_Domain.pddl'
+		# problem_file = 'Ground_Compiler_Library//domains/unity_western_problem.pddl'
+
+		# domain_file = 'Ground_Compiler_Library//domains/Unity_Simple_Domain.pddl'
+		# problem_file = 'Ground_Compiler_Library//domains/Unity_Simple_Problem.pddl'
+		domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple.pddl'
+		problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem.pddl'
+
 	d_name = domain_file.split('/')[-1].split('.')[0]
 	p_name = problem_file.split('/')[-1].split('.')[0]
 	uploadable_ground_step_library_name = 'Ground_Compiler_Library//' + d_name + '.' + p_name
