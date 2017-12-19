@@ -298,7 +298,6 @@ def build_operators(actions, obj_types, cnsts):
 	primitive_operators = []
 	composite_operators = []
 	all_operators = []
-	operator_type_dict = dict()
 
 	for action in actions:
 

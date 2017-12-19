@@ -231,7 +231,7 @@ class Literal(InternalElement):
 		if num_args is None:
 			num_args = 0
 		if typ is None:
-			typ = 'Condition'
+			typ = 'literal'
 
 		super(Literal, self).__init__(ID, typ, name, arg_name, num_args)
 		self.truth = truth

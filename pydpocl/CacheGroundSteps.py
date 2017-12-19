@@ -136,7 +136,7 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 				gsteps.append(gdo)
 				# print('Creating ground step w/ height {}, h={}'.format(gdo, height))
 
-	return gsteps, cndt_comparison_sets
+	return gsteps
 
 
 @clock
@@ -248,11 +248,11 @@ class GLib:
 		self.objects = objects
 
 		# primitive fabula steps
-		prim_fab_operators = [op for op in operators if op.root.typ == "step-s"]
+		prim_fab_operators = [op for op in prim_ops if op.root.typ == "step-s"]
 		self.fab_steps = cache_ground_steps(prim_fab_operators, self.objects, obtypes)
 
 		# camera steps
-		cam_operators = [op for op in operators if op.root.typ == "step-c"]
+		cam_operators = [op for op in prim_ops if op.root.typ == "step-c"]
 		ground_objects = objects + [fab.root for fab in self.fab_steps]
 		self.cam_steps = cache_ground_steps(cam_operators, ground_objects, obtypes, self.fab_steps[-1].stepnumber+1)
 		# group these into sets based on only whether the preconditions and effects are different
@@ -268,7 +268,7 @@ class GLib:
 		self.eff_dict = defaultdict(set)
 
 		print('...Creating PlanGraph base level')
-		self.loadAll()
+		# self.loadAll()
 
 		for i in range(3):
 			print('...Creating PlanGraph decompositional level {}'.format(i+1))
@@ -417,15 +417,21 @@ class GLib:
 		return 'Grounded Step Library: \n' +  str([step.__repr__() for step in self._gsteps])
 
 
-if __name__ ==  '__main__':
-	# domain_file = 'domains/ark-domain.pddl'
-	# problem_file = 'domains/ark-problem.pddl'
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem.pddl'
-	d_name = domain_file.split('/')[-1].split('.')[0]
-	p_name = problem_file.split('/')[-1].split('.')[0]
-	uploadable_pickle_name = d_name + '.' + p_name
+def load_from_pickle(pickle_name):
+	ground_steps = []
+	i = 0
+	while True:
+		try:
+			print(i)
+			with open(pickle_name + str(i), 'rb') as ugly:
+				ground_steps.append(pickle.load(ugly))
+			i += 1
+		except:
+			break
+	return ground_steps
 
+
+def load_pickles(pickle_name):
 	operators, decomps, objects, object_types, initAction, goalAction = parseDomAndProb(domain_file, problem_file)
 
 	print("creating ground actions......\n")
@@ -434,9 +440,36 @@ if __name__ ==  '__main__':
 	from Ground_Compiler_Library import precompile
 	ground_step_list = precompile.deelementize_ground_library(GL)
 	for i, gstep in enumerate(ground_step_list):
-		with open("pickles/" + uploadable_pickle_name + "_" + str(i), 'wb') as ugly:
+		with open(pickle_name + str(i), 'wb') as ugly:
 			pickle.dump(gstep, ugly)
 
+	return ground_step_list
 
-	print('\n')
-	print(GL)
+
+# def append_cache(pickle_name):
+
+
+
+if __name__ ==  '__main__':
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem.pddl'
+	d_name = domain_file.split('/')[-1].split('.')[0]
+	p_name = problem_file.split('/')[-1].split('.')[0]
+	uploadable_pickle_name = d_name + '.' + p_name
+
+	from PyDPOCL import GPlanner
+
+	pname = "pickles/" + uploadable_pickle_name + "_"
+
+
+	# gsteps = load_from_pickle(pname)
+	gsteps = load_pickles(pname)
+	print('test')
+
+	planner = GPlanner(gsteps)
+	planner.solve(k=1)
+	# load_pickles(pname)
+
+	# domain_file = 'domains/ark-domain.pddl'
+	# problem_file = 'domains/ark-problem.pddl'
+
