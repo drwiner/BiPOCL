@@ -275,7 +275,10 @@ def build_decomp(dformula, dparams, dschema, op_graphs):
 		dschema.edges.add(Edge(dschema.root, arg, existing_args + i))
 
 	if dformula.key != "and":
-		build_literal(dformula, dschema)
+		literal = build_literal(dformula, dschema)
+		if literal is None:
+			raise ValueError("literal is None")
+		compile_decomp_literal(literal, dschema, op_graphs)
 		return dschema
 
 	for child in dformula.children:

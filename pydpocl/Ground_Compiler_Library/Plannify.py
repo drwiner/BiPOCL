@@ -22,7 +22,18 @@ def Plannify(RQ, GL, h):
 
 	print('...Planets')
 	#A Planet is a plan s.t. all steps are "arg_name consistent", but a step may not be equiv to some ground step
-	Planets = [PlanElementGraph.Actions_2_Plan(W, h) for W in Worlds if isArgNameConsistent(W)]
+	# Planets = [PlanElementGraph.Actions_2_Plan(W, h) for W in Worlds if isArgNameConsistent(W)]
+	Planets = []
+	for i, W in enumerate(Worlds):
+		if not isArgNameConsistent(W):
+			continue
+		p = PlanElementGraph.Actions_2_Plan(W,h)
+		if p is None:
+			continue
+		Planets.append(p)
+		if i%50 == 0 and i >0:
+			print(i)
+			break
 
 	print('...Linkify')
 	#Linkify installs orderings and causal links from RQ/decomp to Planets, rmvs Planets which cannot support links
@@ -76,13 +87,14 @@ def isArgNameConsistent(Partially_Ground_Steps):
 	arg_name_dict = {}
 
 	for PGS in Partially_Ground_Steps:
-		for arg in PGS.Args:
-			if arg.arg_name is not None:
-				if arg.arg_name in arg_name_dict.keys():
-					if not arg.isConsistent(arg_name_dict[arg.arg_name]):
-						return False
-				else:
-					arg_name_dict[arg.arg_name] = arg
+		for elm in PGS.elements:
+			if elm.arg_name is None:
+				continue
+			else:
+				if not elm.arg_name in arg_name_dict.keys():
+					arg_name_dict[elm.arg_name] = elm
+				elif not elm.isConsistent(arg_name_dict[elm.arg_name]):
+					return False
 	return True
 
 

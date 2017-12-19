@@ -88,7 +88,7 @@ class Action(ElementGraph):
 			self.preconditions = self.getPreconditionsOrEffects(label)
 
 	def getPreconditionsOrEffects(self, label):
-		return [edge.sink for edge in self.edges if edge.label == label]
+		return [edge.sink for edge in self.edges if edge.label == label and edge.source == self.root]
 
 	def __getattr__(self, name):
 		if name == 'preconditions':
@@ -117,7 +117,7 @@ class Action(ElementGraph):
 	def _replaceInternals(self):
 		self.ID = uuid4()
 		for elm in self.elements:
-			if not isinstance(elm, Argument):
+			if not isinstance(elm, Argument) and not isinstance(elm, Operator):
 				elm.replaced_ID = uuid4()
 
 	def deepcopy(self, replace_internals=False, _replace_internals=False):
@@ -268,13 +268,15 @@ class PlanElementGraph(ElementGraph):
 		elements = set().union(*[A.elements for A in Actions])
 		edges = set().union(*[A.edges for A in Actions])
 		Plan = cls(name='Action_2_Plan', Elements=elements, Edges=edges)
-		for edge in Plan.edges:
-			if edge.label == 'effect-of':
-				elm = Plan.getElementById(edge.sink.ID)
-				elm.replaced_ID = edge.sink.replaced_ID
+		# for edge in Plan.edges:
+		# 	if edge.label == 'effect-of':
+		# 		elm = Plan.getElementById(edge.sink.ID)
+		# 		elm.replaced_ID = edge.sink.replaced_ID
 
-		Plan.OrderingGraph = OrderingGraph()
-		Plan.CausalLinkGraph = CausalLinkGraph()
+		# removed for now
+		# Plan.OrderingGraph = OrderingGraph()
+		# Plan.CausalLinkGraph = CausalLinkGraph()
+
 		# Plan.Steps = [A.root for A in Actions]
 		return Plan
 

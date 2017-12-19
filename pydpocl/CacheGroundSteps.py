@@ -16,7 +16,7 @@ import hashlib
 Antestep = namedtuple('Antestep', 'action eff_link')
 
 
-def cache_ground_steps(operators, objects, obtypes, stepnum=None):
+def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 
 	if stepnum is None:
 		stepnum = 0
@@ -50,10 +50,29 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None):
 			# swap the leaves of the step with the objects in tuple "t"
 			gstep.replaceArgs(t)
 
+			# do only in cases when there are step-typed arguments (what about literal-typed arguments?
+			if gsd is not None:
+				for arg in gstep.Args:
+					if arg in gsd.keys():
+						step = gsd[arg]
+						""" possibly can just replaceArg and add elements without making copy... since everything will
+							get cloned anyway.
+						"""
+						# clone, but don't replace IDs because this isn't a new step, it's an existing step
+						arg_clone = step.deepcopy(replace_internals=True)
+						# swap argument with step root clone
+						gstep.replaceArg(arg, arg_clone.root)
+						# add elements and edges to gstep graph
+						gstep.elements.update(arg_clone.elements)
+						gstep.edges.update(arg_clone.edges)
+
+
+			# if one of the args is an operator token
+
 			# append the step to our growin glist
 			gsteps.append(gstep)
 
-			print('Creating ground fabula step {}'.format(gstep))
+			print('Creating ground step {}'.format(gstep))
 
 			# not sure why one would need the following:
 			# gstep.replaceInternals()
@@ -71,6 +90,7 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 	print('...Creating Ground Decomp Steps')
 	for op in doperators:
 		#Subplans = Plannify(op.subplan, GL)
+
 		print('processing operator: {}'.format(op))
 		try:
 			sub_plans = Plannify(op.subplan, GL, height)
@@ -82,127 +102,157 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			GDO.is_decomp = True
 
 			# rewrites operator arguments based on groundings of sub-plan, provides alternatives
-			possible_alternatives = rewriteElms(GDO, sp, op, GL.objects, GL.object_types, height + 1)
-			if not possible_alternatives:
+			gdo = rewriteElms(GDO, sp, GL.objects, GL.object_types, height + 1)
+			if not gdo:
 				continue
 
-			gdos = []
-			if type(possible_alternatives) == bool:
-				gdos.append(GDO)
-			else:
-				for gdo in possible_alternatives:
-					gdos.append(gdo)
+			# gdos = []
+			# if type(possible_alternatives) == bool:
+			# 	gdos.append(GDO)
+			# else:
+			# 	for gdo in possible_alternatives:
+			# 		gdos.append(gdo)
+			#
+			# for gdo in gdos:
 
-			for gdo in gdos:
+			gdo.root.is_decomp = True
 
-				gdo.root.is_decomp = True
+			# swap constructor IDs and replaced_IDs
+			gdo._replaceInternals()
+			gdo.replaceInternals()
 
-				# swap constructor IDs and replaced_IDs
-				gdo._replaceInternals()
-				gdo.replaceInternals()
+			# Now create dummy init step and goal step
+			dummy_init = Action(name='begin:' + str(gdo.name))
+			dummy_init.has_cndt = False
+			dummy_init.root.stepnumber = stepnum
+			for condition in gdo.Preconditions:
+				dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
+				dummy_init.edges.update(condition.edges)
+				dummy_init.elements.update(condition.elements)
+			gsteps.append(dummy_init)
+			stepnum+=1
 
-				# Now create dummy init step and goal step
-				dummy_init = Action(name='begin:' + str(gdo.name))
-				dummy_init.has_cndt = False
-				dummy_init.root.stepnumber = stepnum
-				for condition in gdo.Preconditions:
-					dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
-					dummy_init.edges.update(condition.edges)
-					dummy_init.elements.update(condition.elements)
-				gsteps.append(dummy_init)
-				stepnum+=1
+			dummy_goal = Action(name='finish:' + str(gdo.name))
+			dummy_goal.is_cndt = False
+			dummy_goal.root.stepnumber = stepnum
+			for condition in gdo.Effects:
+				dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
+				dummy_goal.edges.update(condition.edges)
+				dummy_goal.elements.update(condition.elements)
+			gsteps.append(dummy_goal)
+			stepnum+=1
 
-				dummy_goal = Action(name='finish:' + str(gdo.name))
-				dummy_goal.is_cndt = False
-				dummy_goal.root.stepnumber = stepnum
-				for condition in gdo.Effects:
-					dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
-					dummy_goal.edges.update(condition.edges)
-					dummy_goal.elements.update(condition.elements)
-				gsteps.append(dummy_goal)
-				stepnum+=1
+			gdo.sub_dummy_init = dummy_init
+			gdo.sub_dummy_goal = dummy_goal
 
-				gdo.sub_dummy_init = dummy_init
-				gdo.sub_dummy_goal = dummy_goal
+			gdo.ground_subplan = copy.deepcopy(sp)
+			gdo.root.stepnumber = stepnum
+			gdo.ground_subplan.root = gdo.root
+			stepnum += 1
+			gdo.height = height + 1
+			gdo.root.height = height + 1
 
-				gdo.ground_subplan = copy.deepcopy(sp)
-				gdo.root.stepnumber = stepnum
-				gdo.ground_subplan.root = gdo.root
-				stepnum += 1
-				gdo.height = height + 1
-				gdo.root.height = height + 1
-
-				# important to add init and goal steps first
-				gsteps.append(gdo)
+			# important to add init and goal steps first
+			gsteps.append(gdo)
 				# print('Creating ground step w/ height {}, h={}'.format(gdo, height))
 
 	return gsteps
 
 
-@clock
-def rewriteElms(GDO, sp, op, objects, obtypes, h):
+# @clock
+def rewriteElms(GDO, sp, objects, obtypes, h):
 
-	for elm in sp.elements:
-		EG = elm
-		if type(elm) == Operator or type(elm) == Literal:
-			EG = eval(elm.typ).subgraph(sp, elm)
-			if EG.arg_name is None:
-				EG.arg_name = EG.root.arg_name
-
-		assignElmToContainer(GDO, EG, list(op.elements))
+	sp_arg_dict = {elm.arg_name: elm for elm in sp.elements}
+	needs_substituting = []
+	for arg in GDO.Args:
+		# if this arg isn't part of sub-plan (is that possible?)
+		if arg.arg_name not in sp_arg_dict.keys():
+			if arg.name is None:
+				needs_substituting.append(arg)
+			raise ValueError("just checking if this is possible")
+		sp_elm = sp_arg_dict[arg.arg_name]
+		if type(sp_elm) == Operator:
+			A = Action.subgraph(sp, sp_elm)
+			GDO.replaceArg(arg, A.root)
+			GDO.elements.remove(arg)
+			GDO.elements.update(A.elements)
+			GDO.edges.update(A.edges)
+		elif type(sp_elm) == Literal:
+			C = Condition.subgraph(sp, sp_elm)
+			GDO.replaceArg(arg, C.root)
+			GDO.elements.remove(arg)
+			GDO.elements.update(C.elements)
+			GDO.edges.update(C.edges)
 	GDO.updateArgs()
-	for (u,v) in op.nonequals:
+	for (u,v) in GDO.nonequals:
 		if GDO.Args[u] == GDO.Args[v]:
 			return False
+	return GDO
 
-	# all_finished = True
-	# for arg in GDO.Args:
-	# 	if arg.name is None:
-	# 		all_finished = False
-	# 		break
-	# if all_finished:
+	# for elm in sp.elements:
+	# 	EG = elm
+	# 	# if type(elm) == Operator or type(elm) == Literal:
+	# 	if type(elm) == Operator:
+	# 		EG = Action.subgraph(sp, elm)
+	# 		if EG.arg_name is None:
+	# 			EG.arg_name = EG.root.arg_name
+	# 	elif type(elm) == Literal:
+	# 		EG = Condition.subgraph(sp, elm)
+	# 		if EG.arg_name is None:
+	# 			EG.arg_name = EG.root.arg_name
+	#
+	# 	assignElmToContainer(GDO, EG, list(op.elements))
+	# GDO.updateArgs()
+	# for (u,v) in op.nonequals:
+	# 	if GDO.Args[u] == GDO.Args[v]:
+	# 		return False
+	#
+	# # all_finished = True
+	# # for arg in GDO.Args:
+	# # 	if arg.name is None:
+	# # 		all_finished = False
+	# # 		break
+	# # if all_finished:
+	# # 	return True
+	# subplan_params = [item.arg_name for item in sp.elements if item.arg_name is not None]
+	#
+	# needs_substituting = []
+	# for i, arg in enumerate(GDO.Args):
+	# 	if isinstance(arg, Argument):
+	# 		# if the arg is none and its not a subplan
+	# 		if arg.name is None:
+	# 			if arg.arg_name in subplan_params:
+	# 				# all sub-plan args must be substituted by ground elements
+	# 				return False
+	# 			else:
+	# 				needs_substituting.append(i)
+	#
+	# 				# this is an argument of the operator, not the decomposition
+	# if len(needs_substituting) == 0:
 	# 	return True
-	subplan_params = [item.arg_name for item in sp.elements if item.arg_name is not None]
-
-	needs_substituting = []
-	for i, arg in enumerate(GDO.Args):
-		if isinstance(arg, Argument):
-			# if the arg is none and its not a subplan
-			if arg.name is None:
-				if arg.arg_name in subplan_params:
-					# all sub-plan args must be substituted by ground elements
-					return False
-				else:
-					needs_substituting.append(i)
-
-					# this is an argument of the operator, not the decomposition
-	if len(needs_substituting) == 0:
-		return True
-
-	new_gdo_list = []
-	cndts = [[obj for obj in objects if arg.typ == obj.typ or arg.typ in obtypes[obj.typ]] if i in needs_substituting else [GDO.Args[i]] for i, arg in enumerate(GDO.Args)]
-	tuples = itertools.product(*cndts)
-	for t in tuples:
-		legaltuple = True
-		for (u, v) in op.nonequals:
-			if t[u] == t[v]:
-				legaltuple = False
-				break
-		if not legaltuple:
-			continue
-
-		gstep = copy.deepcopy(GDO)
-
-		# swap the leaves of the step with the objects in tuple "t"
-		gstep.replaceArgs(t)
-
-		# append the step to our growin glist
-		new_gdo_list.append(gstep)
-		print("creating alternative ground step {}".format(gstep))
-
-	return new_gdo_list
-
-
+	#
+	# new_gdo_list = []
+	# cndts = [[obj for obj in objects if arg.typ == obj.typ or arg.typ in obtypes[obj.typ]] if i in needs_substituting else [GDO.Args[i]] for i, arg in enumerate(GDO.Args)]
+	# tuples = itertools.product(*cndts)
+	# for t in tuples:
+	# 	legaltuple = True
+	# 	for (u, v) in op.nonequals:
+	# 		if t[u] == t[v]:
+	# 			legaltuple = False
+	# 			break
+	# 	if not legaltuple:
+	# 		continue
+	#
+	# 	gstep = copy.deepcopy(GDO)
+	#
+	# 	# swap the leaves of the step with the objects in tuple "t"
+	# 	gstep.replaceArgs(t)
+	#
+	# 	# append the step to our growin glist
+	# 	new_gdo_list.append(gstep)
+	# 	print("creating alternative ground step {}".format(gstep))
+	#
+	# return new_gdo_list
 
 
 def assignElmToContainer(GDO, EG, ex_elms):
@@ -254,7 +304,8 @@ class GLib:
 		# camera steps
 		cam_operators = [op for op in prim_ops if op.root.typ == "step-c"]
 		ground_objects = objects + [fab.root for fab in self.fab_steps]
-		self.cam_steps = cache_ground_steps(cam_operators, ground_objects, obtypes, self.fab_steps[-1].stepnumber+1)
+		gstep_dict = {fab.root: fab for fab in self.fab_steps}
+		self.cam_steps = cache_ground_steps(cam_operators, ground_objects, obtypes, self.fab_steps[-1].stepnumber+1, gstep_dict)
 		# group these into sets based on only whether the preconditions and effects are different
 
 		# axioms? need axioms such as if you believe all preconditions of a step s then you (bel (preconds s))
