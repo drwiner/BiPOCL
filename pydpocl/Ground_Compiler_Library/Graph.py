@@ -86,26 +86,6 @@ class Graph(Element):
 				return edge.sink
 		return None
 
-	def replaceWith(self, oldsnk, newsnk):
-		''' removes oldsnk from self.elements, replaces all edges with snk = oldsnk with newsnk'''
-
-		if oldsnk == newsnk:
-			return
-
-		self.assign(oldsnk, newsnk)
-
-		if self.getElementById(newsnk.ID) is None:
-			raise NameError('newsnk replacer is not found in self')
-
-		# update constraint edges which might reference specific elements being replaced
-		for r in self.subgraphs:
-			r.assign(oldsnk, newsnk)
-
-		if hasattr(self, 'ground_subplan'):
-			self.ground_subplan.assign(oldsnk, newsnk)
-
-		return self
-
 	def assign(self, old_elm_in_edge, new_elm, remove_old=True):
 		"""
 		swaps vertices in graph and updates edges

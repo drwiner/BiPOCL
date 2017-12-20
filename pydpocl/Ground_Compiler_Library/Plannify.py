@@ -31,9 +31,7 @@ def Plannify(RQ, GL, h):
 		if p is None:
 			continue
 		Planets.append(p)
-		if i%50 == 0 and i >0:
-			print(i)
-			break
+		# break
 
 	print('...Linkify')
 	#Linkify installs orderings and causal links from RQ/decomp to Planets, rmvs Planets which cannot support links
@@ -81,9 +79,7 @@ def partialUnify(PS, _map):
 
 
 def isArgNameConsistent(Partially_Ground_Steps):
-	"""
-		@param Partially_Ground_Steps <-- partially ground required steps (PGRS), reach required step associated with ground step
-	"""
+
 	arg_name_dict = {}
 
 	for PGS in Partially_Ground_Steps:
@@ -94,6 +90,8 @@ def isArgNameConsistent(Partially_Ground_Steps):
 				if not elm.arg_name in arg_name_dict.keys():
 					arg_name_dict[elm.arg_name] = elm
 				elif not elm.isConsistent(arg_name_dict[elm.arg_name]):
+					return False
+				elif not arg_name_dict[elm.arg_name].isConsistent(elm):
 					return False
 	return True
 

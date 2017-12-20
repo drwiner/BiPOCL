@@ -125,6 +125,7 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			dummy_init = Action(name='begin:' + str(gdo.name))
 			dummy_init.has_cndt = False
 			dummy_init.root.stepnumber = stepnum
+			dummy_init.stepnumber = stepnum
 			for condition in gdo.Preconditions:
 				dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
 				dummy_init.edges.update(condition.edges)
@@ -135,6 +136,7 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			dummy_goal = Action(name='finish:' + str(gdo.name))
 			dummy_goal.is_cndt = False
 			dummy_goal.root.stepnumber = stepnum
+			dummy_goal.stepnumber = stepnum
 			for condition in gdo.Effects:
 				dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
 				dummy_goal.edges.update(condition.edges)
@@ -147,6 +149,7 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 
 			gdo.ground_subplan = copy.deepcopy(sp)
 			gdo.root.stepnumber = stepnum
+			gdo.stepnumber = stepnum
 			gdo.ground_subplan.root = gdo.root
 			stepnum += 1
 			gdo.height = height + 1
@@ -189,85 +192,6 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 			return False
 	return GDO
 
-	# for elm in sp.elements:
-	# 	EG = elm
-	# 	# if type(elm) == Operator or type(elm) == Literal:
-	# 	if type(elm) == Operator:
-	# 		EG = Action.subgraph(sp, elm)
-	# 		if EG.arg_name is None:
-	# 			EG.arg_name = EG.root.arg_name
-	# 	elif type(elm) == Literal:
-	# 		EG = Condition.subgraph(sp, elm)
-	# 		if EG.arg_name is None:
-	# 			EG.arg_name = EG.root.arg_name
-	#
-	# 	assignElmToContainer(GDO, EG, list(op.elements))
-	# GDO.updateArgs()
-	# for (u,v) in op.nonequals:
-	# 	if GDO.Args[u] == GDO.Args[v]:
-	# 		return False
-	#
-	# # all_finished = True
-	# # for arg in GDO.Args:
-	# # 	if arg.name is None:
-	# # 		all_finished = False
-	# # 		break
-	# # if all_finished:
-	# # 	return True
-	# subplan_params = [item.arg_name for item in sp.elements if item.arg_name is not None]
-	#
-	# needs_substituting = []
-	# for i, arg in enumerate(GDO.Args):
-	# 	if isinstance(arg, Argument):
-	# 		# if the arg is none and its not a subplan
-	# 		if arg.name is None:
-	# 			if arg.arg_name in subplan_params:
-	# 				# all sub-plan args must be substituted by ground elements
-	# 				return False
-	# 			else:
-	# 				needs_substituting.append(i)
-	#
-	# 				# this is an argument of the operator, not the decomposition
-	# if len(needs_substituting) == 0:
-	# 	return True
-	#
-	# new_gdo_list = []
-	# cndts = [[obj for obj in objects if arg.typ == obj.typ or arg.typ in obtypes[obj.typ]] if i in needs_substituting else [GDO.Args[i]] for i, arg in enumerate(GDO.Args)]
-	# tuples = itertools.product(*cndts)
-	# for t in tuples:
-	# 	legaltuple = True
-	# 	for (u, v) in op.nonequals:
-	# 		if t[u] == t[v]:
-	# 			legaltuple = False
-	# 			break
-	# 	if not legaltuple:
-	# 		continue
-	#
-	# 	gstep = copy.deepcopy(GDO)
-	#
-	# 	# swap the leaves of the step with the objects in tuple "t"
-	# 	gstep.replaceArgs(t)
-	#
-	# 	# append the step to our growin glist
-	# 	new_gdo_list.append(gstep)
-	# 	print("creating alternative ground step {}".format(gstep))
-	#
-	# return new_gdo_list
-
-
-def assignElmToContainer(GDO, EG, ex_elms):
-
-	for ex_elm in ex_elms:
-		if ex_elm.arg_name is None:
-			continue
-		if EG.arg_name != ex_elm.arg_name:
-			if isinstance(EG, Argument):
-				if EG.name != ex_elm.name:
-					continue
-			else:
-				continue
-
-		GDO.assign(ex_elm, EG)
 
 import re
 @clock
@@ -317,6 +241,7 @@ class GLib:
 		self.flaw_threat_dict = defaultdict(set)
 		self.id_dict = defaultdict(set)
 		self.eff_dict = defaultdict(set)
+		self.cntg_mental = defaultdict(set)
 
 		print('...Creating PlanGraph base level')
 		# self.loadAll()
@@ -354,9 +279,6 @@ class GLib:
 		# p_name = problem.split('/')[1].split('.')[0]
 		# self.name = d_name + '.' + p_name
 
-	def insert(self, _pre, antestep, eff):
-		self.id_dict[_pre.replaced_ID].add(antestep.stepnumber)
-		self.eff_dict[_pre.replaced_ID].add(eff.replaced_ID)
 
 	def loadAll(self):
 		self.load(self._gsteps, self._gsteps)
@@ -368,6 +290,7 @@ class GLib:
 		self.load(particles, particles)
 		self._gsteps.extend(particles)
 
+	@clock
 	def load(self, antecedents, consequents):
 		for ante in antecedents:
 			# steps which have no preconditions needn't have any candidates
@@ -377,7 +300,7 @@ class GLib:
 				print('... Processing antecedents for {} \t\tof step {}'.format(pre, ante))
 				self._loadAntecedentPerConsequent(consequents, ante, pre)
 
-	@clock
+	# @clock
 	def _loadAntecedentPerConsequent(self, antecedents, _step, _pre):
 		for gstep in antecedents:
 			# skip steps which cannever be a candidate (such as goal)
@@ -386,7 +309,7 @@ class GLib:
 			if self._parseEffects(gstep, _step, _pre) > 0:
 				self.ante_dict[_step.stepnumber].add(gstep.stepnumber)
 
-
+	# @clock
 	def _parseEffects(self, gstep, _step, _pre):
 		count = 0
 		pre_name = _pre.name
@@ -396,15 +319,23 @@ class GLib:
 
 			if Eff.name != pre_name:
 				continue
-			if False in [ea.name == pa.name for ea, pa in zip(Eff.Args, _pre.Args)]:
+			if len(Eff.Args) != len(_pre.Args):
+				continue
+			if not is_equal_args(Eff.Args, _pre.Args, gstep, _step):
 				continue
 			if Eff.truth != _pre.truth:
 				self.threat_dict[_step.stepnumber].add(gstep.stepnumber)
 				self.flaw_threat_dict[_pre.replaced_ID].add(gstep.stepnumber)
 			else:
-				self.insert(_pre, gstep.deepcopy(replace_internals=True), Eff)
+				# self.eff_dict[_pre.replaced_ID].add(Eff.replaced_ID)
+				self.id_dict[_pre.replaced_ID].add(gstep.stepnumber)
+				if _pre.name in ALU_TERMS:
+					self.cntg_mental[_pre.replaced_ID].add(gstep.stepnumber)
+
 				count += 1
 		return count
+
+
 
 	# def getPotentialLinkConditions(self, src, snk):
 	# 	cndts = []
@@ -467,6 +398,27 @@ class GLib:
 	def __repr__(self):
 		return 'Grounded Step Library: \n' +  str([step.__repr__() for step in self._gsteps])
 
+
+def is_equal_args(a_list, b_list, agraph, bgraph):
+	for a, b in zip(a_list, b_list):
+		if not (a.isConsistent(b) and b.isConsistent(a)):
+			return False
+		if isinstance(a, Argument):
+			if a.name != b.name:
+				return False
+		elif isinstance(a, Operator):
+			if a.stepnumber != b.stepnumber:
+				return False
+		elif isinstance(a, Literal):
+			if a.name != b.name:
+				return False
+			if a.truth != b.truth:
+				return False
+			a_cond = Condition.subgraph(agraph, a)
+			b_cond = Condition.subgraph(bgraph, b)
+			if not is_equal_args(a_cond.Args,b_cond.Args, a_cond, b_cond):
+				return False
+	return True
 
 def load_from_pickle(pickle_name):
 	ground_steps = []

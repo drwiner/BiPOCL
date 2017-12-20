@@ -53,6 +53,7 @@ class GStep:
 		self.cndt_map = None
 		self.threat_map = None
 		self.threats = None
+		self.cntg_mental = None
 
 		self.instantiable = True
 
@@ -78,7 +79,7 @@ class GStep:
 	# 			return obj.to_json()
 	# 		return json.JSONEncoder.default(self, obj)
 
-	def setup(self, step_to_cndt, precond_to_cndt, step_to_threat, precond_to_threat):
+	def setup(self, step_to_cndt, precond_to_cndt, step_to_threat, precond_to_threat, cntg_mental):
 		"""
 		:param step_to_cndt: dict of form GStep -> GStep^k such as D[stepnum] -> [cndt antecedent step nums]
 		:param precond_to_cndt: dict of form GLiteral -> GStep^k such as D[pre.ID] -> [cndt antecedent step nums]
@@ -88,6 +89,7 @@ class GStep:
 		self.cndt_map = {pre.ID: list(precond_to_cndt[pre.ID]) for pre in self.preconds}
 		self.threats = list(step_to_threat[self.stepnum])
 		self.threat_map = {pre.ID: list(precond_to_threat[pre.ID]) for pre in self.preconds}
+		self.cntg_mental = {pre.ID: list(cntg_mental[pre.ID]) for pre in self.preconds}
 
 	def swap_setup(self, cndts, cndtmap, threats, threatmap):
 		self.cndts = cndts
@@ -238,6 +240,8 @@ class GLiteral:
 		t = ''
 		if not self.truth:
 			t = 'not-'
+		if self.truth is None:
+			t = "(-)"
 		return '{}{}'.format(t, self.name) + args
 
 

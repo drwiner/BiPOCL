@@ -151,7 +151,7 @@ class Operator(InternalElement):
 	stepnumber = 0
 	""" An operator element is an internal element with an executed status and orphan status"""
 
-	def __init__(self, ID=None, typ=None, name=None, stepnumber=None, num_args=None, executed=None, arg_name=None, ptypes=None, step_type=None):
+	def __init__(self, ID=None, typ=None, name=None, stepnumber=None, num_args=None, executed=None, arg_name=None, ptypes=None):
 		if typ is None:
 			typ = 'Action'
 		if num_args is None:
@@ -159,11 +159,8 @@ class Operator(InternalElement):
 		if stepnumber is None:
 			stepnumber = Operator.stepnumber
 			Operator.stepnumber += 1
-		else:
-			Operator.stepnumber = stepnumber + 1
-
-		self.step_type = step_type
-
+		# else:
+		# 	Operator.stepnumber = stepnumber + 1
 
 		super(Operator, self).__init__(ID, typ, name, arg_name, num_args=num_args)
 		self.stepnumber = stepnumber
@@ -174,7 +171,7 @@ class Operator(InternalElement):
 		if ptypes is None:
 			self.p_types = [name]
 		else:
-			self.p_types = ptypes
+			self.p_types = [name] + ptypes
 
 	def __hash__(self):
 		return hash(self.ID)
@@ -195,8 +192,8 @@ class Operator(InternalElement):
 		if not super(Operator, self).isConsistent(other):
 			return False
 
-		if self.step_type != None and other.step_type != None:
-			if self.step_type != other.step_type:
+		if self.stepnumber >= 0 and other.stepnumber >= 0:
+			if self.stepnumber != other.stepnumber:
 				return False
 
 		if other.executed is not None and self.executed is not None:

@@ -7,7 +7,7 @@ from Ground_Compiler_Library.ElementGraph import ElementGraph
 import copy
 import collections
 from clockdeco import clock
-
+import itertools
 
 class Action(ElementGraph):
 	# stepnumber = 2
@@ -116,9 +116,16 @@ class Action(ElementGraph):
 	# USE THIS ONLY when creating GROUND STEPS for first time (replacing replaced_ID)
 	def _replaceInternals(self):
 		self.ID = uuid4()
-		for elm in self.elements:
-			if not isinstance(elm, Argument) and not isinstance(elm, Operator):
-				elm.replaced_ID = uuid4()
+		for edge in self.edges:
+			if edge.source != self.root:
+				continue
+			if isinstance(edge.sink, Argument):
+				continue
+			edge.sink.replaced_ID = uuid4()
+
+		# for elm in self.elements:
+		# 	if not isinstance(elm, Argument) and not isinstance(elm, Operator):
+		# 		elm.replaced_ID = uuid4()
 
 	def deepcopy(self, replace_internals=False, _replace_internals=False):
 		new_self = copy.deepcopy(self)
@@ -268,6 +275,25 @@ class PlanElementGraph(ElementGraph):
 		elements = set().union(*[A.elements for A in Actions])
 		edges = set().union(*[A.edges for A in Actions])
 		Plan = cls(name='Action_2_Plan', Elements=elements, Edges=edges)
+
+		# for each pair of elements that have same arg_name, merge.
+		replacers = []
+		for u, v in itertools.product(elements, elements):
+			if v in replacers:
+				continue
+			if u.ID == v.ID:
+				continue
+			if not u.isConsistent(v):
+				continue
+			if u.arg_name == v.arg_name:
+				outgoing_edges = [edge for edge in edges if edge.source == v]
+				Plan.replaceArg(v, u)
+				# u.merge(v)
+				for edge in outgoing_edges:
+					edge.source = u
+				Plan.elements.remove(v)
+				replacers.append(u)
+
 		# for edge in Plan.edges:
 		# 	if edge.label == 'effect-of':
 		# 		elm = Plan.getElementById(edge.sink.ID)
