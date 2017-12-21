@@ -34,14 +34,14 @@ def deelementize_ground_library(GL):
 	                          p.truth, p.replaced_ID, (p.name, p.truth) not in GL.non_static_preds)
 	                 for p in GL[-2].Effects]
 
-	dummy_init = GStep(GL[-2].name, [decompile(arg, GL[-2]) for arg in GL[-2].Args],
+	dummy_init = GStep(GL[-2].name, ["0"],
 	                   init_preconds, GL[-2].stepnumber, GL[-2].height)
 	dummy_init.instantiable = False
 
 	goal_preconds = [GLiteral(p.name, [decompile(arg, p) for arg in p.Args],
 	                          p.truth, p.replaced_ID, (p.name, p.truth) not in GL.non_static_preds) for p in
 	                 GL[-1].Preconditions]
-	dummy_goal = GStep(GL[-1].name, [decompile(arg, GL[-1]) for arg in GL[-1].Args], goal_preconds, GL[-1].stepnumber, GL[-1].height)
+	dummy_goal = GStep(GL[-1].name, ["1"], goal_preconds, GL[-1].stepnumber, GL[-1].height)
 	dummy_goal.setup(GL.ante_dict, GL.id_dict, GL.threat_dict, GL.flaw_threat_dict, GL.cntg_mental)
 	dummy_goal.instantiable = False
 

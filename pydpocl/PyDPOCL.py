@@ -5,7 +5,7 @@ import copy
 from heapq import heappush, heappop
 from clockdeco import clock
 import time
-LOG = 0
+LOG = 1
 REPORT = 1
 RRP = 0
 from collections import Counter
@@ -205,9 +205,9 @@ class GPlanner:
 			# resolve s_need with the new step
 			new_plan.resolve(new_step, mutable_s_need, mutable_p)
 
-			new_plan.cost += ((self.max_height*self.max_height)+1) - (new_step.height*new_step.height)
+			# new_plan.cost += ((self.max_height*self.max_height)+1) - (new_step.height*new_step.height)
 			# new_plan.cost += self.max_height + 1 - new_step.height
-			# new_plan.cost += 1
+			new_plan.cost += 1
 			# self.max_height + 1 - new_step.height
 
 			# insert our new mutated plan into the frontier
