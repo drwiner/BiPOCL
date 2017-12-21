@@ -1,5 +1,5 @@
 from Ground_Compiler_Library.OrderingGraph import OrderingGraph, CausalLinkGraph
-from Ground_Compiler_Library.Flaws_unused import Flaw, FlawLib, TCLF
+from Flaws import Flaw, FlawLib, TCLF
 from uuid import uuid4
 from Ground_Compiler_Library.Element import Argument, Element, Operator, Literal
 from Ground_Compiler_Library.Graph import Edge
@@ -112,6 +112,9 @@ class Action(ElementGraph):
 		for elm in self.elements:
 			if not isinstance(elm, Argument):
 				elm.ID = uuid4()
+		# need this to refresh mutable IDs
+		self.elements = set(list(self.elements))
+		self.edges = set(list(self.edges))
 
 	# USE THIS ONLY when creating GROUND STEPS for first time (replacing replaced_ID)
 	def _replaceInternals(self):
@@ -277,22 +280,37 @@ class PlanElementGraph(ElementGraph):
 		Plan = cls(name='Action_2_Plan', Elements=elements, Edges=edges)
 
 		# for each pair of elements that have same arg_name, merge.
-		replacers = []
+		replaced = []
 		for u, v in itertools.product(elements, elements):
-			if v in replacers:
+			if v in replaced or u in replaced:
 				continue
 			if u.ID == v.ID:
 				continue
+			# if u == v:
+			# 	continue
 			if not u.isConsistent(v):
 				continue
 			if u.arg_name == v.arg_name:
-				outgoing_edges = [edge for edge in edges if edge.source == v]
-				Plan.replaceArg(v, u)
+				replacer = u
+				original = v
+				if type(u) == Operator:
+					if u.stepnumber != -1:
+						replacer = v
+						original = u
+						replacer.stepnumber = u.stepnumber
+
+				outgoing_edges = [edge for edge in edges if edge.source == original]
+				Plan.replaceArg(original, replacer)
 				# u.merge(v)
 				for edge in outgoing_edges:
-					edge.source = u
-				Plan.elements.remove(v)
-				replacers.append(u)
+					# edge.source = u
+					Plan.edges.remove(edge)
+					Plan.edges.add(Edge(replacer, edge.sink, edge.label))
+
+				replaced.append(original)
+
+		if len(Plan.Step_Graphs) != len(Actions):
+			raise ValueError("extra steps?")
 
 		# for edge in Plan.edges:
 		# 	if edge.label == 'effect-of':
@@ -304,30 +322,64 @@ class PlanElementGraph(ElementGraph):
 		# Plan.CausalLinkGraph = CausalLinkGraph()
 
 		# Plan.Steps = [A.root for A in Actions]
+		# Plan.edges = list(set(Plan.edges))
+
 		return Plan
 
 	def UnifyActions(self, P, G):
 		# Used by Plannify
 
-		NG = G.deepcopy(replace_internals=True)
-		for edge in list(NG.edges):
+		NG = G.deepcopy()
 
-			if edge.sink.replaced_ID == -1:
-				sink = copy.deepcopy(edge.sink)
-				sink.replaced_ID = edge.sink.ID
-				self.elements.add(sink)
-			else:
-				sink = P.getElmByRID(edge.sink.replaced_ID)
-				if sink is None:
-					sink = copy.deepcopy(edge.sink)
-					self.elements.add(sink)
+		already_added_dict = dict()
 
-			source = P.getElmByRID(edge.source.replaced_ID)
-			if source is None:
-				source = copy.deepcopy(edge.source)
-				self.elements.add(source)
+		for elm in P.elements:
+			# first, try to get operator tokens
+			e = NG.getElementById(elm.replaced_ID)
+			if e is None:
+				# then get other kinds
+				e = NG.getElmByRID(elm.replaced_ID)
+			if e is None:
+				return
+			already_added_dict[e] = elm
 
-			self.edges.add(Edge(source, sink, edge.label))
+		for edge in NG.edges:
+			if edge.source not in already_added_dict.keys():
+				if edge.source.replaced_ID == -1:
+					edge.source.replaced_ID = edge.source.ID
+				already_added_dict[edge.source] = edge.source
+				self.elements.add(edge.source)
+			if edge.sink not in already_added_dict.keys():
+				if edge.sink.replaced_ID == -1:
+					edge.sink.replaced_ID = edge.sink.ID
+				already_added_dict[edge.sink] = edge.sink
+				self.elements.add(edge.sink)
+			self.edges.add(Edge(already_added_dict[edge.source], already_added_dict[edge.sink], edge.label))
+
+		return True
+
+		# for elm in P.elements:
+		# 	NG.getElementById(elm.replaced_ID)
+		# 	NG.get
+		#
+		# for edge in list(NG.edges):
+		# 	# if edge.sink
+		# 	if edge.sink.replaced_ID == -1:
+		# 		sink = copy.deepcopy(edge.sink)
+		# 		sink.replaced_ID = edge.sink.ID
+		# 		self.elements.add(sink)
+		# 	else:
+		# 		sink = P.getElmByRID(edge.sink.replaced_ID)
+		# 		if sink is None:
+		# 			sink = copy.deepcopy(edge.sink)
+		# 			self.elements.add(sink)
+		#
+		# 	source = P.getElmByRID(edge.source.replaced_ID)
+		# 	if source is None:
+		# 		source = copy.deepcopy(edge.source)
+		# 		self.elements.add(source)
+		#
+		# 	self.edges.add(Edge(source, sink, edge.label))
 
 	def deepcopy(self):
 		new_self = copy.deepcopy(self)
@@ -386,8 +438,20 @@ class PlanElementGraph(ElementGraph):
 		return [Action.subgraph(self, step) for step in self.Steps]
 
 	@property
-	def Steps_Sorted(self):
-		pass
+	def Root_Graphs(self):
+		root_steps = []
+		for s in self.Steps:
+			nobodys_descendant = True
+			for t in self.Steps:
+				if s == t:
+					continue
+				if s in self.rGetDescendants(t):
+					nobodys_descendant = False
+					break
+			if nobodys_descendant:
+				root_steps.append(s)
+		return [Action.subgraph(self, step) for step in root_steps]
+
 
 	def detectTCLFperCL(self, GL, causal_link):
 		detectedThreatenedCausalLinks = set()
@@ -430,7 +494,7 @@ class PlanElementGraph(ElementGraph):
 
 	def __repr__(self):
 		c = '\ncost {} + heuristic {}'.format(self.cost, self.heuristic)
-		steps = [''.join('\t' + str(step) + '\n' for step in self.Step_Graphs)]
+		steps = [''.join('\t' + str(step) + '\n' for step in self.Root_Graphs)]
 		order = [''.join('\t' + str(ordering.source) + ' < ' + str(ordering.sink) + '\n' for ordering in
 			self.OrderingGraph.edges)]
 		links = [''.join('\t' + str(cl) + '\n' for cl in self.CausalLinkGraph.edges)]

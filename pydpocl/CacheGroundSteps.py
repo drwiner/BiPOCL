@@ -9,7 +9,7 @@ from Ground_Compiler_Library.Plannify import Plannify
 from Ground_Compiler_Library.Element import Argument, Actor, Operator, Literal
 from build_action_graph import parseDomAndProb
 from Ground_Compiler_Library.Graph import Edge
-from Ground_Compiler_Library.Flaws_unused import FlawLib
+from Flaws import FlawLib
 import hashlib
 
 #GStep = namedtuple('GStep', 'action pre_dict pre_link')
@@ -42,6 +42,9 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 			# replace the ID of the internal elements
 			gstep._replaceInternals()
 
+			# replacing these coordinates changes
+			gstep.replaceInternals()
+
 			# assign the step number (only one of the following should be necessary)
 			gstep.root.stepnumber = stepnum
 			gstep.root.arg_name = stepnum
@@ -53,18 +56,21 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 			# do only in cases when there are step-typed arguments (what about literal-typed arguments?
 			if gsd is not None:
 				for arg in gstep.Args:
-					if arg in gsd.keys():
-						step = gsd[arg]
-						""" possibly can just replaceArg and add elements without making copy... since everything will
-							get cloned anyway.
-						"""
-						# clone, but don't replace IDs because this isn't a new step, it's an existing step
-						arg_clone = step.deepcopy(replace_internals=True)
-						# swap argument with step root clone
-						gstep.replaceArg(arg, arg_clone.root)
-						# add elements and edges to gstep graph
-						gstep.elements.update(arg_clone.elements)
-						gstep.edges.update(arg_clone.edges)
+					if not hasattr(arg, 'stepnumber'):
+						continue
+					step = gsd[arg.stepnumber]
+					""" possibly can just replaceArg and add elements without making copy... since everything will
+						get cloned anyway.
+					"""
+					# clone, but don't replace IDs because this isn't a new step, it's an existing step
+					arg_clone = step.deepcopy(replace_internals=True)
+					arg_clone.root.replaced_ID = arg.ID
+					# swap argument with step root clone
+					gstep.replaceArg(arg, arg_clone.root)
+					# gstep.elements.remove(arg)
+					# add elements and edges to gstep graph
+					gstep.elements.update(arg_clone.elements)
+					gstep.edges.update(arg_clone.edges)
 
 
 			# if one of the args is an operator token
@@ -125,7 +131,6 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			dummy_init = Action(name='begin:' + str(gdo.name))
 			dummy_init.has_cndt = False
 			dummy_init.root.stepnumber = stepnum
-			dummy_init.stepnumber = stepnum
 			for condition in gdo.Preconditions:
 				dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
 				dummy_init.edges.update(condition.edges)
@@ -136,7 +141,6 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			dummy_goal = Action(name='finish:' + str(gdo.name))
 			dummy_goal.is_cndt = False
 			dummy_goal.root.stepnumber = stepnum
-			dummy_goal.stepnumber = stepnum
 			for condition in gdo.Effects:
 				dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
 				dummy_goal.edges.update(condition.edges)
@@ -149,7 +153,7 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 
 			gdo.ground_subplan = copy.deepcopy(sp)
 			gdo.root.stepnumber = stepnum
-			gdo.stepnumber = stepnum
+			# gdo.stepnumber = stepnum
 			gdo.ground_subplan.root = gdo.root
 			stepnum += 1
 			gdo.height = height + 1
@@ -177,13 +181,13 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 		if type(sp_elm) == Operator:
 			A = Action.subgraph(sp, sp_elm)
 			GDO.replaceArg(arg, A.root)
-			GDO.elements.remove(arg)
+			# GDO.elements.remove(arg)
 			GDO.elements.update(A.elements)
 			GDO.edges.update(A.edges)
 		elif type(sp_elm) == Literal:
 			C = Condition.subgraph(sp, sp_elm)
 			GDO.replaceArg(arg, C.root)
-			GDO.elements.remove(arg)
+			# GDO.elements.remove(arg)
 			GDO.elements.update(C.elements)
 			GDO.edges.update(C.edges)
 	GDO.updateArgs()
@@ -228,7 +232,7 @@ class GLib:
 		# camera steps
 		cam_operators = [op for op in prim_ops if op.root.typ == "step-c"]
 		ground_objects = objects + [fab.root for fab in self.fab_steps]
-		gstep_dict = {fab.root: fab for fab in self.fab_steps}
+		gstep_dict = {fab.stepnumber: fab for fab in self.fab_steps}
 		self.cam_steps = cache_ground_steps(cam_operators, ground_objects, obtypes, self.fab_steps[-1].stepnumber+1, gstep_dict)
 		# group these into sets based on only whether the preconditions and effects are different
 
@@ -244,7 +248,7 @@ class GLib:
 		self.cntg_mental = defaultdict(set)
 
 		print('...Creating PlanGraph base level')
-		# self.loadAll()
+		self.loadAll()
 
 		for i in range(3):
 			print('...Creating PlanGraph decompositional level {}'.format(i+1))
@@ -429,6 +433,9 @@ def load_from_pickle(pickle_name):
 			with open(pickle_name + str(i), 'rb') as ugly:
 				ground_steps.append(pickle.load(ugly))
 			i += 1
+			if ground_steps[-1].schema == "dummy_goal":
+				break
+
 		except:
 			break
 	return ground_steps
@@ -454,8 +461,8 @@ def load_pickles(pickle_name):
 
 
 if __name__ ==  '__main__':
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple_2.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem_2.pddl'
 	d_name = domain_file.split('/')[-1].split('.')[0]
 	p_name = problem_file.split('/')[-1].split('.')[0]
 	uploadable_pickle_name = d_name + '.' + p_name
@@ -465,9 +472,36 @@ if __name__ ==  '__main__':
 	pname = "pickles/" + uploadable_pickle_name + "_"
 
 
-	# gsteps = load_from_pickle(pname)
-	gsteps = load_pickles(pname)
+	gsteps = load_from_pickle(pname)
+	# gsteps = load_pickles(pname)
 	print('test')
+
+	# with open('ground_steps_stripped_unity_2.txt', 'w') as gs:
+	# 	# gs.write('\n\n')
+	# 	for i, step in enumerate(gsteps):
+	# 		gs.write('\n')
+	# 		gs.write(str(i) + '\n')
+	# 		gs.write(str(step))
+	# 		gs.write('\n\tpreconditions:')
+	# 		for pre in step.preconds:
+	# 			gs.write('\n\t\t' + str(pre))
+	# 			if step.cndt_map is not None:
+	# 				if pre.ID in step.cndt_map.keys():
+	# 					gs.write('\n\t\t\tcndts:\t{}'.format(str(step.cndt_map[pre.ID])))
+	# 			if step.threat_map is not None:
+	# 				if pre.ID in step.threat_map.keys():
+	# 					gs.write('\n\t\t\trisks:\t{}'.format(str(step.threat_map[pre.ID])))
+	#
+	# 		if step.height > 0:
+	# 			gs.write('\n\tsub_steps:')
+	# 			for sub in step.sub_steps:
+	# 				gs.write('\n\t\t{}'.format(str(sub)))
+	# 			gs.write('\n\tsub_orderings:')
+	# 			for ord in step.sub_orderings.edges:
+	# 				gs.write('\n\t\t{}'.format(str(ord.source) + ' < ' + str(ord.sink)))
+	# 			for link in step.sub_links.edges:
+	# 				gs.write('\n\t\t{}'.format(str(link)))
+	# 		gs.write('\n\n')
 
 	planner = GPlanner(gsteps)
 	planner.solve(k=1)

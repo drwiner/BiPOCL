@@ -1,6 +1,6 @@
 from Ground_Compiler_Library.Restrictions import Restriction
 import uuid
-from Ground_Compiler_Library.Graph import Graph
+from Ground_Compiler_Library.Graph import Graph, Edge
 import copy
 
 #if you subclass ElementGraph, please inform the authorities
@@ -82,11 +82,17 @@ class ElementGraph(Graph):
 
 	def replaceArg(self, original, replacer):
 
-		self.elements.add(replacer)
-		incoming = {edge for edge in self.edges if edge.sink == original}
+		incoming = [edge for edge in self.edges if edge.sink == original]
 		for edge in incoming:
-			edge.sink = replacer
-
+			try:
+				self.edges.remove(edge)
+			except:
+				print('here')
+			self.edges.add(Edge(edge.source, replacer, edge.label))
+			# edge.sink = replacer
+		if original in self.elements:
+			self.elements.remove(original)
+			self.elements.add(replacer)
 
 	def replaceArgs(self, arg_tuple):
 		"""

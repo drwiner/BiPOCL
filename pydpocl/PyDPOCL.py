@@ -297,13 +297,7 @@ class GPlanner:
 		self._h_visited.append(precond)
 
 		min_so_far = float('inf')
-		# if the following is true, then we have an "sub-init" step in our mist
-		if len(self.gsteps[stepnum].cndts) == 0:
-			stepnum += 2
-		try:
-			self.gsteps[stepnum].cndt_map[precond.ID]
-		except:
-			print('here')
+
 		for cndt in self.gsteps[stepnum].cndt_map[precond.ID]:
 			if not self.gsteps[cndt].instantiable:
 				continue

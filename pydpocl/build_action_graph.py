@@ -10,7 +10,7 @@ from Ground_Compiler_Library.Graph import Edge
 from Ground_Compiler_Library.Element import Argument, Operator, Literal, Element, Actor
 from Ground_Compiler_Library.pddl.parser import Parser, BipartiteStmt, Variable, parse_formula
 
-from Ground_Compiler_Library.Flaws_unused import FlawLib
+from Flaws import FlawLib
 
 # from Ground_Compiler_Library.pddlToGraphs import problemToGraphs
 
@@ -29,6 +29,21 @@ def get_arg_from_op(arg_formula, schema):
 		if arg_formula.name == arg.arg_name:
 			return arg
 	raise ValueError("missing arg from schema?")
+
+
+def get_arg_from_op_with_string(_arg, schema):
+	if hasattr(schema, "Args"):
+		schema.updateArgs()
+		for arg in schema.Args:
+			if _arg == arg.name:
+				return arg
+		return None
+		# ValueError("missing arg from schema?")
+	for arg in schema.elements:
+		if _arg == arg.name:
+			return arg
+	return None
+	# ValueError("missing arg from schema?")
 
 
 def convert_params(params, obj_types):
@@ -76,6 +91,12 @@ def build_literal(literal, schema):
 		arg = get_arg_from_op(predicate, schema)
 
 		return arg
+
+	if len(literal.children) == 0 and predicate != '-':
+		arg = get_arg_from_op_with_string(literal.key, schema)
+		if arg is not None:
+			return arg
+		# return arg
 
 	if hasattr(schema, "constants"):
 		# pass

@@ -1,7 +1,7 @@
 from Ground_Compiler_Library.PlanElementGraph import Action, PlanElementGraph, Condition
 from Ground_Compiler_Library.Element import Operator
 from Ground_Compiler_Library.Graph import Edge
-from Ground_Compiler_Library.Flaws_unused import Flaw
+from Flaws import Flaw
 
 from clockdeco import clock
 import copy
@@ -27,6 +27,10 @@ def Plannify(RQ, GL, h):
 	for i, W in enumerate(Worlds):
 		if not isArgNameConsistent(W):
 			continue
+		# if len(W) != len(RQ.Root_Graphs):
+		# 	continue
+		# if i > 1055:
+		# 	print('here')
 		p = PlanElementGraph.Actions_2_Plan(W,h)
 		if p is None:
 			continue
@@ -168,7 +172,7 @@ def Groundify(Planets, GL, has_links):
 	print('...Groundify - Unifying Actions with GL')
 	for i, Planet in enumerate(Planets):
 		print("... Planet {}".format(i))
-		for Step in Planet.Step_Graphs:
+		for Step in Planet.Root_Graphs:
 			print('... Unifying {} with {}'.format(Step, GL[Step.stepnumber]))
 			# Unify Actions (1) swaps step graphs with ground step
 			Planet.UnifyActions(Step, GL[Step.stepnumber])

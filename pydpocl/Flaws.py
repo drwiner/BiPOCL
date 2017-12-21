@@ -76,7 +76,7 @@ class DCF(Flaw):
 		self.criteria = len(f.Steps)
 		self.tiebreaker = f.root.stepnumber
 	def __repr__(self):
-		steps = [''.join(str(step) + ', ' for step in self.flaw.Step_Graphs)]
+		steps = [''.join(str(step) + ', ' for step in self.flaw.Root_Graphs)]
 		return 'DCF(' + ''.join(['{}'.format(step) for step in steps]) + 'criteria ={}, tb={})'.format(
 			self.criteria, self.tiebreaker)
 
