@@ -195,8 +195,13 @@ class GStep:
 		return self.ID == other.ID
 
 	def __str__(self):
-		args = str([arg.name if not isinstance(arg, ElementGraph) else arg for arg in self.Args])
-		return str(self.schema) + args + '_{}'.format(str(self.ID)[-4:])
+		# if len(self.Args) > 0 and type(self.Args[0]) == str:
+		# 	args = ""
+		# else:
+		# 	args = str([arg.name if not isinstance(arg, ElementGraph) else arg for arg in self.Args])
+		# return str(self.schema) + args + '_{}'.format(str(self.ID)[-4:])
+
+		return str(self.schema) + '_{}'.format(str(self.ID)[-4:])
 
 	def __repr__(self):
 		return self.__str__()
@@ -235,14 +240,14 @@ class GLiteral:
 		return self.name == other.name and self.Args == other.Args and self.truth == other.truth
 
 	def __repr__(self):
-		args = str([arg if not isinstance(arg, Argument) else arg.name for arg in self.Args])
+		# args = str([arg if not isinstance(arg, Argument) else arg.name for arg in self.Args])
 		#args = str([arg.name if not isinstance(arg, Action) else arg for arg in self.Args])
 		t = ''
 		if not self.truth:
 			t = 'not-'
 		if self.truth is None:
 			t = "(-)"
-		return '{}{}'.format(t, self.name) + args
+		return '{}{}'.format(t, self.name)
 
 
 #@clock

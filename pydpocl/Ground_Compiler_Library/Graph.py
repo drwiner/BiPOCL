@@ -165,7 +165,7 @@ class Graph(Element):
 		return Descendants
 
 	def rGetDescendantEdges(self, element, Descendant_Edges=None):
-		if Descendant_Edges == None:
+		if Descendant_Edges is None:
 			Descendant_Edges = set()
 		#Base Case
 		incident_Edges = self.getIncidentEdges(element)

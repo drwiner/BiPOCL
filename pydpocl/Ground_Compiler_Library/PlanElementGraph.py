@@ -112,6 +112,7 @@ class Action(ElementGraph):
 		for elm in self.elements:
 			if not isinstance(elm, Argument):
 				elm.ID = uuid4()
+
 		# need this to refresh mutable IDs
 		self.elements = set(list(self.elements))
 		self.edges = set(list(self.edges))
@@ -119,22 +120,43 @@ class Action(ElementGraph):
 	# USE THIS ONLY when creating GROUND STEPS for first time (replacing replaced_ID)
 	def _replaceInternals(self):
 		self.ID = uuid4()
-		for edge in self.edges:
-			if edge.source != self.root:
-				continue
-			if isinstance(edge.sink, Argument):
-				continue
-			edge.sink.replaced_ID = uuid4()
+		for elm in self.preconditions:
+			elm.replaced_ID = uuid4()
+		for elm in self.effects:
+			elm.replaced_ID = uuid4()
+		self.root.replaced_ID = uuid4()
+
+		""" Note to self: if you have a nested literal (e.g. Bel(intends(a, has(a, j))) )
+			then, the arguments won't get a new replaced_ID.
+		"""
+
+		# for elm in self.elements:
+		# 	if isinstance(elm, Argument):
+		# 		continue
+		# 	elif type(elm) == Operator and elm != self.root:
+		# 		continue
+		# 		# elm.replaced_ID = elm.ID
+		# 	else:
+		# 		elm.replaced_ID = uuid4()
+		# for elm in self.preconditions:
+		# 	elm.replaced_ID = uuid4()
+		# print('check')
+		# for edge in self.edges:
+		# 	if edge.source != self.root:
+		# 		continue
+		# 	if isinstance(edge.sink, Argument):
+		# 		continue
+		# 	edge.sink.replaced_ID = uuid4()
 
 		# for elm in self.elements:
 		# 	if not isinstance(elm, Argument) and not isinstance(elm, Operator):
 		# 		elm.replaced_ID = uuid4()
 
-	def deepcopy(self, replace_internals=False, _replace_internals=False):
+	def deepcopy(self, replace_internals=None, _replace_internals=None):
 		new_self = copy.deepcopy(self)
-		if replace_internals:
+		if replace_internals is not None:
 			new_self.replaceInternals()
-		if _replace_internals:
+		if _replace_internals is not None:
 			new_self._replaceInternals()
 		return new_self
 
@@ -156,10 +178,18 @@ class Action(ElementGraph):
 		if isinstance(other, Operator):
 			return self.root.isConsistent(other)
 
+
+	def argify(self, arg):
+		if isinstance(arg, Operator):
+			return str(Action.subgraph(self, arg))
+		elif isinstance(arg, Literal):
+			return str(Condition.subgraph(self, arg))
+		else:
+			return arg.name
+
 	def __repr__(self):
 		self.updateArgs()
-		args = str([arg.name if not isinstance(arg, ElementGraph) else arg for arg in
-				   self.Args])
+		args = str([self.argify(arg) for arg in self.Args])
 		if hasattr(self.root, 'executed'):
 			exe = self.root.executed
 			if exe is None:
@@ -220,9 +250,17 @@ class Condition(ElementGraph):
 			self.updateArgs()
 		return len([arg for arg in self.Args if arg.name is not None])
 
+	def argify(self, arg):
+		if isinstance(arg, Operator):
+			return Action.subgraph(self, arg).__repr__()
+		elif isinstance(arg, Literal):
+			return Condition.subgraph(self, arg).__repr__()
+		else:
+			return arg.name
+
 	def __repr__(self):
 		self.updateArgs()
-		args = str([arg.name if not isinstance(arg, Action) else arg for arg in self.Args])
+		args = str([self.argify(arg) for arg in self.Args])
 		t = ''
 		if not self.root.truth:
 			t = 'not-'
@@ -298,6 +336,8 @@ class PlanElementGraph(ElementGraph):
 						replacer = v
 						original = u
 						replacer.stepnumber = u.stepnumber
+					else:
+						replacer.stepnumber = v.stepnumber
 
 				outgoing_edges = [edge for edge in edges if edge.source == original]
 				Plan.replaceArg(original, replacer)
@@ -334,13 +374,15 @@ class PlanElementGraph(ElementGraph):
 		already_added_dict = dict()
 
 		for elm in P.elements:
+			print(elm.replaced_ID)
 			# first, try to get operator tokens
 			e = NG.getElementById(elm.replaced_ID)
 			if e is None:
 				# then get other kinds
 				e = NG.getElmByRID(elm.replaced_ID)
 			if e is None:
-				return
+				print("HERERER")
+				raise ValueError("cannot find elm: {}".format(elm))
 			already_added_dict[e] = elm
 
 		for edge in NG.edges:
@@ -350,7 +392,7 @@ class PlanElementGraph(ElementGraph):
 				already_added_dict[edge.source] = edge.source
 				self.elements.add(edge.source)
 			if edge.sink not in already_added_dict.keys():
-				if edge.sink.replaced_ID == -1:
+				if edge.sink.replaced_ID == -1 and not isinstance(edge.sink, Argument):
 					edge.sink.replaced_ID = edge.sink.ID
 				already_added_dict[edge.sink] = edge.sink
 				self.elements.add(edge.sink)

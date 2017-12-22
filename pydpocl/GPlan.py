@@ -76,7 +76,7 @@ class GPlan:
 
 	def insert(self, step):
 		# baseline condition:
-		# self.cost += 1
+		self.cost += 1
 		# self.cost += (2 * 2 + 1) - (step.height * step.height)
 		if step.height > 0:
 			self.insert_decomp(step)

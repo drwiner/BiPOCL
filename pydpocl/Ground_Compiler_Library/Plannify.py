@@ -54,7 +54,7 @@ def partialUnify(PS, _map):
 		return False
 #	NS = PS.deepcopy()
 	NS = copy.deepcopy(PS)
-	effects = [edge.sink for edge in NS.edges if edge.label == 'effect-of']
+	effects = [edge.sink for edge in NS.edges if edge.label == 'effect-of' and edge.source == NS.root]
 	for elm in effects:
 		if elm in _map:
 			g_elm = _map[elm]
@@ -75,7 +75,7 @@ def partialUnify(PS, _map):
 				NS.assign(elm, ge)
 				#elm.replaced_ID = g_elm.ID
 				#elm.ID = g_elm.ID
-	NS.root.stepnumber = PS.root.stepnumber
+	# NS.root.stepnumber = PS.root.stepnumber
 	NS.height = PS.height
 	NS.root.height = PS.root.height
 	NS.updateArgs()
@@ -249,7 +249,6 @@ class ActionLib:
 			 We don't just swap completely because we must respect global bindings for this world """
 			for map in elm_maps:
 				if len(map) == 0:
-					# why?
 					RS_copy = copy.deepcopy(self.RS)
 					RS_copy.root.merge(gs.root)
 					RS_copy.root.replaced_ID = gs.root.replaced_ID

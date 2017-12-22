@@ -38,6 +38,25 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 				continue
 
 			gstep = copy.deepcopy(op)
+			gstep.replaceArgs(t)
+			if gsd is not None:
+				for arg in gstep.Args:
+					if not hasattr(arg, 'stepnumber'):
+						continue
+					step = gsd[arg.stepnumber]
+					""" possibly can just replaceArg and add elements without making copy... since everything will
+						get cloned anyway.
+					"""
+					# clone, but don't replace IDs because this isn't a new step, it's an existing step
+					arg_clone = step.deepcopy(replace_internals=True)
+					# arg_clone.root.replaced_ID = arg.ID
+					arg_clone.root.replaced_ID = arg.replaced_ID
+					# swap argument with step root clone
+					gstep.replaceArg(arg, arg_clone.root)
+					# gstep.elements.remove(arg)
+					# add elements and edges to gstep graph
+					gstep.elements.update(arg_clone.elements)
+					gstep.edges.update(arg_clone.edges)
 
 			# replace the ID of the internal elements
 			gstep._replaceInternals()
@@ -50,27 +69,10 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 			gstep.root.arg_name = stepnum
 			stepnum += 1
 
-			# swap the leaves of the step with the objects in tuple "t"
-			gstep.replaceArgs(t)
+
 
 			# do only in cases when there are step-typed arguments (what about literal-typed arguments?
-			if gsd is not None:
-				for arg in gstep.Args:
-					if not hasattr(arg, 'stepnumber'):
-						continue
-					step = gsd[arg.stepnumber]
-					""" possibly can just replaceArg and add elements without making copy... since everything will
-						get cloned anyway.
-					"""
-					# clone, but don't replace IDs because this isn't a new step, it's an existing step
-					arg_clone = step.deepcopy(replace_internals=True)
-					arg_clone.root.replaced_ID = arg.ID
-					# swap argument with step root clone
-					gstep.replaceArg(arg, arg_clone.root)
-					# gstep.elements.remove(arg)
-					# add elements and edges to gstep graph
-					gstep.elements.update(arg_clone.elements)
-					gstep.edges.update(arg_clone.edges)
+
 
 
 			# if one of the args is an operator token
@@ -102,11 +104,12 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			sub_plans = Plannify(op.subplan, GL, height)
 		except:
 			continue
-		for sp in sub_plans:
-
+		print("num_subplans: " + str(len(sub_plans)))
+		for i, sp in enumerate(sub_plans):
+			print(i)
 			GDO = copy.deepcopy(op)
 			GDO.is_decomp = True
-
+			print("rewrite Elms")
 			# rewrites operator arguments based on groundings of sub-plan, provides alternatives
 			gdo = rewriteElms(GDO, sp, GL.objects, GL.object_types, height + 1)
 			if not gdo:
@@ -122,11 +125,12 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			# for gdo in gdos:
 
 			gdo.root.is_decomp = True
-
+			print('_replacing internals')
 			# swap constructor IDs and replaced_IDs
 			gdo._replaceInternals()
+			print('replacing internals')
 			gdo.replaceInternals()
-
+			print('init and dummy')
 			# Now create dummy init step and goal step
 			dummy_init = Action(name='begin:' + str(gdo.name))
 			dummy_init.has_cndt = False
@@ -142,6 +146,9 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 			dummy_goal.is_cndt = False
 			dummy_goal.root.stepnumber = stepnum
 			for condition in gdo.Effects:
+				if not GL.check_has_effect(condition, height+1):
+					# this is a pattern effect.
+					continue
 				dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
 				dummy_goal.edges.update(condition.edges)
 				dummy_goal.elements.update(condition.elements)
@@ -171,13 +178,16 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 
 	sp_arg_dict = {elm.arg_name: elm for elm in sp.elements}
 	needs_substituting = []
+	print(GDO)
 	for arg in GDO.Args:
+		print("arg: " + str(arg))
 		# if this arg isn't part of sub-plan (is that possible?)
 		if arg.arg_name not in sp_arg_dict.keys():
 			if arg.name is None:
 				needs_substituting.append(arg)
 			raise ValueError("just checking if this is possible")
 		sp_elm = sp_arg_dict[arg.arg_name]
+		print("suplan elm: " + str(sp_elm))
 		if type(sp_elm) == Operator:
 			A = Action.subgraph(sp, sp_elm)
 			GDO.replaceArg(arg, A.root)
@@ -190,6 +200,7 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 			# GDO.elements.remove(arg)
 			GDO.elements.update(C.elements)
 			GDO.edges.update(C.edges)
+	print('almost out')
 	GDO.updateArgs()
 	for (u,v) in GDO.nonequals:
 		if GDO.Args[u] == GDO.Args[v]:
@@ -339,7 +350,26 @@ class GLib:
 				count += 1
 		return count
 
+	def check_has_effect(self, condition, height):
+		pre_name = condition.name
+		if pre_name in ALU_TERMS:
+			pre_name = pre_name[:-4]
 
+		for gstep in self:
+			if gstep.height < height:
+				continue
+			for Eff in gstep.Effects:
+
+				if Eff.name != pre_name.name:
+					continue
+				if len(Eff.Args) != len(condition.Args):
+					continue
+				if Eff.truth != condition.truth:
+					continue
+				if not is_equal_args(Eff.Args, condition.Args, gstep, condition):
+					continue
+				return True
+		return False
 
 	# def getPotentialLinkConditions(self, src, snk):
 	# 	cndts = []
@@ -441,7 +471,7 @@ def load_from_pickle(pickle_name):
 	return ground_steps
 
 
-def load_pickles(pickle_name):
+def create_pickles(pickle_name):
 	operators, decomps, objects, object_types, initAction, goalAction = parseDomAndProb(domain_file, problem_file)
 
 	print("creating ground actions......\n")
@@ -458,11 +488,20 @@ def load_pickles(pickle_name):
 
 # def append_cache(pickle_name):
 
+def view(condition, literal):
+	c = Condition.subgraph(condition, literal)
+	print(c)
+	for arg in c.Args:
+		if type(arg) == Literal:
+			view(condition, arg)
+		else:
+			print(arg)
+
 
 
 if __name__ ==  '__main__':
 	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple_2.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem_2.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem_3.pddl'
 	d_name = domain_file.split('/')[-1].split('.')[0]
 	p_name = problem_file.split('/')[-1].split('.')[0]
 	uploadable_pickle_name = d_name + '.' + p_name
@@ -472,36 +511,36 @@ if __name__ ==  '__main__':
 	pname = "pickles/" + uploadable_pickle_name + "_"
 
 
-	gsteps = load_from_pickle(pname)
-	# gsteps = load_pickles(pname)
+	# gsteps = load_from_pickle(pname)
+	gsteps = create_pickles(pname)
 	print('test')
 
-	# with open('ground_steps_stripped_unity_2.txt', 'w') as gs:
-	# 	# gs.write('\n\n')
-	# 	for i, step in enumerate(gsteps):
-	# 		gs.write('\n')
-	# 		gs.write(str(i) + '\n')
-	# 		gs.write(str(step))
-	# 		gs.write('\n\tpreconditions:')
-	# 		for pre in step.preconds:
-	# 			gs.write('\n\t\t' + str(pre))
-	# 			if step.cndt_map is not None:
-	# 				if pre.ID in step.cndt_map.keys():
-	# 					gs.write('\n\t\t\tcndts:\t{}'.format(str(step.cndt_map[pre.ID])))
-	# 			if step.threat_map is not None:
-	# 				if pre.ID in step.threat_map.keys():
-	# 					gs.write('\n\t\t\trisks:\t{}'.format(str(step.threat_map[pre.ID])))
-	#
-	# 		if step.height > 0:
-	# 			gs.write('\n\tsub_steps:')
-	# 			for sub in step.sub_steps:
-	# 				gs.write('\n\t\t{}'.format(str(sub)))
-	# 			gs.write('\n\tsub_orderings:')
-	# 			for ord in step.sub_orderings.edges:
-	# 				gs.write('\n\t\t{}'.format(str(ord.source) + ' < ' + str(ord.sink)))
-	# 			for link in step.sub_links.edges:
-	# 				gs.write('\n\t\t{}'.format(str(link)))
-	# 		gs.write('\n\n')
+	with open('gs_' + uploadable_pickle_name, 'w') as gs:
+		# gs.write('\n\n')
+		for i, step in enumerate(gsteps):
+			gs.write('\n')
+			gs.write(str(i) + '\n')
+			gs.write(str(step))
+			gs.write('\n\tpreconditions:')
+			for pre in step.preconds:
+				gs.write('\n\t\t' + str(pre))
+				if step.cndt_map is not None:
+					if pre.ID in step.cndt_map.keys():
+						gs.write('\n\t\t\tcndts:\t{}'.format(str(step.cndt_map[pre.ID])))
+				if step.threat_map is not None:
+					if pre.ID in step.threat_map.keys():
+						gs.write('\n\t\t\trisks:\t{}'.format(str(step.threat_map[pre.ID])))
+
+			if step.height > 0:
+				gs.write('\n\tsub_steps:')
+				for sub in step.sub_steps:
+					gs.write('\n\t\t{}'.format(str(sub)))
+				gs.write('\n\tsub_orderings:')
+				for ord in step.sub_orderings.edges:
+					gs.write('\n\t\t{}'.format(str(ord.source) + ' < ' + str(ord.sink)))
+				for link in step.sub_links.edges:
+					gs.write('\n\t\t{}'.format(str(link)))
+			gs.write('\n\n')
 
 	planner = GPlanner(gsteps)
 	planner.solve(k=1)

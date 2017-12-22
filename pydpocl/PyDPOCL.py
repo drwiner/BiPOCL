@@ -207,7 +207,7 @@ class GPlanner:
 
 			# new_plan.cost += ((self.max_height*self.max_height)+1) - (new_step.height*new_step.height)
 			# new_plan.cost += self.max_height + 1 - new_step.height
-			new_plan.cost += 1
+			# new_plan.cost += 1
 			# self.max_height + 1 - new_step.height
 
 			# insert our new mutated plan into the frontier
@@ -301,8 +301,8 @@ class GPlanner:
 		for cndt in self.gsteps[stepnum].cndt_map[precond.ID]:
 			if not self.gsteps[cndt].instantiable:
 				continue
-			if not self.gsteps[cndt].height == 0:
-				continue
+			# if not self.gsteps[cndt].height == 0:
+			# 	continue
 			cndt_heuristic = self.h_step(plan, cndt)
 			if cndt_heuristic < min_so_far:
 				min_so_far = cndt_heuristic

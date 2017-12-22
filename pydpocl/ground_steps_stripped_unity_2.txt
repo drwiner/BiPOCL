@@ -1,1630 +1,1480 @@
 
 0
-strut['cowboy', 'far-left', 'duel-left']_5c67
+strut-0-8226['cowboy', 'far-left', 'duel-left']_f582
 	preconditions:
-		at['cowboy', 'far-left']
+		at
 			cndts:	[192, 9, 3, 6]
 			risks:	[0, 1, 2]
 
 
 1
-strut['cowboy', 'far-left', 'duel-right']_9e32
+strut-1-915c['cowboy', 'far-left', 'duel-right']_782c
 	preconditions:
-		at['cowboy', 'far-left']
+		at
 			cndts:	[192, 9, 3, 6]
 			risks:	[0, 1, 2]
 
 
 2
-strut['cowboy', 'far-left', 'far-right']_b5c4
+strut-2-b088['cowboy', 'far-left', 'far-right']_68fb
 	preconditions:
-		at['cowboy', 'far-left']
+		at
 			cndts:	[192, 9, 3, 6]
 			risks:	[0, 1, 2]
 
 
 3
-strut['cowboy', 'duel-left', 'far-left']_a802
+strut-3-b769['cowboy', 'duel-left', 'far-left']_07af
 	preconditions:
-		at['cowboy', 'duel-left']
+		at
 			cndts:	[0, 10, 7]
 			risks:	[192, 3, 4, 5]
 
 
 4
-strut['cowboy', 'duel-left', 'duel-right']_f257
+strut-4-8a79['cowboy', 'duel-left', 'duel-right']_c997
 	preconditions:
-		at['cowboy', 'duel-left']
+		at
 			cndts:	[0, 10, 7]
 			risks:	[192, 3, 4, 5]
 
 
 5
-strut['cowboy', 'duel-left', 'far-right']_ed23
+strut-5-8ea4['cowboy', 'duel-left', 'far-right']_3d0b
 	preconditions:
-		at['cowboy', 'duel-left']
+		at
 			cndts:	[0, 10, 7]
 			risks:	[192, 3, 4, 5]
 
 
 6
-strut['cowboy', 'duel-right', 'far-left']_91a4
+strut-6-860b['cowboy', 'duel-right', 'far-left']_11cc
 	preconditions:
-		at['cowboy', 'duel-right']
+		at
 			cndts:	[1, 11, 4]
 			risks:	[8, 6, 7]
 
 
 7
-strut['cowboy', 'duel-right', 'duel-left']_d9ff
+strut-7-b853['cowboy', 'duel-right', 'duel-left']_eda8
 	preconditions:
-		at['cowboy', 'duel-right']
+		at
 			cndts:	[1, 11, 4]
 			risks:	[8, 6, 7]
 
 
 8
-strut['cowboy', 'duel-right', 'far-right']_0c44
+strut-8-800b['cowboy', 'duel-right', 'far-right']_3f9d
 	preconditions:
-		at['cowboy', 'duel-right']
+		at
 			cndts:	[1, 11, 4]
 			risks:	[8, 6, 7]
 
 
 9
-strut['cowboy', 'far-right', 'far-left']_9380
+strut-9-abff['cowboy', 'far-right', 'far-left']_3fb3
 	preconditions:
-		at['cowboy', 'far-right']
+		at
 			cndts:	[8, 2, 5]
 			risks:	[9, 10, 11]
 
 
 10
-strut['cowboy', 'far-right', 'duel-left']_aec4
+strut-10-a271['cowboy', 'far-right', 'duel-left']_4ccf
 	preconditions:
-		at['cowboy', 'far-right']
+		at
 			cndts:	[8, 2, 5]
 			risks:	[9, 10, 11]
 
 
 11
-strut['cowboy', 'far-right', 'duel-right']_2c3d
+strut-11-bdde['cowboy', 'far-right', 'duel-right']_b7f9
 	preconditions:
-		at['cowboy', 'far-right']
+		at
 			cndts:	[8, 2, 5]
 			risks:	[9, 10, 11]
 
 
 12
-strut['bandit', 'far-left', 'duel-left']_19f9
+strut-12-bbce['bandit', 'far-left', 'duel-left']_0fa8
 	preconditions:
-		at['bandit', 'far-left']
+		at
 			cndts:	[18, 21, 15]
 			risks:	[12, 13, 14]
 
 
 13
-strut['bandit', 'far-left', 'duel-right']_f210
+strut-13-87da['bandit', 'far-left', 'duel-right']_5f4e
 	preconditions:
-		at['bandit', 'far-left']
+		at
 			cndts:	[18, 21, 15]
 			risks:	[12, 13, 14]
 
 
 14
-strut['bandit', 'far-left', 'far-right']_dbc4
+strut-14-a3c2['bandit', 'far-left', 'far-right']_155b
 	preconditions:
-		at['bandit', 'far-left']
+		at
 			cndts:	[18, 21, 15]
 			risks:	[12, 13, 14]
 
 
 15
-strut['bandit', 'duel-left', 'far-left']_3691
+strut-15-bf30['bandit', 'duel-left', 'far-left']_26e1
 	preconditions:
-		at['bandit', 'duel-left']
+		at
 			cndts:	[19, 12, 22]
 			risks:	[16, 17, 15]
 
 
 16
-strut['bandit', 'duel-left', 'duel-right']_0de7
+strut-16-b50a['bandit', 'duel-left', 'duel-right']_c297
 	preconditions:
-		at['bandit', 'duel-left']
+		at
 			cndts:	[19, 12, 22]
 			risks:	[16, 17, 15]
 
 
 17
-strut['bandit', 'duel-left', 'far-right']_9de1
+strut-17-9222['bandit', 'duel-left', 'far-right']_319b
 	preconditions:
-		at['bandit', 'duel-left']
+		at
 			cndts:	[19, 12, 22]
 			risks:	[16, 17, 15]
 
 
 18
-strut['bandit', 'duel-right', 'far-left']_9310
+strut-18-9503['bandit', 'duel-right', 'far-left']_f158
 	preconditions:
-		at['bandit', 'duel-right']
+		at
 			cndts:	[16, 13, 23]
 			risks:	[18, 19, 20]
 
 
 19
-strut['bandit', 'duel-right', 'duel-left']_3f4a
+strut-19-ac3a['bandit', 'duel-right', 'duel-left']_47cd
 	preconditions:
-		at['bandit', 'duel-right']
+		at
 			cndts:	[16, 13, 23]
 			risks:	[18, 19, 20]
 
 
 20
-strut['bandit', 'duel-right', 'far-right']_9481
+strut-20-8b31['bandit', 'duel-right', 'far-right']_1457
 	preconditions:
-		at['bandit', 'duel-right']
+		at
 			cndts:	[16, 13, 23]
 			risks:	[18, 19, 20]
 
 
 21
-strut['bandit', 'far-right', 'far-left']_17c3
+strut-21-816d['bandit', 'far-right', 'far-left']_6e44
 	preconditions:
-		at['bandit', 'far-right']
+		at
 			cndts:	[192, 17, 20, 14]
 			risks:	[21, 22, 23]
 
 
 22
-strut['bandit', 'far-right', 'duel-left']_df96
+strut-22-9862['bandit', 'far-right', 'duel-left']_1d28
 	preconditions:
-		at['bandit', 'far-right']
+		at
 			cndts:	[192, 17, 20, 14]
 			risks:	[21, 22, 23]
 
 
 23
-strut['bandit', 'far-right', 'duel-right']_27fb
+strut-23-8dd3['bandit', 'far-right', 'duel-right']_3799
 	preconditions:
-		at['bandit', 'far-right']
+		at
 			cndts:	[192, 17, 20, 14]
 			risks:	[21, 22, 23]
 
 
 24
-cam-step-shot['strut']_bef4
+cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_299d
 	preconditions:
 
 
 25
-cam-step-shot['strut']_4b72
+cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_ecb8
 	preconditions:
 
 
 26
-cam-step-shot['strut']_19f4
+cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_4ca6
 	preconditions:
 
 
 27
-cam-step-shot['strut']_ef98
+cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_1c20
 	preconditions:
 
 
 28
-cam-step-shot['strut']_af3a
+cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_5057
 	preconditions:
 
 
 29
-cam-step-shot['strut']_aa37
+cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_4302
 	preconditions:
 
 
 30
-cam-step-shot['strut']_7ad4
+cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_5c85
 	preconditions:
 
 
 31
-cam-step-shot['strut']_05d1
+cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_2d03
 	preconditions:
 
 
 32
-cam-step-shot['strut']_dd55
+cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_41f5
 	preconditions:
 
 
 33
-cam-step-shot['strut']_d91e
+cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_c0fa
 	preconditions:
 
 
 34
-cam-step-shot['strut']_779d
+cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_35ab
 	preconditions:
 
 
 35
-cam-step-shot['strut']_ee09
+cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_ed06
 	preconditions:
 
 
 36
-cam-step-shot['strut']_fa15
+cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_786f
 	preconditions:
 
 
 37
-cam-step-shot['strut']_f619
+cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_1831
 	preconditions:
 
 
 38
-cam-step-shot['strut']_675f
+cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_34f0
 	preconditions:
 
 
 39
-cam-step-shot['strut']_211a
+cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_848d
 	preconditions:
 
 
 40
-cam-step-shot['strut']_170f
+cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_407d
 	preconditions:
 
 
 41
-cam-step-shot['strut']_c05a
+cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_1c99
 	preconditions:
 
 
 42
-cam-step-shot['strut']_a65a
+cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_e2ab
 	preconditions:
 
 
 43
-cam-step-shot['strut']_3853
+cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_245e
 	preconditions:
 
 
 44
-cam-step-shot['strut']_a722
+cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_2033
 	preconditions:
 
 
 45
-cam-step-shot['strut']_d5c7
+cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_b93f
 	preconditions:
 
 
 46
-cam-step-shot['strut']_44e0
+cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_bc21
 	preconditions:
 
 
 47
-cam-step-shot['strut']_b362
+cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_6ec0
 	preconditions:
 
 
 48
-begin:convey-state[]_c1ba
+begin:convey-state(48)_cf63
 	preconditions:
 
 
 49
-finish:convey-state[]_c8a7
+finish:convey-state(49)_6f4c
 	preconditions:
-		bel[literal-90bf-False-at]
-			cndts:	[65, 50, 59]
-			risks:	[]
 
 
 50
-convey-state['at']_bd33
+convey-state-50-b065["not-at['cowboy', 'far-left']"]_f9d4
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_38e4
-		cam-step-shot['strut']_5ac5
+		cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_5315
+		strut-0-8226['cowboy', 'far-left', 'duel-left']_0196
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_38e4 < finish:convey-state[]_af86
-		begin:convey-state[]_456a < finish:convey-state[]_af86
-		begin:convey-state[]_456a < strut['cowboy', 'far-left', 'duel-left']_38e4
-		cam-step-shot['strut']_5ac5 < finish:convey-state[]_af86
-		begin:convey-state[]_456a < cam-step-shot['strut']_5ac5
+		begin:convey-state(48)_c901 < finish:convey-state(49)_147b
+		strut-0-8226['cowboy', 'far-left', 'duel-left']_0196 < finish:convey-state(49)_147b
+		begin:convey-state(48)_c901 < cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_5315
+		cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_5315 < finish:convey-state(49)_147b
+		begin:convey-state(48)_c901 < strut-0-8226['cowboy', 'far-left', 'duel-left']_0196
 
 
 51
-begin:convey-state[]_d056
+begin:convey-state(51)_b4a4
 	preconditions:
 
 
 52
-finish:convey-state[]_b691
+finish:convey-state(52)_12b9
 	preconditions:
-		bel[literal-a612-True-at]
-			cndts:	[113, 92, 53]
-			risks:	[]
 
 
 53
-convey-state['at']_e5f5
+convey-state-53-ae35["at['cowboy', 'duel-left']"]_f4b7
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_4508
-		cam-step-shot['strut']_17cf
+		cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_dc91
+		strut-0-8226['cowboy', 'far-left', 'duel-left']_7d3d
 	sub_orderings:
-		begin:convey-state[]_be71 < strut['cowboy', 'far-left', 'duel-left']_4508
-		begin:convey-state[]_be71 < finish:convey-state[]_f3c3
-		cam-step-shot['strut']_17cf < finish:convey-state[]_f3c3
-		strut['cowboy', 'far-left', 'duel-left']_4508 < finish:convey-state[]_f3c3
-		begin:convey-state[]_be71 < cam-step-shot['strut']_17cf
+		strut-0-8226['cowboy', 'far-left', 'duel-left']_7d3d < finish:convey-state(52)_cc95
+		cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_dc91 < finish:convey-state(52)_cc95
+		begin:convey-state(51)_e4b1 < finish:convey-state(52)_cc95
+		begin:convey-state(51)_e4b1 < cam-step-shot-24-8e3e["strut-0-9358['cowboy', 'far-left', 'duel-left']"]_dc91
+		begin:convey-state(51)_e4b1 < strut-0-8226['cowboy', 'far-left', 'duel-left']_7d3d
 
 
 54
-begin:convey-state[]_f7c0
+begin:convey-state(54)_5abf
 	preconditions:
 
 
 55
-finish:convey-state[]_57bb
+finish:convey-state(55)_4f8f
 	preconditions:
-		bel[literal-96dc-True-at]
-			cndts:	[56, 77, 119]
-			risks:	[]
 
 
 56
-convey-state['at']_3a4c
+convey-state-56-8e0a["not-at['cowboy', 'far-left']"]_0846
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_13b3
-		cam-step-shot['strut']_76b9
+		cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_ab4f
+		strut-1-915c['cowboy', 'far-left', 'duel-right']_8c4e
 	sub_orderings:
-		cam-step-shot['strut']_76b9 < finish:convey-state[]_2b0d
-		strut['cowboy', 'far-left', 'duel-left']_13b3 < finish:convey-state[]_2b0d
-		begin:convey-state[]_8e42 < finish:convey-state[]_2b0d
-		begin:convey-state[]_8e42 < cam-step-shot['strut']_76b9
-		begin:convey-state[]_8e42 < strut['cowboy', 'far-left', 'duel-left']_13b3
+		cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_ab4f < finish:convey-state(55)_3155
+		begin:convey-state(54)_29a9 < cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_ab4f
+		begin:convey-state(54)_29a9 < finish:convey-state(55)_3155
+		strut-1-915c['cowboy', 'far-left', 'duel-right']_8c4e < finish:convey-state(55)_3155
+		begin:convey-state(54)_29a9 < strut-1-915c['cowboy', 'far-left', 'duel-right']_8c4e
 
 
 57
-begin:convey-state[]_a58f
+begin:convey-state(57)_6deb
 	preconditions:
 
 
 58
-finish:convey-state[]_dce8
+finish:convey-state(58)_a333
 	preconditions:
-		bel[literal-9b46-False-at]
-			cndts:	[65, 50, 59]
-			risks:	[]
 
 
 59
-convey-state['at']_2ee8
+convey-state-59-9b48["at['cowboy', 'duel-right']"]_88d6
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_5012
-		cam-step-shot['strut']_4ecb
+		cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_9531
+		strut-1-915c['cowboy', 'far-left', 'duel-right']_fd05
 	sub_orderings:
-		begin:convey-state[]_4bbf < strut['cowboy', 'far-left', 'duel-left']_5012
-		strut['cowboy', 'far-left', 'duel-left']_5012 < finish:convey-state[]_ac47
-		begin:convey-state[]_4bbf < cam-step-shot['strut']_4ecb
-		cam-step-shot['strut']_4ecb < finish:convey-state[]_ac47
-		begin:convey-state[]_4bbf < finish:convey-state[]_ac47
+		begin:convey-state(57)_ea41 < finish:convey-state(58)_5196
+		strut-1-915c['cowboy', 'far-left', 'duel-right']_fd05 < finish:convey-state(58)_5196
+		begin:convey-state(57)_ea41 < strut-1-915c['cowboy', 'far-left', 'duel-right']_fd05
+		begin:convey-state(57)_ea41 < cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_9531
+		cam-step-shot-25-b099["strut-1-a155['cowboy', 'far-left', 'duel-right']"]_9531 < finish:convey-state(58)_5196
 
 
 60
-begin:convey-state[]_36d7
+begin:convey-state(60)_fe43
 	preconditions:
 
 
 61
-finish:convey-state[]_7e63
+finish:convey-state(61)_b44d
 	preconditions:
-		bel[literal-bc48-True-at]
-			cndts:	[83, 101, 62]
-			risks:	[]
 
 
 62
-convey-state['at']_c2dd
+convey-state-62-9b06["at['cowboy', 'far-right']"]_f766
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_d908
-		cam-step-shot['strut']_0653
+		cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_37b3
+		strut-2-b088['cowboy', 'far-left', 'far-right']_e7a6
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_d908 < finish:convey-state[]_4058
-		begin:convey-state[]_1877 < cam-step-shot['strut']_0653
-		begin:convey-state[]_1877 < finish:convey-state[]_4058
-		begin:convey-state[]_1877 < strut['cowboy', 'far-left', 'duel-left']_d908
-		cam-step-shot['strut']_0653 < finish:convey-state[]_4058
+		strut-2-b088['cowboy', 'far-left', 'far-right']_e7a6 < finish:convey-state(61)_be68
+		begin:convey-state(60)_0b4f < cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_37b3
+		cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_37b3 < finish:convey-state(61)_be68
+		begin:convey-state(60)_0b4f < strut-2-b088['cowboy', 'far-left', 'far-right']_e7a6
+		begin:convey-state(60)_0b4f < finish:convey-state(61)_be68
 
 
 63
-begin:convey-state[]_ce4e
+begin:convey-state(63)_d206
 	preconditions:
 
 
 64
-finish:convey-state[]_c76d
+finish:convey-state(64)_3422
 	preconditions:
-		bel[literal-b210-False-at]
-			cndts:	[65, 50, 59]
-			risks:	[]
 
 
 65
-convey-state['at']_e5f8
+convey-state-65-b0fb["not-at['cowboy', 'far-left']"]_e785
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_1bef
-		cam-step-shot['strut']_b438
+		cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_b677
+		strut-2-b088['cowboy', 'far-left', 'far-right']_225d
 	sub_orderings:
-		begin:convey-state[]_4058 < strut['cowboy', 'far-left', 'duel-left']_1bef
-		begin:convey-state[]_4058 < cam-step-shot['strut']_b438
-		begin:convey-state[]_4058 < finish:convey-state[]_80f5
-		strut['cowboy', 'far-left', 'duel-left']_1bef < finish:convey-state[]_80f5
-		cam-step-shot['strut']_b438 < finish:convey-state[]_80f5
+		begin:convey-state(63)_74fa < cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_b677
+		begin:convey-state(63)_74fa < strut-2-b088['cowboy', 'far-left', 'far-right']_225d
+		cam-step-shot-26-a051["strut-2-ac53['cowboy', 'far-left', 'far-right']"]_b677 < finish:convey-state(64)_c1f2
+		strut-2-b088['cowboy', 'far-left', 'far-right']_225d < finish:convey-state(64)_c1f2
+		begin:convey-state(63)_74fa < finish:convey-state(64)_c1f2
 
 
 66
-begin:convey-state[]_8e1f
+begin:convey-state(66)_e861
 	preconditions:
 
 
 67
-finish:convey-state[]_8f46
+finish:convey-state(67)_0f90
 	preconditions:
-		bel[literal-975f-True-at]
-			cndts:	[192, 107, 68, 86]
-			risks:	[]
 
 
 68
-convey-state['at']_3d33
+convey-state-68-9097["at['cowboy', 'far-left']"]_5704
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_35b1
-		cam-step-shot['strut']_1a98
+		cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_785c
+		strut-3-b769['cowboy', 'duel-left', 'far-left']_c7fa
 	sub_orderings:
-		cam-step-shot['strut']_1a98 < finish:convey-state[]_d259
-		begin:convey-state[]_6ecf < cam-step-shot['strut']_1a98
-		begin:convey-state[]_6ecf < finish:convey-state[]_d259
-		strut['cowboy', 'far-left', 'duel-left']_35b1 < finish:convey-state[]_d259
-		begin:convey-state[]_6ecf < strut['cowboy', 'far-left', 'duel-left']_35b1
+		begin:convey-state(66)_681b < cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_785c
+		begin:convey-state(66)_681b < strut-3-b769['cowboy', 'duel-left', 'far-left']_c7fa
+		begin:convey-state(66)_681b < finish:convey-state(67)_132b
+		strut-3-b769['cowboy', 'duel-left', 'far-left']_c7fa < finish:convey-state(67)_132b
+		cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_785c < finish:convey-state(67)_132b
 
 
 69
-begin:convey-state[]_6296
+begin:convey-state(69)_cd52
 	preconditions:
 
 
 70
-finish:convey-state[]_25d8
+finish:convey-state(70)_55eb
 	preconditions:
-		bel[literal-a448-False-at]
-			cndts:	[80, 74, 71]
-			risks:	[]
 
 
 71
-convey-state['at']_c40b
+convey-state-71-b467["not-at['cowboy', 'duel-left']"]_6844
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_cf88
-		cam-step-shot['strut']_f1df
+		cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_2afc
+		strut-3-b769['cowboy', 'duel-left', 'far-left']_bedd
 	sub_orderings:
-		begin:convey-state[]_3010 < finish:convey-state[]_2a8f
-		cam-step-shot['strut']_f1df < finish:convey-state[]_2a8f
-		begin:convey-state[]_3010 < strut['cowboy', 'far-left', 'duel-left']_cf88
-		strut['cowboy', 'far-left', 'duel-left']_cf88 < finish:convey-state[]_2a8f
-		begin:convey-state[]_3010 < cam-step-shot['strut']_f1df
+		strut-3-b769['cowboy', 'duel-left', 'far-left']_bedd < finish:convey-state(70)_669f
+		begin:convey-state(69)_1b41 < finish:convey-state(70)_669f
+		cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_2afc < finish:convey-state(70)_669f
+		begin:convey-state(69)_1b41 < cam-step-shot-27-a423["strut-3-92f0['cowboy', 'duel-left', 'far-left']"]_2afc
+		begin:convey-state(69)_1b41 < strut-3-b769['cowboy', 'duel-left', 'far-left']_bedd
 
 
 72
-begin:convey-state[]_413a
+begin:convey-state(72)_73dc
 	preconditions:
 
 
 73
-finish:convey-state[]_ceed
+finish:convey-state(73)_9455
 	preconditions:
-		bel[literal-866e-False-at]
-			cndts:	[80, 74, 71]
-			risks:	[]
 
 
 74
-convey-state['at']_e8f4
+convey-state-74-9739["at['cowboy', 'duel-right']"]_6238
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_e08e
-		cam-step-shot['strut']_59a9
+		cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_c668
+		strut-4-8a79['cowboy', 'duel-left', 'duel-right']_9e72
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_e08e < finish:convey-state[]_a127
-		begin:convey-state[]_48c9 < strut['cowboy', 'far-left', 'duel-left']_e08e
-		begin:convey-state[]_48c9 < finish:convey-state[]_a127
-		cam-step-shot['strut']_59a9 < finish:convey-state[]_a127
-		begin:convey-state[]_48c9 < cam-step-shot['strut']_59a9
+		begin:convey-state(72)_f5ce < cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_c668
+		cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_c668 < finish:convey-state(73)_5f6b
+		begin:convey-state(72)_f5ce < strut-4-8a79['cowboy', 'duel-left', 'duel-right']_9e72
+		strut-4-8a79['cowboy', 'duel-left', 'duel-right']_9e72 < finish:convey-state(73)_5f6b
+		begin:convey-state(72)_f5ce < finish:convey-state(73)_5f6b
 
 
 75
-begin:convey-state[]_595e
+begin:convey-state(75)_ab6f
 	preconditions:
 
 
 76
-finish:convey-state[]_ba9f
+finish:convey-state(76)_9eed
 	preconditions:
-		bel[literal-b742-True-at]
-			cndts:	[56, 77, 119]
-			risks:	[]
 
 
 77
-convey-state['at']_54b3
+convey-state-77-bac8["not-at['cowboy', 'duel-left']"]_7e37
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_98d9
-		cam-step-shot['strut']_8314
+		cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_5f9a
+		strut-4-8a79['cowboy', 'duel-left', 'duel-right']_1884
 	sub_orderings:
-		cam-step-shot['strut']_8314 < finish:convey-state[]_0043
-		strut['cowboy', 'far-left', 'duel-left']_98d9 < finish:convey-state[]_0043
-		begin:convey-state[]_459c < finish:convey-state[]_0043
-		begin:convey-state[]_459c < cam-step-shot['strut']_8314
-		begin:convey-state[]_459c < strut['cowboy', 'far-left', 'duel-left']_98d9
+		begin:convey-state(75)_fcef < finish:convey-state(76)_db45
+		strut-4-8a79['cowboy', 'duel-left', 'duel-right']_1884 < finish:convey-state(76)_db45
+		begin:convey-state(75)_fcef < strut-4-8a79['cowboy', 'duel-left', 'duel-right']_1884
+		begin:convey-state(75)_fcef < cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_5f9a
+		cam-step-shot-28-b467["strut-4-a918['cowboy', 'duel-left', 'duel-right']"]_5f9a < finish:convey-state(76)_db45
 
 
 78
-begin:convey-state[]_2ec1
+begin:convey-state(78)_cb12
 	preconditions:
 
 
 79
-finish:convey-state[]_f159
+finish:convey-state(79)_cf3a
 	preconditions:
-		bel[literal-a05e-False-at]
-			cndts:	[80, 74, 71]
-			risks:	[]
 
 
 80
-convey-state['at']_1a99
+convey-state-80-8867["at['cowboy', 'far-right']"]_4ffd
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_313e
-		cam-step-shot['strut']_f378
+		cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_9727
+		strut-5-8ea4['cowboy', 'duel-left', 'far-right']_be02
 	sub_orderings:
-		begin:convey-state[]_a8e0 < finish:convey-state[]_b91e
-		strut['cowboy', 'far-left', 'duel-left']_313e < finish:convey-state[]_b91e
-		begin:convey-state[]_a8e0 < cam-step-shot['strut']_f378
-		begin:convey-state[]_a8e0 < strut['cowboy', 'far-left', 'duel-left']_313e
-		cam-step-shot['strut']_f378 < finish:convey-state[]_b91e
+		cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_9727 < finish:convey-state(79)_f6f4
+		begin:convey-state(78)_d51e < strut-5-8ea4['cowboy', 'duel-left', 'far-right']_be02
+		strut-5-8ea4['cowboy', 'duel-left', 'far-right']_be02 < finish:convey-state(79)_f6f4
+		begin:convey-state(78)_d51e < finish:convey-state(79)_f6f4
+		begin:convey-state(78)_d51e < cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_9727
 
 
 81
-begin:convey-state[]_19db
+begin:convey-state(81)_428d
 	preconditions:
 
 
 82
-finish:convey-state[]_8e31
+finish:convey-state(82)_cfe8
 	preconditions:
-		bel[literal-8ef7-True-at]
-			cndts:	[83, 101, 62]
-			risks:	[]
 
 
 83
-convey-state['at']_1141
+convey-state-83-8b02["not-at['cowboy', 'duel-left']"]_7df8
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_a89f
-		cam-step-shot['strut']_81cd
+		cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_c37f
+		strut-5-8ea4['cowboy', 'duel-left', 'far-right']_f408
 	sub_orderings:
-		cam-step-shot['strut']_81cd < finish:convey-state[]_3731
-		begin:convey-state[]_2c55 < finish:convey-state[]_3731
-		strut['cowboy', 'far-left', 'duel-left']_a89f < finish:convey-state[]_3731
-		begin:convey-state[]_2c55 < strut['cowboy', 'far-left', 'duel-left']_a89f
-		begin:convey-state[]_2c55 < cam-step-shot['strut']_81cd
+		begin:convey-state(81)_8cf7 < finish:convey-state(82)_3ea8
+		begin:convey-state(81)_8cf7 < cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_c37f
+		strut-5-8ea4['cowboy', 'duel-left', 'far-right']_f408 < finish:convey-state(82)_3ea8
+		cam-step-shot-29-bd2a["strut-5-b397['cowboy', 'duel-left', 'far-right']"]_c37f < finish:convey-state(82)_3ea8
+		begin:convey-state(81)_8cf7 < strut-5-8ea4['cowboy', 'duel-left', 'far-right']_f408
 
 
 84
-begin:convey-state[]_af92
+begin:convey-state(84)_4c56
 	preconditions:
 
 
 85
-finish:convey-state[]_68a5
+finish:convey-state(85)_e6c3
 	preconditions:
-		bel[literal-b928-True-at]
-			cndts:	[192, 107, 68, 86]
-			risks:	[]
 
 
 86
-convey-state['at']_ecba
+convey-state-86-a204["not-at['cowboy', 'duel-right']"]_8cb9
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_2bc9
-		cam-step-shot['strut']_a644
+		cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_35b0
+		strut-6-860b['cowboy', 'duel-right', 'far-left']_6684
 	sub_orderings:
-		begin:convey-state[]_6a5f < finish:convey-state[]_46d5
-		strut['cowboy', 'far-left', 'duel-left']_2bc9 < finish:convey-state[]_46d5
-		cam-step-shot['strut']_a644 < finish:convey-state[]_46d5
-		begin:convey-state[]_6a5f < strut['cowboy', 'far-left', 'duel-left']_2bc9
-		begin:convey-state[]_6a5f < cam-step-shot['strut']_a644
+		strut-6-860b['cowboy', 'duel-right', 'far-left']_6684 < finish:convey-state(85)_093c
+		cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_35b0 < finish:convey-state(85)_093c
+		begin:convey-state(84)_6d0a < cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_35b0
+		begin:convey-state(84)_6d0a < strut-6-860b['cowboy', 'duel-right', 'far-left']_6684
+		begin:convey-state(84)_6d0a < finish:convey-state(85)_093c
 
 
 87
-begin:convey-state[]_e387
+begin:convey-state(87)_183a
 	preconditions:
 
 
 88
-finish:convey-state[]_2ce3
+finish:convey-state(88)_fa1a
 	preconditions:
-		bel[literal-bff6-False-at]
-			cndts:	[89, 98, 95]
-			risks:	[]
 
 
 89
-convey-state['at']_1300
+convey-state-89-9920["at['cowboy', 'far-left']"]_5283
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_b2ff
-		cam-step-shot['strut']_9ab7
+		cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_2400
+		strut-6-860b['cowboy', 'duel-right', 'far-left']_43e1
 	sub_orderings:
-		cam-step-shot['strut']_9ab7 < finish:convey-state[]_0dc0
-		strut['cowboy', 'far-left', 'duel-left']_b2ff < finish:convey-state[]_0dc0
-		begin:convey-state[]_ae20 < finish:convey-state[]_0dc0
-		begin:convey-state[]_ae20 < cam-step-shot['strut']_9ab7
-		begin:convey-state[]_ae20 < strut['cowboy', 'far-left', 'duel-left']_b2ff
+		begin:convey-state(87)_a078 < strut-6-860b['cowboy', 'duel-right', 'far-left']_43e1
+		strut-6-860b['cowboy', 'duel-right', 'far-left']_43e1 < finish:convey-state(88)_7e39
+		cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_2400 < finish:convey-state(88)_7e39
+		begin:convey-state(87)_a078 < cam-step-shot-30-8c31["strut-6-9a9b['cowboy', 'duel-right', 'far-left']"]_2400
+		begin:convey-state(87)_a078 < finish:convey-state(88)_7e39
 
 
 90
-begin:convey-state[]_0c98
+begin:convey-state(90)_addf
 	preconditions:
 
 
 91
-finish:convey-state[]_aa1c
+finish:convey-state(91)_9e0a
 	preconditions:
-		bel[literal-8865-True-at]
-			cndts:	[113, 92, 53]
-			risks:	[]
 
 
 92
-convey-state['at']_c58a
+convey-state-92-9313["not-at['cowboy', 'duel-right']"]_e36b
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_d158
-		cam-step-shot['strut']_c431
+		cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_3832
+		strut-7-b853['cowboy', 'duel-right', 'duel-left']_e5c3
 	sub_orderings:
-		begin:convey-state[]_1dd2 < strut['cowboy', 'far-left', 'duel-left']_d158
-		begin:convey-state[]_1dd2 < cam-step-shot['strut']_c431
-		begin:convey-state[]_1dd2 < finish:convey-state[]_8314
-		strut['cowboy', 'far-left', 'duel-left']_d158 < finish:convey-state[]_8314
-		cam-step-shot['strut']_c431 < finish:convey-state[]_8314
+		begin:convey-state(90)_528d < cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_3832
+		cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_3832 < finish:convey-state(91)_9c37
+		begin:convey-state(90)_528d < strut-7-b853['cowboy', 'duel-right', 'duel-left']_e5c3
+		strut-7-b853['cowboy', 'duel-right', 'duel-left']_e5c3 < finish:convey-state(91)_9c37
+		begin:convey-state(90)_528d < finish:convey-state(91)_9c37
 
 
 93
-begin:convey-state[]_f8be
+begin:convey-state(93)_c2b4
 	preconditions:
 
 
 94
-finish:convey-state[]_9558
+finish:convey-state(94)_7e49
 	preconditions:
-		bel[literal-949f-False-at]
-			cndts:	[89, 98, 95]
-			risks:	[]
 
 
 95
-convey-state['at']_d959
+convey-state-95-ab2a["at['cowboy', 'duel-left']"]_7150
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_e40d
-		cam-step-shot['strut']_5367
+		cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_3568
+		strut-7-b853['cowboy', 'duel-right', 'duel-left']_8da0
 	sub_orderings:
-		cam-step-shot['strut']_5367 < finish:convey-state[]_7a06
-		begin:convey-state[]_45ce < finish:convey-state[]_7a06
-		begin:convey-state[]_45ce < cam-step-shot['strut']_5367
-		begin:convey-state[]_45ce < strut['cowboy', 'far-left', 'duel-left']_e40d
-		strut['cowboy', 'far-left', 'duel-left']_e40d < finish:convey-state[]_7a06
+		begin:convey-state(93)_6cfb < strut-7-b853['cowboy', 'duel-right', 'duel-left']_8da0
+		begin:convey-state(93)_6cfb < cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_3568
+		begin:convey-state(93)_6cfb < finish:convey-state(94)_126d
+		strut-7-b853['cowboy', 'duel-right', 'duel-left']_8da0 < finish:convey-state(94)_126d
+		cam-step-shot-31-81d8["strut-7-8535['cowboy', 'duel-right', 'duel-left']"]_3568 < finish:convey-state(94)_126d
 
 
 96
-begin:convey-state[]_7c43
+begin:convey-state(96)_db7f
 	preconditions:
 
 
 97
-finish:convey-state[]_09ad
+finish:convey-state(97)_57c9
 	preconditions:
-		bel[literal-a7f0-False-at]
-			cndts:	[89, 98, 95]
-			risks:	[]
 
 
 98
-convey-state['at']_b7fa
+convey-state-98-9976["not-at['cowboy', 'duel-right']"]_250d
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_ae9f
-		cam-step-shot['strut']_5bf6
+		cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_27e4
+		strut-8-800b['cowboy', 'duel-right', 'far-right']_179c
 	sub_orderings:
-		cam-step-shot['strut']_5bf6 < finish:convey-state[]_ab75
-		begin:convey-state[]_4731 < cam-step-shot['strut']_5bf6
-		begin:convey-state[]_4731 < finish:convey-state[]_ab75
-		strut['cowboy', 'far-left', 'duel-left']_ae9f < finish:convey-state[]_ab75
-		begin:convey-state[]_4731 < strut['cowboy', 'far-left', 'duel-left']_ae9f
+		begin:convey-state(96)_ac0e < strut-8-800b['cowboy', 'duel-right', 'far-right']_179c
+		begin:convey-state(96)_ac0e < cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_27e4
+		begin:convey-state(96)_ac0e < finish:convey-state(97)_0337
+		cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_27e4 < finish:convey-state(97)_0337
+		strut-8-800b['cowboy', 'duel-right', 'far-right']_179c < finish:convey-state(97)_0337
 
 
 99
-begin:convey-state[]_7d26
+begin:convey-state(99)_1fd1
 	preconditions:
 
 
 100
-finish:convey-state[]_35c0
+finish:convey-state(100)_ac32
 	preconditions:
-		bel[literal-840d-True-at]
-			cndts:	[83, 101, 62]
-			risks:	[]
 
 
 101
-convey-state['at']_0edf
+convey-state-101-b001["at['cowboy', 'far-right']"]_8774
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_8240
-		cam-step-shot['strut']_9e85
+		cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_f1c2
+		strut-8-800b['cowboy', 'duel-right', 'far-right']_d49e
 	sub_orderings:
-		begin:convey-state[]_6ca9 < cam-step-shot['strut']_9e85
-		strut['cowboy', 'far-left', 'duel-left']_8240 < finish:convey-state[]_5da8
-		begin:convey-state[]_6ca9 < finish:convey-state[]_5da8
-		cam-step-shot['strut']_9e85 < finish:convey-state[]_5da8
-		begin:convey-state[]_6ca9 < strut['cowboy', 'far-left', 'duel-left']_8240
+		begin:convey-state(99)_7f72 < strut-8-800b['cowboy', 'duel-right', 'far-right']_d49e
+		begin:convey-state(99)_7f72 < cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_f1c2
+		begin:convey-state(99)_7f72 < finish:convey-state(100)_df3a
+		cam-step-shot-32-a74e["strut-8-8682['cowboy', 'duel-right', 'far-right']"]_f1c2 < finish:convey-state(100)_df3a
+		strut-8-800b['cowboy', 'duel-right', 'far-right']_d49e < finish:convey-state(100)_df3a
 
 
 102
-begin:convey-state[]_2f13
+begin:convey-state(102)_9e12
 	preconditions:
 
 
 103
-finish:convey-state[]_1fd4
+finish:convey-state(103)_4e84
 	preconditions:
-		bel[literal-ae05-False-at]
-			cndts:	[104, 116, 110]
-			risks:	[]
 
 
 104
-convey-state['at']_538d
+convey-state-104-9f71["not-at['cowboy', 'far-right']"]_740e
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_a0b4
-		cam-step-shot['strut']_32e9
+		cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_5ee2
+		strut-9-abff['cowboy', 'far-right', 'far-left']_916f
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_a0b4 < finish:convey-state[]_6496
-		begin:convey-state[]_5901 < cam-step-shot['strut']_32e9
-		begin:convey-state[]_5901 < finish:convey-state[]_6496
-		cam-step-shot['strut']_32e9 < finish:convey-state[]_6496
-		begin:convey-state[]_5901 < strut['cowboy', 'far-left', 'duel-left']_a0b4
+		cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_5ee2 < finish:convey-state(103)_cbd2
+		strut-9-abff['cowboy', 'far-right', 'far-left']_916f < finish:convey-state(103)_cbd2
+		begin:convey-state(102)_ab6d < cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_5ee2
+		begin:convey-state(102)_ab6d < strut-9-abff['cowboy', 'far-right', 'far-left']_916f
+		begin:convey-state(102)_ab6d < finish:convey-state(103)_cbd2
 
 
 105
-begin:convey-state[]_df6b
+begin:convey-state(105)_573d
 	preconditions:
 
 
 106
-finish:convey-state[]_590e
+finish:convey-state(106)_327c
 	preconditions:
-		bel[literal-ab51-True-at]
-			cndts:	[192, 107, 68, 86]
-			risks:	[]
 
 
 107
-convey-state['at']_7b56
+convey-state-107-8b54["at['cowboy', 'far-left']"]_ff8c
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_c12a
-		cam-step-shot['strut']_5fbc
+		cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_9810
+		strut-9-abff['cowboy', 'far-right', 'far-left']_0349
 	sub_orderings:
-		begin:convey-state[]_397f < finish:convey-state[]_4235
-		begin:convey-state[]_397f < cam-step-shot['strut']_5fbc
-		cam-step-shot['strut']_5fbc < finish:convey-state[]_4235
-		strut['cowboy', 'far-left', 'duel-left']_c12a < finish:convey-state[]_4235
-		begin:convey-state[]_397f < strut['cowboy', 'far-left', 'duel-left']_c12a
+		strut-9-abff['cowboy', 'far-right', 'far-left']_0349 < finish:convey-state(106)_dbaf
+		begin:convey-state(105)_1b08 < finish:convey-state(106)_dbaf
+		begin:convey-state(105)_1b08 < cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_9810
+		cam-step-shot-33-aca0["strut-9-9a26['cowboy', 'far-right', 'far-left']"]_9810 < finish:convey-state(106)_dbaf
+		begin:convey-state(105)_1b08 < strut-9-abff['cowboy', 'far-right', 'far-left']_0349
 
 
 108
-begin:convey-state[]_2ea1
+begin:convey-state(108)_5395
 	preconditions:
 
 
 109
-finish:convey-state[]_a323
+finish:convey-state(109)_516c
 	preconditions:
-		bel[literal-9b59-False-at]
-			cndts:	[104, 116, 110]
-			risks:	[]
 
 
 110
-convey-state['at']_9d7e
+convey-state-110-bb95["not-at['cowboy', 'far-right']"]_4c56
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_6170
-		cam-step-shot['strut']_faf8
+		cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_01db
+		strut-10-a271['cowboy', 'far-right', 'duel-left']_f5c8
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_6170 < finish:convey-state[]_b0b9
-		begin:convey-state[]_f8cc < cam-step-shot['strut']_faf8
-		begin:convey-state[]_f8cc < strut['cowboy', 'far-left', 'duel-left']_6170
-		begin:convey-state[]_f8cc < finish:convey-state[]_b0b9
-		cam-step-shot['strut']_faf8 < finish:convey-state[]_b0b9
+		begin:convey-state(108)_325e < cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_01db
+		cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_01db < finish:convey-state(109)_21a0
+		strut-10-a271['cowboy', 'far-right', 'duel-left']_f5c8 < finish:convey-state(109)_21a0
+		begin:convey-state(108)_325e < finish:convey-state(109)_21a0
+		begin:convey-state(108)_325e < strut-10-a271['cowboy', 'far-right', 'duel-left']_f5c8
 
 
 111
-begin:convey-state[]_1fe8
+begin:convey-state(111)_5f5f
 	preconditions:
 
 
 112
-finish:convey-state[]_d319
+finish:convey-state(112)_993e
 	preconditions:
-		bel[literal-a739-True-at]
-			cndts:	[113, 92, 53]
-			risks:	[]
 
 
 113
-convey-state['at']_b241
+convey-state-113-9ef4["at['cowboy', 'duel-left']"]_0545
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_97cc
-		cam-step-shot['strut']_e991
+		cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_d06c
+		strut-10-a271['cowboy', 'far-right', 'duel-left']_14b5
 	sub_orderings:
-		begin:convey-state[]_e7c7 < strut['cowboy', 'far-left', 'duel-left']_97cc
-		begin:convey-state[]_e7c7 < cam-step-shot['strut']_e991
-		strut['cowboy', 'far-left', 'duel-left']_97cc < finish:convey-state[]_7700
-		cam-step-shot['strut']_e991 < finish:convey-state[]_7700
-		begin:convey-state[]_e7c7 < finish:convey-state[]_7700
+		begin:convey-state(111)_4a1a < cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_d06c
+		begin:convey-state(111)_4a1a < finish:convey-state(112)_0eea
+		strut-10-a271['cowboy', 'far-right', 'duel-left']_14b5 < finish:convey-state(112)_0eea
+		begin:convey-state(111)_4a1a < strut-10-a271['cowboy', 'far-right', 'duel-left']_14b5
+		cam-step-shot-34-8b1f["strut-10-9635['cowboy', 'far-right', 'duel-left']"]_d06c < finish:convey-state(112)_0eea
 
 
 114
-begin:convey-state[]_ef2b
+begin:convey-state(114)_2c21
 	preconditions:
 
 
 115
-finish:convey-state[]_1efa
+finish:convey-state(115)_5521
 	preconditions:
-		bel[literal-ad76-False-at]
-			cndts:	[104, 116, 110]
-			risks:	[]
 
 
 116
-convey-state['at']_39e3
+convey-state-116-9c79["not-at['cowboy', 'far-right']"]_8087
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_5d71
-		cam-step-shot['strut']_5fab
+		cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_3b08
+		strut-11-bdde['cowboy', 'far-right', 'duel-right']_a42f
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_5d71 < finish:convey-state[]_1390
-		cam-step-shot['strut']_5fab < finish:convey-state[]_1390
-		begin:convey-state[]_66f3 < strut['cowboy', 'far-left', 'duel-left']_5d71
-		begin:convey-state[]_66f3 < finish:convey-state[]_1390
-		begin:convey-state[]_66f3 < cam-step-shot['strut']_5fab
+		strut-11-bdde['cowboy', 'far-right', 'duel-right']_a42f < finish:convey-state(115)_d1c4
+		begin:convey-state(114)_83fa < finish:convey-state(115)_d1c4
+		begin:convey-state(114)_83fa < cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_3b08
+		begin:convey-state(114)_83fa < strut-11-bdde['cowboy', 'far-right', 'duel-right']_a42f
+		cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_3b08 < finish:convey-state(115)_d1c4
 
 
 117
-begin:convey-state[]_d781
+begin:convey-state(117)_5b4e
 	preconditions:
 
 
 118
-finish:convey-state[]_83e8
+finish:convey-state(118)_e870
 	preconditions:
-		bel[literal-a6c3-True-at]
-			cndts:	[56, 77, 119]
-			risks:	[]
 
 
 119
-convey-state['at']_a0b4
+convey-state-119-9fe2["at['cowboy', 'duel-right']"]_2113
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_7cd1
-		cam-step-shot['strut']_a8a1
+		cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_9a54
+		strut-11-bdde['cowboy', 'far-right', 'duel-right']_09a3
 	sub_orderings:
-		begin:convey-state[]_73d2 < cam-step-shot['strut']_a8a1
-		begin:convey-state[]_73d2 < finish:convey-state[]_640f
-		begin:convey-state[]_73d2 < strut['cowboy', 'far-left', 'duel-left']_7cd1
-		strut['cowboy', 'far-left', 'duel-left']_7cd1 < finish:convey-state[]_640f
-		cam-step-shot['strut']_a8a1 < finish:convey-state[]_640f
+		begin:convey-state(117)_a4a4 < strut-11-bdde['cowboy', 'far-right', 'duel-right']_09a3
+		begin:convey-state(117)_a4a4 < cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_9a54
+		cam-step-shot-35-9ff8["strut-11-8a5f['cowboy', 'far-right', 'duel-right']"]_9a54 < finish:convey-state(118)_f74c
+		begin:convey-state(117)_a4a4 < finish:convey-state(118)_f74c
+		strut-11-bdde['cowboy', 'far-right', 'duel-right']_09a3 < finish:convey-state(118)_f74c
 
 
 120
-begin:convey-state[]_991a
+begin:convey-state(120)_42c9
 	preconditions:
 
 
 121
-finish:convey-state[]_898b
+finish:convey-state(121)_c0fb
 	preconditions:
-		bel[literal-aa8b-False-at]
-			cndts:	[128, 122, 134]
-			risks:	[]
 
 
 122
-convey-state['at']_727f
+convey-state-122-b2d2["not-at['bandit', 'far-left']"]_eaf6
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_640d
-		cam-step-shot['strut']_0180
+		cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_4498
+		strut-12-bbce['bandit', 'far-left', 'duel-left']_b518
 	sub_orderings:
-		cam-step-shot['strut']_0180 < finish:convey-state[]_4888
-		strut['cowboy', 'far-left', 'duel-left']_640d < finish:convey-state[]_4888
-		begin:convey-state[]_24d8 < cam-step-shot['strut']_0180
-		begin:convey-state[]_24d8 < strut['cowboy', 'far-left', 'duel-left']_640d
-		begin:convey-state[]_24d8 < finish:convey-state[]_4888
+		cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_4498 < finish:convey-state(121)_96b9
+		begin:convey-state(120)_5cb0 < strut-12-bbce['bandit', 'far-left', 'duel-left']_b518
+		begin:convey-state(120)_5cb0 < cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_4498
+		strut-12-bbce['bandit', 'far-left', 'duel-left']_b518 < finish:convey-state(121)_96b9
+		begin:convey-state(120)_5cb0 < finish:convey-state(121)_96b9
 
 
 123
-begin:convey-state[]_3934
+begin:convey-state(123)_607e
 	preconditions:
 
 
 124
-finish:convey-state[]_e633
+finish:convey-state(124)_d60a
 	preconditions:
-		bel[literal-bda3-True-at]
-			cndts:	[125, 182, 167]
-			risks:	[]
 
 
 125
-convey-state['at']_337c
+convey-state-125-99a0["at['bandit', 'duel-left']"]_dbea
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_2116
-		cam-step-shot['strut']_f2e4
+		cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_9a39
+		strut-12-bbce['bandit', 'far-left', 'duel-left']_0c86
 	sub_orderings:
-		begin:convey-state[]_f1b3 < strut['cowboy', 'far-left', 'duel-left']_2116
-		begin:convey-state[]_f1b3 < cam-step-shot['strut']_f2e4
-		cam-step-shot['strut']_f2e4 < finish:convey-state[]_5ef6
-		strut['cowboy', 'far-left', 'duel-left']_2116 < finish:convey-state[]_5ef6
-		begin:convey-state[]_f1b3 < finish:convey-state[]_5ef6
+		begin:convey-state(123)_25cb < finish:convey-state(124)_4cfb
+		cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_9a39 < finish:convey-state(124)_4cfb
+		strut-12-bbce['bandit', 'far-left', 'duel-left']_0c86 < finish:convey-state(124)_4cfb
+		begin:convey-state(123)_25cb < cam-step-shot-36-8987["strut-12-bec9['bandit', 'far-left', 'duel-left']"]_9a39
+		begin:convey-state(123)_25cb < strut-12-bbce['bandit', 'far-left', 'duel-left']_0c86
 
 
 126
-begin:convey-state[]_b6bd
+begin:convey-state(126)_7712
 	preconditions:
 
 
 127
-finish:convey-state[]_3937
+finish:convey-state(127)_ca19
 	preconditions:
-		bel[literal-ad7a-False-at]
-			cndts:	[128, 122, 134]
-			risks:	[]
 
 
 128
-convey-state['at']_2e30
+convey-state-128-aca5["at['bandit', 'duel-right']"]_9214
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_9196
-		cam-step-shot['strut']_daa6
+		cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_a5eb
+		strut-13-87da['bandit', 'far-left', 'duel-right']_44e6
 	sub_orderings:
-		begin:convey-state[]_d600 < cam-step-shot['strut']_daa6
-		begin:convey-state[]_d600 < strut['cowboy', 'far-left', 'duel-left']_9196
-		strut['cowboy', 'far-left', 'duel-left']_9196 < finish:convey-state[]_54c7
-		cam-step-shot['strut']_daa6 < finish:convey-state[]_54c7
-		begin:convey-state[]_d600 < finish:convey-state[]_54c7
+		begin:convey-state(126)_14ea < cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_a5eb
+		cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_a5eb < finish:convey-state(127)_7839
+		strut-13-87da['bandit', 'far-left', 'duel-right']_44e6 < finish:convey-state(127)_7839
+		begin:convey-state(126)_14ea < strut-13-87da['bandit', 'far-left', 'duel-right']_44e6
+		begin:convey-state(126)_14ea < finish:convey-state(127)_7839
 
 
 129
-begin:convey-state[]_556e
+begin:convey-state(129)_f8cb
 	preconditions:
 
 
 130
-finish:convey-state[]_8cf4
+finish:convey-state(130)_4a0e
 	preconditions:
-		bel[literal-933a-True-at]
-			cndts:	[146, 131, 191]
-			risks:	[]
 
 
 131
-convey-state['at']_3dbd
+convey-state-131-9078["not-at['bandit', 'far-left']"]_4833
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_5e77
-		cam-step-shot['strut']_cb77
+		cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_f199
+		strut-13-87da['bandit', 'far-left', 'duel-right']_22cf
 	sub_orderings:
-		cam-step-shot['strut']_cb77 < finish:convey-state[]_c7bb
-		begin:convey-state[]_ae68 < finish:convey-state[]_c7bb
-		strut['cowboy', 'far-left', 'duel-left']_5e77 < finish:convey-state[]_c7bb
-		begin:convey-state[]_ae68 < strut['cowboy', 'far-left', 'duel-left']_5e77
-		begin:convey-state[]_ae68 < cam-step-shot['strut']_cb77
+		cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_f199 < finish:convey-state(130)_68da
+		begin:convey-state(129)_f35b < cam-step-shot-37-9126["strut-13-aa5d['bandit', 'far-left', 'duel-right']"]_f199
+		begin:convey-state(129)_f35b < finish:convey-state(130)_68da
+		strut-13-87da['bandit', 'far-left', 'duel-right']_22cf < finish:convey-state(130)_68da
+		begin:convey-state(129)_f35b < strut-13-87da['bandit', 'far-left', 'duel-right']_22cf
 
 
 132
-begin:convey-state[]_7455
+begin:convey-state(132)_1904
 	preconditions:
 
 
 133
-finish:convey-state[]_aecd
+finish:convey-state(133)_4847
 	preconditions:
-		bel[literal-ab85-False-at]
-			cndts:	[128, 122, 134]
-			risks:	[]
 
 
 134
-convey-state['at']_c2c7
+convey-state-134-8340["not-at['bandit', 'far-left']"]_528a
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_24ca
-		cam-step-shot['strut']_096b
+		cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_2985
+		strut-14-a3c2['bandit', 'far-left', 'far-right']_a242
 	sub_orderings:
-		begin:convey-state[]_3ef7 < finish:convey-state[]_6522
-		strut['cowboy', 'far-left', 'duel-left']_24ca < finish:convey-state[]_6522
-		cam-step-shot['strut']_096b < finish:convey-state[]_6522
-		begin:convey-state[]_3ef7 < cam-step-shot['strut']_096b
-		begin:convey-state[]_3ef7 < strut['cowboy', 'far-left', 'duel-left']_24ca
+		begin:convey-state(132)_f29f < cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_2985
+		cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_2985 < finish:convey-state(133)_e933
+		begin:convey-state(132)_f29f < finish:convey-state(133)_e933
+		strut-14-a3c2['bandit', 'far-left', 'far-right']_a242 < finish:convey-state(133)_e933
+		begin:convey-state(132)_f29f < strut-14-a3c2['bandit', 'far-left', 'far-right']_a242
 
 
 135
-begin:convey-state[]_6990
+begin:convey-state(135)_ccf2
 	preconditions:
 
 
 136
-finish:convey-state[]_1627
+finish:convey-state(136)_7f77
 	preconditions:
-		bel[literal-8684-True-at]
-			cndts:	[152, 137, 170, 192]
-			risks:	[]
 
 
 137
-convey-state['at']_47ed
+convey-state-137-b3da["at['bandit', 'far-right']"]_1e69
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_2f8b
-		cam-step-shot['strut']_0073
+		cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_b5eb
+		strut-14-a3c2['bandit', 'far-left', 'far-right']_a40b
 	sub_orderings:
-		begin:convey-state[]_2430 < cam-step-shot['strut']_0073
-		cam-step-shot['strut']_0073 < finish:convey-state[]_8834
-		begin:convey-state[]_2430 < strut['cowboy', 'far-left', 'duel-left']_2f8b
-		begin:convey-state[]_2430 < finish:convey-state[]_8834
-		strut['cowboy', 'far-left', 'duel-left']_2f8b < finish:convey-state[]_8834
+		begin:convey-state(135)_7008 < strut-14-a3c2['bandit', 'far-left', 'far-right']_a40b
+		begin:convey-state(135)_7008 < finish:convey-state(136)_bbdf
+		begin:convey-state(135)_7008 < cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_b5eb
+		strut-14-a3c2['bandit', 'far-left', 'far-right']_a40b < finish:convey-state(136)_bbdf
+		cam-step-shot-38-8342["strut-14-8a88['bandit', 'far-left', 'far-right']"]_b5eb < finish:convey-state(136)_bbdf
 
 
 138
-begin:convey-state[]_d92d
+begin:convey-state(138)_0b34
 	preconditions:
 
 
 139
-finish:convey-state[]_ef5f
+finish:convey-state(139)_e46a
 	preconditions:
-		bel[literal-a2a0-False-at]
-			cndts:	[155, 140, 149]
-			risks:	[]
 
 
 140
-convey-state['at']_a270
+convey-state-140-8470["not-at['bandit', 'duel-left']"]_7f78
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_2cfa
-		cam-step-shot['strut']_3d4f
+		cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_a7a5
+		strut-15-bf30['bandit', 'duel-left', 'far-left']_8bdf
 	sub_orderings:
-		begin:convey-state[]_d250 < strut['cowboy', 'far-left', 'duel-left']_2cfa
-		strut['cowboy', 'far-left', 'duel-left']_2cfa < finish:convey-state[]_4b85
-		begin:convey-state[]_d250 < finish:convey-state[]_4b85
-		begin:convey-state[]_d250 < cam-step-shot['strut']_3d4f
-		cam-step-shot['strut']_3d4f < finish:convey-state[]_4b85
+		begin:convey-state(138)_5305 < strut-15-bf30['bandit', 'duel-left', 'far-left']_8bdf
+		strut-15-bf30['bandit', 'duel-left', 'far-left']_8bdf < finish:convey-state(139)_e826
+		begin:convey-state(138)_5305 < cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_a7a5
+		cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_a7a5 < finish:convey-state(139)_e826
+		begin:convey-state(138)_5305 < finish:convey-state(139)_e826
 
 
 141
-begin:convey-state[]_1922
+begin:convey-state(141)_23ec
 	preconditions:
 
 
 142
-finish:convey-state[]_be72
+finish:convey-state(142)_3913
 	preconditions:
-		bel[literal-99e6-True-at]
-			cndts:	[161, 179, 143]
-			risks:	[]
 
 
 143
-convey-state['at']_5d7c
+convey-state-143-8524["at['bandit', 'far-left']"]_8a7b
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_3d5d
-		cam-step-shot['strut']_9d13
+		cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_3063
+		strut-15-bf30['bandit', 'duel-left', 'far-left']_44ae
 	sub_orderings:
-		cam-step-shot['strut']_9d13 < finish:convey-state[]_3ac6
-		begin:convey-state[]_a359 < strut['cowboy', 'far-left', 'duel-left']_3d5d
-		strut['cowboy', 'far-left', 'duel-left']_3d5d < finish:convey-state[]_3ac6
-		begin:convey-state[]_a359 < cam-step-shot['strut']_9d13
-		begin:convey-state[]_a359 < finish:convey-state[]_3ac6
+		begin:convey-state(141)_e9a4 < strut-15-bf30['bandit', 'duel-left', 'far-left']_44ae
+		cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_3063 < finish:convey-state(142)_2ba6
+		strut-15-bf30['bandit', 'duel-left', 'far-left']_44ae < finish:convey-state(142)_2ba6
+		begin:convey-state(141)_e9a4 < finish:convey-state(142)_2ba6
+		begin:convey-state(141)_e9a4 < cam-step-shot-39-91fa["strut-15-ae0c['bandit', 'duel-left', 'far-left']"]_3063
 
 
 144
-begin:convey-state[]_3abd
+begin:convey-state(144)_23cc
 	preconditions:
 
 
 145
-finish:convey-state[]_018a
+finish:convey-state(145)_0e2d
 	preconditions:
-		bel[literal-8f36-True-at]
-			cndts:	[146, 131, 191]
-			risks:	[]
 
 
 146
-convey-state['at']_d4e3
+convey-state-146-a0bd["not-at['bandit', 'duel-left']"]_4b38
 	preconditions:
 	sub_steps:
-		cam-step-shot['strut']_93d5
-		strut['cowboy', 'far-left', 'duel-left']_1ab7
+		cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_cc3a
+		strut-16-b50a['bandit', 'duel-left', 'duel-right']_b83f
 	sub_orderings:
-		begin:convey-state[]_6778 < cam-step-shot['strut']_93d5
-		cam-step-shot['strut']_93d5 < finish:convey-state[]_8842
-		begin:convey-state[]_6778 < finish:convey-state[]_8842
-		strut['cowboy', 'far-left', 'duel-left']_1ab7 < finish:convey-state[]_8842
-		begin:convey-state[]_6778 < strut['cowboy', 'far-left', 'duel-left']_1ab7
+		begin:convey-state(144)_761a < cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_cc3a
+		cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_cc3a < finish:convey-state(145)_b5b0
+		strut-16-b50a['bandit', 'duel-left', 'duel-right']_b83f < finish:convey-state(145)_b5b0
+		begin:convey-state(144)_761a < strut-16-b50a['bandit', 'duel-left', 'duel-right']_b83f
+		begin:convey-state(144)_761a < finish:convey-state(145)_b5b0
 
 
 147
-begin:convey-state[]_6c8c
+begin:convey-state(147)_694c
 	preconditions:
 
 
 148
-finish:convey-state[]_173b
+finish:convey-state(148)_08f9
 	preconditions:
-		bel[literal-9da1-False-at]
-			cndts:	[155, 140, 149]
-			risks:	[]
 
 
 149
-convey-state['at']_b0e8
+convey-state-149-874d["at['bandit', 'duel-right']"]_1af3
 	preconditions:
 	sub_steps:
-		cam-step-shot['strut']_c4da
-		strut['cowboy', 'far-left', 'duel-left']_e3d5
+		cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_5914
+		strut-16-b50a['bandit', 'duel-left', 'duel-right']_18d2
 	sub_orderings:
-		begin:convey-state[]_41a7 < cam-step-shot['strut']_c4da
-		strut['cowboy', 'far-left', 'duel-left']_e3d5 < finish:convey-state[]_1063
-		begin:convey-state[]_41a7 < finish:convey-state[]_1063
-		cam-step-shot['strut']_c4da < finish:convey-state[]_1063
-		begin:convey-state[]_41a7 < strut['cowboy', 'far-left', 'duel-left']_e3d5
+		begin:convey-state(147)_277e < finish:convey-state(148)_e8ad
+		begin:convey-state(147)_277e < strut-16-b50a['bandit', 'duel-left', 'duel-right']_18d2
+		cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_5914 < finish:convey-state(148)_e8ad
+		strut-16-b50a['bandit', 'duel-left', 'duel-right']_18d2 < finish:convey-state(148)_e8ad
+		begin:convey-state(147)_277e < cam-step-shot-40-adea["strut-16-a839['bandit', 'duel-left', 'duel-right']"]_5914
 
 
 150
-begin:convey-state[]_4a50
+begin:convey-state(150)_5cc5
 	preconditions:
 
 
 151
-finish:convey-state[]_b375
+finish:convey-state(151)_6262
 	preconditions:
-		bel[literal-8a7b-True-at]
-			cndts:	[152, 137, 170, 192]
-			risks:	[]
 
 
 152
-convey-state['at']_3597
+convey-state-152-a5a7["at['bandit', 'far-right']"]_94b7
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_a503
-		cam-step-shot['strut']_e97f
+		cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_7bb4
+		strut-17-9222['bandit', 'duel-left', 'far-right']_6e70
 	sub_orderings:
-		begin:convey-state[]_d33d < finish:convey-state[]_3902
-		begin:convey-state[]_d33d < cam-step-shot['strut']_e97f
-		strut['cowboy', 'far-left', 'duel-left']_a503 < finish:convey-state[]_3902
-		begin:convey-state[]_d33d < strut['cowboy', 'far-left', 'duel-left']_a503
-		cam-step-shot['strut']_e97f < finish:convey-state[]_3902
+		begin:convey-state(150)_0c43 < finish:convey-state(151)_aab5
+		begin:convey-state(150)_0c43 < cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_7bb4
+		strut-17-9222['bandit', 'duel-left', 'far-right']_6e70 < finish:convey-state(151)_aab5
+		cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_7bb4 < finish:convey-state(151)_aab5
+		begin:convey-state(150)_0c43 < strut-17-9222['bandit', 'duel-left', 'far-right']_6e70
 
 
 153
-begin:convey-state[]_7b86
+begin:convey-state(153)_c56c
 	preconditions:
 
 
 154
-finish:convey-state[]_b732
+finish:convey-state(154)_31e4
 	preconditions:
-		bel[literal-8d65-False-at]
-			cndts:	[155, 140, 149]
-			risks:	[]
 
 
 155
-convey-state['at']_f45d
+convey-state-155-bca5["not-at['bandit', 'duel-left']"]_316e
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_c473
-		cam-step-shot['strut']_f979
+		cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_2e19
+		strut-17-9222['bandit', 'duel-left', 'far-right']_7dae
 	sub_orderings:
-		cam-step-shot['strut']_f979 < finish:convey-state[]_6f36
-		begin:convey-state[]_e4a6 < strut['cowboy', 'far-left', 'duel-left']_c473
-		begin:convey-state[]_e4a6 < finish:convey-state[]_6f36
-		strut['cowboy', 'far-left', 'duel-left']_c473 < finish:convey-state[]_6f36
-		begin:convey-state[]_e4a6 < cam-step-shot['strut']_f979
+		cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_2e19 < finish:convey-state(154)_f5be
+		begin:convey-state(153)_540f < strut-17-9222['bandit', 'duel-left', 'far-right']_7dae
+		strut-17-9222['bandit', 'duel-left', 'far-right']_7dae < finish:convey-state(154)_f5be
+		begin:convey-state(153)_540f < finish:convey-state(154)_f5be
+		begin:convey-state(153)_540f < cam-step-shot-41-9eb8["strut-17-b3ac['bandit', 'duel-left', 'far-right']"]_2e19
 
 
 156
-begin:convey-state[]_74d6
+begin:convey-state(156)_e860
 	preconditions:
 
 
 157
-finish:convey-state[]_6b4e
+finish:convey-state(157)_d82c
 	preconditions:
-		bel[literal-bfc7-False-at]
-			cndts:	[164, 173, 158]
-			risks:	[]
 
 
 158
-convey-state['at']_db47
+convey-state-158-a1d7["at['bandit', 'far-left']"]_c95e
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_a274
-		cam-step-shot['strut']_d6e4
+		cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_14cc
+		strut-18-9503['bandit', 'duel-right', 'far-left']_867d
 	sub_orderings:
-		begin:convey-state[]_caca < strut['cowboy', 'far-left', 'duel-left']_a274
-		cam-step-shot['strut']_d6e4 < finish:convey-state[]_bfdb
-		begin:convey-state[]_caca < finish:convey-state[]_bfdb
-		begin:convey-state[]_caca < cam-step-shot['strut']_d6e4
-		strut['cowboy', 'far-left', 'duel-left']_a274 < finish:convey-state[]_bfdb
+		begin:convey-state(156)_3640 < cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_14cc
+		begin:convey-state(156)_3640 < finish:convey-state(157)_8222
+		strut-18-9503['bandit', 'duel-right', 'far-left']_867d < finish:convey-state(157)_8222
+		cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_14cc < finish:convey-state(157)_8222
+		begin:convey-state(156)_3640 < strut-18-9503['bandit', 'duel-right', 'far-left']_867d
 
 
 159
-begin:convey-state[]_7541
+begin:convey-state(159)_3bb0
 	preconditions:
 
 
 160
-finish:convey-state[]_911d
+finish:convey-state(160)_3be0
 	preconditions:
-		bel[literal-9b61-True-at]
-			cndts:	[161, 179, 143]
-			risks:	[]
 
 
 161
-convey-state['at']_542b
+convey-state-161-aff6["not-at['bandit', 'duel-right']"]_dcb5
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_5d5f
-		cam-step-shot['strut']_14a7
+		cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_79fd
+		strut-18-9503['bandit', 'duel-right', 'far-left']_0184
 	sub_orderings:
-		begin:convey-state[]_0f63 < strut['cowboy', 'far-left', 'duel-left']_5d5f
-		begin:convey-state[]_0f63 < finish:convey-state[]_bc10
-		strut['cowboy', 'far-left', 'duel-left']_5d5f < finish:convey-state[]_bc10
-		cam-step-shot['strut']_14a7 < finish:convey-state[]_bc10
-		begin:convey-state[]_0f63 < cam-step-shot['strut']_14a7
+		cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_79fd < finish:convey-state(160)_10ec
+		strut-18-9503['bandit', 'duel-right', 'far-left']_0184 < finish:convey-state(160)_10ec
+		begin:convey-state(159)_1055 < finish:convey-state(160)_10ec
+		begin:convey-state(159)_1055 < strut-18-9503['bandit', 'duel-right', 'far-left']_0184
+		begin:convey-state(159)_1055 < cam-step-shot-42-8586["strut-18-aa33['bandit', 'duel-right', 'far-left']"]_79fd
 
 
 162
-begin:convey-state[]_4ae3
+begin:convey-state(162)_4631
 	preconditions:
 
 
 163
-finish:convey-state[]_5ef9
+finish:convey-state(163)_587d
 	preconditions:
-		bel[literal-9b33-False-at]
-			cndts:	[164, 173, 158]
-			risks:	[]
 
 
 164
-convey-state['at']_6590
+convey-state-164-a34e["not-at['bandit', 'duel-right']"]_4144
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_7746
-		cam-step-shot['strut']_3167
+		cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_12b4
+		strut-19-ac3a['bandit', 'duel-right', 'duel-left']_c427
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_7746 < finish:convey-state[]_6206
-		cam-step-shot['strut']_3167 < finish:convey-state[]_6206
-		begin:convey-state[]_7d8c < strut['cowboy', 'far-left', 'duel-left']_7746
-		begin:convey-state[]_7d8c < finish:convey-state[]_6206
-		begin:convey-state[]_7d8c < cam-step-shot['strut']_3167
+		begin:convey-state(162)_5810 < strut-19-ac3a['bandit', 'duel-right', 'duel-left']_c427
+		strut-19-ac3a['bandit', 'duel-right', 'duel-left']_c427 < finish:convey-state(163)_f412
+		begin:convey-state(162)_5810 < cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_12b4
+		begin:convey-state(162)_5810 < finish:convey-state(163)_f412
+		cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_12b4 < finish:convey-state(163)_f412
 
 
 165
-begin:convey-state[]_775f
+begin:convey-state(165)_88b6
 	preconditions:
 
 
 166
-finish:convey-state[]_d754
+finish:convey-state(166)_f0e6
 	preconditions:
-		bel[literal-bde3-True-at]
-			cndts:	[125, 182, 167]
-			risks:	[]
 
 
 167
-convey-state['at']_4825
+convey-state-167-9bf1["at['bandit', 'duel-left']"]_3a09
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_86da
-		cam-step-shot['strut']_7bce
+		cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_94ae
+		strut-19-ac3a['bandit', 'duel-right', 'duel-left']_0c86
 	sub_orderings:
-		begin:convey-state[]_d727 < finish:convey-state[]_7b94
-		strut['cowboy', 'far-left', 'duel-left']_86da < finish:convey-state[]_7b94
-		begin:convey-state[]_d727 < cam-step-shot['strut']_7bce
-		cam-step-shot['strut']_7bce < finish:convey-state[]_7b94
-		begin:convey-state[]_d727 < strut['cowboy', 'far-left', 'duel-left']_86da
+		begin:convey-state(165)_b544 < finish:convey-state(166)_8ff0
+		cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_94ae < finish:convey-state(166)_8ff0
+		strut-19-ac3a['bandit', 'duel-right', 'duel-left']_0c86 < finish:convey-state(166)_8ff0
+		begin:convey-state(165)_b544 < cam-step-shot-43-a1e8["strut-19-a68e['bandit', 'duel-right', 'duel-left']"]_94ae
+		begin:convey-state(165)_b544 < strut-19-ac3a['bandit', 'duel-right', 'duel-left']_0c86
 
 
 168
-begin:convey-state[]_e7ee
+begin:convey-state(168)_54bd
 	preconditions:
 
 
 169
-finish:convey-state[]_8f0c
+finish:convey-state(169)_1a60
 	preconditions:
-		bel[literal-a5cd-True-at]
-			cndts:	[152, 137, 170, 192]
-			risks:	[]
 
 
 170
-convey-state['at']_3280
+convey-state-170-a454["not-at['bandit', 'duel-right']"]_b6e7
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_26fe
-		cam-step-shot['strut']_547e
+		cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_e13c
+		strut-20-8b31['bandit', 'duel-right', 'far-right']_6490
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_26fe < finish:convey-state[]_914c
-		cam-step-shot['strut']_547e < finish:convey-state[]_914c
-		begin:convey-state[]_c5f9 < strut['cowboy', 'far-left', 'duel-left']_26fe
-		begin:convey-state[]_c5f9 < cam-step-shot['strut']_547e
-		begin:convey-state[]_c5f9 < finish:convey-state[]_914c
+		cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_e13c < finish:convey-state(169)_c02f
+		begin:convey-state(168)_7223 < cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_e13c
+		begin:convey-state(168)_7223 < strut-20-8b31['bandit', 'duel-right', 'far-right']_6490
+		begin:convey-state(168)_7223 < finish:convey-state(169)_c02f
+		strut-20-8b31['bandit', 'duel-right', 'far-right']_6490 < finish:convey-state(169)_c02f
 
 
 171
-begin:convey-state[]_417d
+begin:convey-state(171)_4263
 	preconditions:
 
 
 172
-finish:convey-state[]_0d1c
+finish:convey-state(172)_9a89
 	preconditions:
-		bel[literal-a4da-False-at]
-			cndts:	[164, 173, 158]
-			risks:	[]
 
 
 173
-convey-state['at']_840d
+convey-state-173-b17c["at['bandit', 'far-right']"]_3737
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_0a19
-		cam-step-shot['strut']_96b5
+		cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_8a03
+		strut-20-8b31['bandit', 'duel-right', 'far-right']_091f
 	sub_orderings:
-		begin:convey-state[]_01cf < strut['cowboy', 'far-left', 'duel-left']_0a19
-		strut['cowboy', 'far-left', 'duel-left']_0a19 < finish:convey-state[]_25ab
-		cam-step-shot['strut']_96b5 < finish:convey-state[]_25ab
-		begin:convey-state[]_01cf < finish:convey-state[]_25ab
-		begin:convey-state[]_01cf < cam-step-shot['strut']_96b5
+		begin:convey-state(171)_0ca6 < finish:convey-state(172)_cf55
+		strut-20-8b31['bandit', 'duel-right', 'far-right']_091f < finish:convey-state(172)_cf55
+		begin:convey-state(171)_0ca6 < cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_8a03
+		begin:convey-state(171)_0ca6 < strut-20-8b31['bandit', 'duel-right', 'far-right']_091f
+		cam-step-shot-44-a784["strut-20-a5fa['bandit', 'duel-right', 'far-right']"]_8a03 < finish:convey-state(172)_cf55
 
 
 174
-begin:convey-state[]_19e9
+begin:convey-state(174)_9eac
 	preconditions:
 
 
 175
-finish:convey-state[]_273d
+finish:convey-state(175)_af87
 	preconditions:
-		bel[literal-b1dd-False-at]
-			cndts:	[176, 185, 188]
-			risks:	[]
 
 
 176
-convey-state['at']_d779
+convey-state-176-a2cb["not-at['bandit', 'far-right']"]_8723
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_bdef
-		cam-step-shot['strut']_299c
+		cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_2419
+		strut-21-816d['bandit', 'far-right', 'far-left']_8241
 	sub_orderings:
-		begin:convey-state[]_0c9a < strut['cowboy', 'far-left', 'duel-left']_bdef
-		strut['cowboy', 'far-left', 'duel-left']_bdef < finish:convey-state[]_4893
-		begin:convey-state[]_0c9a < finish:convey-state[]_4893
-		cam-step-shot['strut']_299c < finish:convey-state[]_4893
-		begin:convey-state[]_0c9a < cam-step-shot['strut']_299c
+		begin:convey-state(174)_3e79 < cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_2419
+		cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_2419 < finish:convey-state(175)_9d3b
+		begin:convey-state(174)_3e79 < strut-21-816d['bandit', 'far-right', 'far-left']_8241
+		strut-21-816d['bandit', 'far-right', 'far-left']_8241 < finish:convey-state(175)_9d3b
+		begin:convey-state(174)_3e79 < finish:convey-state(175)_9d3b
 
 
 177
-begin:convey-state[]_2efc
+begin:convey-state(177)_dff8
 	preconditions:
 
 
 178
-finish:convey-state[]_4efd
+finish:convey-state(178)_c3dc
 	preconditions:
-		bel[literal-aeeb-True-at]
-			cndts:	[161, 179, 143]
-			risks:	[]
 
 
 179
-convey-state['at']_b6d9
+convey-state-179-bb55["at['bandit', 'far-left']"]_9232
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_84dc
-		cam-step-shot['strut']_3958
+		cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_7fe3
+		strut-21-816d['bandit', 'far-right', 'far-left']_6164
 	sub_orderings:
-		cam-step-shot['strut']_3958 < finish:convey-state[]_0a5d
-		begin:convey-state[]_b991 < strut['cowboy', 'far-left', 'duel-left']_84dc
-		begin:convey-state[]_b991 < cam-step-shot['strut']_3958
-		strut['cowboy', 'far-left', 'duel-left']_84dc < finish:convey-state[]_0a5d
-		begin:convey-state[]_b991 < finish:convey-state[]_0a5d
+		begin:convey-state(177)_fe11 < finish:convey-state(178)_4719
+		cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_7fe3 < finish:convey-state(178)_4719
+		strut-21-816d['bandit', 'far-right', 'far-left']_6164 < finish:convey-state(178)_4719
+		begin:convey-state(177)_fe11 < cam-step-shot-45-a50a["strut-21-9e2c['bandit', 'far-right', 'far-left']"]_7fe3
+		begin:convey-state(177)_fe11 < strut-21-816d['bandit', 'far-right', 'far-left']_6164
 
 
 180
-begin:convey-state[]_d1cf
+begin:convey-state(180)_866c
 	preconditions:
 
 
 181
-finish:convey-state[]_5191
+finish:convey-state(181)_4c11
 	preconditions:
-		bel[literal-aadb-True-at]
-			cndts:	[125, 182, 167]
-			risks:	[]
 
 
 182
-convey-state['at']_d05b
+convey-state-182-bcc4["at['bandit', 'duel-left']"]_c437
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_064e
-		cam-step-shot['strut']_b882
+		cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_cf69
+		strut-22-9862['bandit', 'far-right', 'duel-left']_2953
 	sub_orderings:
-		begin:convey-state[]_72d7 < cam-step-shot['strut']_b882
-		strut['cowboy', 'far-left', 'duel-left']_064e < finish:convey-state[]_13ad
-		begin:convey-state[]_72d7 < finish:convey-state[]_13ad
-		cam-step-shot['strut']_b882 < finish:convey-state[]_13ad
-		begin:convey-state[]_72d7 < strut['cowboy', 'far-left', 'duel-left']_064e
+		begin:convey-state(180)_edbc < strut-22-9862['bandit', 'far-right', 'duel-left']_2953
+		strut-22-9862['bandit', 'far-right', 'duel-left']_2953 < finish:convey-state(181)_2a1c
+		begin:convey-state(180)_edbc < finish:convey-state(181)_2a1c
+		begin:convey-state(180)_edbc < cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_cf69
+		cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_cf69 < finish:convey-state(181)_2a1c
 
 
 183
-begin:convey-state[]_3899
+begin:convey-state(183)_32e1
 	preconditions:
 
 
 184
-finish:convey-state[]_2daf
+finish:convey-state(184)_cf94
 	preconditions:
-		bel[literal-bf73-False-at]
-			cndts:	[176, 185, 188]
-			risks:	[]
 
 
 185
-convey-state['at']_d2f9
+convey-state-185-87de["not-at['bandit', 'far-right']"]_95b7
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_ba4b
-		cam-step-shot['strut']_0b5e
+		cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_66b2
+		strut-22-9862['bandit', 'far-right', 'duel-left']_960e
 	sub_orderings:
-		strut['cowboy', 'far-left', 'duel-left']_ba4b < finish:convey-state[]_29f5
-		cam-step-shot['strut']_0b5e < finish:convey-state[]_29f5
-		begin:convey-state[]_83a0 < cam-step-shot['strut']_0b5e
-		begin:convey-state[]_83a0 < finish:convey-state[]_29f5
-		begin:convey-state[]_83a0 < strut['cowboy', 'far-left', 'duel-left']_ba4b
+		strut-22-9862['bandit', 'far-right', 'duel-left']_960e < finish:convey-state(184)_5f90
+		begin:convey-state(183)_9d32 < cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_66b2
+		begin:convey-state(183)_9d32 < finish:convey-state(184)_5f90
+		cam-step-shot-46-abff["strut-22-bf30['bandit', 'far-right', 'duel-left']"]_66b2 < finish:convey-state(184)_5f90
+		begin:convey-state(183)_9d32 < strut-22-9862['bandit', 'far-right', 'duel-left']_960e
 
 
 186
-begin:convey-state[]_91a9
+begin:convey-state(186)_3947
 	preconditions:
 
 
 187
-finish:convey-state[]_f8b2
+finish:convey-state(187)_604b
 	preconditions:
-		bel[literal-b1a5-False-at]
-			cndts:	[176, 185, 188]
-			risks:	[]
 
 
 188
-convey-state['at']_2596
+convey-state-188-a27c["not-at['bandit', 'far-right']"]_dd47
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_6610
-		cam-step-shot['strut']_2096
+		cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_074c
+		strut-23-8dd3['bandit', 'far-right', 'duel-right']_ddd7
 	sub_orderings:
-		begin:convey-state[]_47de < cam-step-shot['strut']_2096
-		begin:convey-state[]_47de < finish:convey-state[]_8ffd
-		begin:convey-state[]_47de < strut['cowboy', 'far-left', 'duel-left']_6610
-		strut['cowboy', 'far-left', 'duel-left']_6610 < finish:convey-state[]_8ffd
-		cam-step-shot['strut']_2096 < finish:convey-state[]_8ffd
+		begin:convey-state(186)_ba4c < strut-23-8dd3['bandit', 'far-right', 'duel-right']_ddd7
+		begin:convey-state(186)_ba4c < finish:convey-state(187)_703b
+		begin:convey-state(186)_ba4c < cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_074c
+		cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_074c < finish:convey-state(187)_703b
+		strut-23-8dd3['bandit', 'far-right', 'duel-right']_ddd7 < finish:convey-state(187)_703b
 
 
 189
-begin:convey-state[]_1c3e
+begin:convey-state(189)_e162
 	preconditions:
 
 
 190
-finish:convey-state[]_cace
+finish:convey-state(190)_7a0e
 	preconditions:
-		bel[literal-a9f7-True-at]
-			cndts:	[146, 131, 191]
-			risks:	[]
 
 
 191
-convey-state['at']_4c1b
+convey-state-191-949a["at['bandit', 'duel-right']"]_6881
 	preconditions:
 	sub_steps:
-		strut['cowboy', 'far-left', 'duel-left']_9c73
-		cam-step-shot['strut']_9342
+		cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_60fc
+		strut-23-8dd3['bandit', 'far-right', 'duel-right']_0f95
 	sub_orderings:
-		cam-step-shot['strut']_9342 < finish:convey-state[]_523b
-		strut['cowboy', 'far-left', 'duel-left']_9c73 < finish:convey-state[]_523b
-		begin:convey-state[]_a857 < finish:convey-state[]_523b
-		begin:convey-state[]_a857 < strut['cowboy', 'far-left', 'duel-left']_9c73
-		begin:convey-state[]_a857 < cam-step-shot['strut']_9342
+		begin:convey-state(189)_5332 < finish:convey-state(190)_8926
+		begin:convey-state(189)_5332 < cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_60fc
+		begin:convey-state(189)_5332 < strut-23-8dd3['bandit', 'far-right', 'duel-right']_0f95
+		cam-step-shot-47-bd96["strut-23-8fa9['bandit', 'far-right', 'duel-right']"]_60fc < finish:convey-state(190)_8926
+		strut-23-8dd3['bandit', 'far-right', 'duel-right']_0f95 < finish:convey-state(190)_8926
 
 
 192
-dummy_init['cowboy', 'bandit', 'far-left', 'duel-left', 'duel-right', 'far-right', 'start', 'mid', 'end', 'low', 'eye', 'high', 'cu', 'full', 'wide', 'front', 'behind-right', '0', '1']_1a34
+dummy_init_b56f
 	preconditions:
-		bel[literal-b2ab-True-at]
-		(-)facing['cowboy', 'cowboy']
-		bel[literal-9897-True-at]
-		at['cowboy', 'far-left']
-		at['bandit', 'far-right']
-		(-)at['cowboy', 'duel-left']
 
 
 193
-dummy_goal['cowboy', 'bandit', 'far-left', 'duel-left', 'duel-right', 'far-right', 'start', 'mid', 'end', 'low', 'eye', 'high', 'cu', 'full', 'wide', 'front', 'behind-right', '0', '1']_7e7a
+dummy_goal_d320
 	preconditions:
-		bel[literal-ae47-True-at]
-			cndts:	[113, 92, 53]
+		bel
+			cndts:	[128, 149, 191]
 			risks:	[]
-		bel[literal-9455-True-at]
-			cndts:	[146, 131, 191]
+		bel
+			cndts:	[113, 53, 95]
 			risks:	[]
 

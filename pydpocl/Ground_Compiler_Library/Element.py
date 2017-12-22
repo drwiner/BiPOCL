@@ -209,6 +209,9 @@ class Operator(InternalElement):
 		if not other.executed is None and self.executed is None:
 			self.executed = other.executed
 
+		if other.stepnumber != -1 and self.stepnumber == -1:
+			self.stepnumber = other.stepnumber
+
 		return self
 
 	def __repr__(self):
