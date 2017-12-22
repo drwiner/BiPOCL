@@ -12,9 +12,6 @@ from Ground_Compiler_Library.Graph import Edge
 from Flaws import FlawLib
 import hashlib
 
-#GStep = namedtuple('GStep', 'action pre_dict pre_link')
-Antestep = namedtuple('Antestep', 'action eff_link')
-
 
 def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 
@@ -40,51 +37,18 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 			gstep = copy.deepcopy(op)
 			gstep.replaceArgs(t)
 			if gsd is not None:
-				for arg in gstep.Args:
-					if not hasattr(arg, 'stepnumber'):
-						continue
-					step = gsd[arg.stepnumber]
-					""" possibly can just replaceArg and add elements without making copy... since everything will
-						get cloned anyway.
-					"""
-					# clone, but don't replace IDs because this isn't a new step, it's an existing step
-					arg_clone = step.deepcopy(replace_internals=True)
-					# arg_clone.root.replaced_ID = arg.ID
-					arg_clone.root.replaced_ID = arg.replaced_ID
-					# swap argument with step root clone
-					gstep.replaceArg(arg, arg_clone.root)
-					# gstep.elements.remove(arg)
-					# add elements and edges to gstep graph
-					gstep.elements.update(arg_clone.elements)
-					gstep.edges.update(arg_clone.edges)
-
+				handle_step_typed_arg(gstep, gsd)
 			# replace the ID of the internal elements
 			gstep._replaceInternals()
-
 			# replacing these coordinates changes
 			gstep.replaceInternals()
-
 			# assign the step number (only one of the following should be necessary)
 			gstep.root.stepnumber = stepnum
 			gstep.root.arg_name = stepnum
 			stepnum += 1
-
-
-
-			# do only in cases when there are step-typed arguments (what about literal-typed arguments?
-
-
-
-			# if one of the args is an operator token
-
 			# append the step to our growin glist
 			gsteps.append(gstep)
-
 			print('Creating ground step {}'.format(gstep))
-
-			# not sure why one would need the following:
-			# gstep.replaceInternals()
-
 			# assign height of the step to the root element and
 			gstep.height = 0
 			gstep.root.height = 0
@@ -92,85 +56,100 @@ def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 	return gsteps
 
 
+def handle_step_typed_arg(gstep, gsd):
+	for arg in gstep.Args:
+		if not hasattr(arg, 'stepnumber'):
+			continue
+		step = gsd[arg.stepnumber]
+		""" possibly can just replaceArg and add elements without making copy... since everything will
+			get cloned anyway.
+		"""
+		# clone, but don't replace IDs because this isn't a new step, it's an existing step
+		arg_clone = step.deepcopy(replace_internals=True)
+		# arg_clone.root.replaced_ID = arg.ID
+		arg_clone.root.replaced_ID = arg.replaced_ID
+		# swap argument with step root clone
+		gstep.replaceArg(arg, arg_clone.root)
+		# add elements and edges to gstep graph
+		gstep.elements.update(arg_clone.elements)
+		gstep.edges.update(arg_clone.edges)
+
+
 def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 	gsteps = []
 
 	print('...Creating Ground Decomp Steps')
 	for op in doperators:
-		#Subplans = Plannify(op.subplan, GL)
-
 		print('processing operator: {}'.format(op))
 		try:
 			sub_plans = Plannify(op.subplan, GL, height)
 		except:
 			continue
+
 		print("num_subplans: " + str(len(sub_plans)))
 		for i, sp in enumerate(sub_plans):
 			print(i)
-			GDO = copy.deepcopy(op)
+			GDO = op.deepcopy()
 			GDO.is_decomp = True
+
 			print("rewrite Elms")
 			# rewrites operator arguments based on groundings of sub-plan, provides alternatives
-			gdo = rewriteElms(GDO, sp, GL.objects, GL.object_types, height + 1)
+			gdo, perm_list = rewriteElms(GDO, sp, GL.objects, GL.object_types, height + 1)
 			if not gdo:
 				continue
-
-			# gdos = []
-			# if type(possible_alternatives) == bool:
-			# 	gdos.append(GDO)
-			# else:
-			# 	for gdo in possible_alternatives:
-			# 		gdos.append(gdo)
-			#
-			# for gdo in gdos:
-
-			gdo.root.is_decomp = True
-			print('_replacing internals')
-			# swap constructor IDs and replaced_IDs
-			gdo._replaceInternals()
-			print('replacing internals')
-			gdo.replaceInternals()
-			print('init and dummy')
-			# Now create dummy init step and goal step
-			dummy_init = Action(name='begin:' + str(gdo.name))
-			dummy_init.has_cndt = False
-			dummy_init.root.stepnumber = stepnum
-			for condition in gdo.Preconditions:
-				dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
-				dummy_init.edges.update(condition.edges)
-				dummy_init.elements.update(condition.elements)
-			gsteps.append(dummy_init)
-			stepnum+=1
-
-			dummy_goal = Action(name='finish:' + str(gdo.name))
-			dummy_goal.is_cndt = False
-			dummy_goal.root.stepnumber = stepnum
-			for condition in gdo.Effects:
-				if not GL.check_has_effect(condition, height+1):
-					# this is a pattern effect.
-					continue
-				dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
-				dummy_goal.edges.update(condition.edges)
-				dummy_goal.elements.update(condition.elements)
-			gsteps.append(dummy_goal)
-			stepnum+=1
-
-			gdo.sub_dummy_init = dummy_init
-			gdo.sub_dummy_goal = dummy_goal
-
-			gdo.ground_subplan = copy.deepcopy(sp)
-			gdo.root.stepnumber = stepnum
-			# gdo.stepnumber = stepnum
-			gdo.ground_subplan.root = gdo.root
-			stepnum += 1
-			gdo.height = height + 1
-			gdo.root.height = height + 1
-
-			# important to add init and goal steps first
-			gsteps.append(gdo)
-				# print('Creating ground step w/ height {}, h={}'.format(gdo, height))
+			# arguments were not in sub-plan, and need to be substituted for every combination
+			if perm_list is not None:
+				gdo_list = permutate_subs(gdo, GL.objects, GL.object_types, perm_list)
+				for item in gdo_list:
+					ground_composite_step = prep_singleton(GL, item, sp, height)
+					stepnum = append_composite_step(gsteps, ground_composite_step, stepnum)
+			# all arguments were grounded as part of plannify
+			else:
+				ground_composite_step = prep_singleton(GL, gdo, sp, height)
+				stepnum = append_composite_step(gsteps, ground_composite_step, stepnum)
 
 	return gsteps
+
+
+def append_composite_step(gsteps, ground_composite_step, stepnum):
+
+	gsteps.append(ground_composite_step.sub_dummy_init)
+	gsteps.append(ground_composite_step.sub_dummy_goal)
+	gsteps.append(ground_composite_step)
+
+	# ground_composite_step.stepnumber = stepnum
+	ground_composite_step.sub_dummy_init.root.stepnumber = stepnum
+	# ground_composite_step.sub_dummy_init.stepnumber = stepnum+ 1
+	ground_composite_step.sub_dummy_goal.root.stepnumber = stepnum + 1
+	# ground_composite_step.sub_dummy_goal.stepnumber = stepnum+ 2
+
+	ground_composite_step.root.stepnumber = stepnum + 2
+	stepnum += 3
+	return stepnum
+
+def distinguished_steps(GL, gdo, height):
+
+	dummy_init = Action(name='begin:' + str(gdo.name))
+	dummy_init.has_cndt = False
+
+	for condition in gdo.Preconditions:
+		dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
+		dummy_init.edges.update(condition.edges)
+		dummy_init.elements.update(condition.elements)
+
+	dummy_goal = Action(name='finish:' + str(gdo.name))
+	dummy_goal.is_cndt = False
+
+	for condition in gdo.Effects:
+		if not GL.check_has_effect(condition, height + 1):
+			# this is a pattern effect.
+			continue
+		dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
+		dummy_goal.edges.update(condition.edges)
+		dummy_goal.elements.update(condition.elements)
+
+	gdo.sub_dummy_init = dummy_init
+	gdo.sub_dummy_goal = dummy_goal
 
 
 # @clock
@@ -179,13 +158,14 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 	sp_arg_dict = {elm.arg_name: elm for elm in sp.elements}
 	needs_substituting = []
 	print(GDO)
-	for arg in GDO.Args:
+	for i, arg in enumerate(GDO.Args):
 		print("arg: " + str(arg))
 		# if this arg isn't part of sub-plan (is that possible?)
 		if arg.arg_name not in sp_arg_dict.keys():
 			if arg.name is None:
-				needs_substituting.append(arg)
-			raise ValueError("just checking if this is possible")
+				needs_substituting.append(i)
+				continue
+			# raise ValueError("just checking if this is possible")
 		sp_elm = sp_arg_dict[arg.arg_name]
 		print("suplan elm: " + str(sp_elm))
 		if type(sp_elm) == Operator:
@@ -200,12 +180,66 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 			# GDO.elements.remove(arg)
 			GDO.elements.update(C.elements)
 			GDO.edges.update(C.edges)
+		else:
+			# this is an object that should be substituted
+			GDO.replaceArg(arg, sp_elm)
 	print('almost out')
 	GDO.updateArgs()
 	for (u,v) in GDO.nonequals:
 		if GDO.Args[u] == GDO.Args[v]:
-			return False
-	return GDO
+			return False, None
+
+	if len(needs_substituting) == 0:
+		return GDO, None
+
+	return GDO, needs_substituting
+
+
+def permutate_subs(GDO, objects, obtypes, needs_substituting):
+	#NOTE: does not _yet_ handle step-typed args that need substituting the way primitve steps are handled
+	perm_list = []
+
+	cndts = [
+		[obj for obj in objects if arg.typ == obj.typ or arg.typ in obtypes[obj.typ]]
+		if i in needs_substituting else
+		[GDO.Args[i]] for i, arg in enumerate(GDO.Args)]
+
+	tuples = itertools.product(*cndts)
+	for t in tuples:
+		legal_tuple = True
+		for (u, v) in GDO.nonequals:
+			if t[u] == t[v]:
+				legal_tuple = False
+				break
+		if not legal_tuple:
+			continue
+
+		gstep = GDO.deepcopy()
+		gstep.replaceArgs(t)
+		perm_list.append(gstep)
+
+	return perm_list
+
+
+def prep_singleton(GL, gdo, sp, height):
+	gdo.root.is_decomp = True
+	print('_replacing internals')
+	# swap constructor IDs and replaced_IDs
+	gdo._replaceInternals()
+	print('replacing internals')
+	# gdo.replaceInternals()
+	print('init and dummy')
+	# Now create dummy init step and goal step
+
+	distinguished_steps(GL, gdo, height)
+
+	gdo.ground_subplan = copy.deepcopy(sp)
+	# gdo.stepnumber = stepnum
+	gdo.ground_subplan.root = gdo.root
+	gdo.height = height + 1
+	gdo.root.height = height + 1
+
+	return gdo
 
 
 import re
@@ -477,7 +511,7 @@ def create_pickles(pickle_name):
 	print("creating ground actions......\n")
 	GL = GLib(operators, decomps, objects, object_types, initAction, goalAction)
 
-	from Ground_Compiler_Library import precompile
+
 	ground_step_list = precompile.deelementize_ground_library(GL)
 	for i, gstep in enumerate(ground_step_list):
 		with open(pickle_name + str(i), 'wb') as ugly:
@@ -498,18 +532,15 @@ def view(condition, literal):
 			print(arg)
 
 
+def run_single_example(domain_file, problem_file):
 
-if __name__ ==  '__main__':
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple_2.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem_3.pddl'
+	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam.pddl'
+	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem.pddl'
 	d_name = domain_file.split('/')[-1].split('.')[0]
 	p_name = problem_file.split('/')[-1].split('.')[0]
 	uploadable_pickle_name = d_name + '.' + p_name
 
-	from PyDPOCL import GPlanner
-
 	pname = "pickles/" + uploadable_pickle_name + "_"
-
 
 	# gsteps = load_from_pickle(pname)
 	gsteps = create_pickles(pname)
@@ -544,8 +575,45 @@ if __name__ ==  '__main__':
 
 	planner = GPlanner(gsteps)
 	planner.solve(k=1)
-	# load_pickles(pname)
 
-	# domain_file = 'domains/ark-domain.pddl'
-	# problem_file = 'domains/ark-problem.pddl'
 
+def run_all_tests(domain_heading, domain_types, domain_number, problem_number):
+	# domain_heading = "Unity"
+	# domain_types = ["Simple", "VirtualCam"]
+	# domain_number = {"Simple": ["", "_2"], "VirtualCam": [""]}
+	# problem_number = {"Simple": ["", "_2", "_3", "_4"], "VirtualCam": [""]}
+	domain_file_template = "D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/{}_Domain_{}{}.pddl"
+	problem_file_template = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/{}_{}_Problem{}.pddl'
+
+	# run_single_example(domain_file, problem_file)
+	for domain in domain_types:
+		for numb in domain_number[domain]:
+			df = domain_file_template.format(domain_heading, domain, numb)
+			for pnumb in problem_number[domain]:
+				pf = problem_file_template.format(domain_heading, domain, pnumb)
+				try:
+					run_single_example(df, pf)
+				except:
+					print("did not work on domain: {}, problem: {}".format(df, pf))
+
+if __name__ ==  '__main__':
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem_3.pddl'
+
+	from PyDPOCL import GPlanner
+	from Ground_Compiler_Library import precompile
+
+	# run_all_tests()
+	# domain_heading = "Unity"
+	# domain_types = ["Simple", "VirtualCam"]
+	# domain_number = {"Simple": ["", "_2"], "VirtualCam": [""]}
+	# problem_number = {"Simple": ["", "_2", "_3", "_4"], "VirtualCam": [""]}
+
+	domain_heading = "Unity"
+	domain_types = ["Simple", "VirtualCam"]
+	domain_number = {"Simple": ["_2"], "VirtualCam": ["", "_2"]}
+	problem_number = {"Simple": ["_2", "_3", "_4"], "VirtualCam": [""]}
+
+	# run_all_tests(domain_heading, domain_types, domain_number, problem_number)
+
+	run_single_example(domain_file, problem_file)

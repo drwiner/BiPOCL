@@ -87,7 +87,7 @@ class ElementGraph(Graph):
 			try:
 				self.edges.remove(edge)
 			except:
-				print('here')
+				raise ValueError('edge not in set')
 			self.edges.add(Edge(edge.source, replacer, edge.label))
 			# edge.sink = replacer
 		if original in self.elements:

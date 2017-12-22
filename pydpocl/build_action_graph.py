@@ -35,7 +35,7 @@ def get_arg_from_op_with_string(_arg, schema):
 	if hasattr(schema, "Args"):
 		schema.updateArgs()
 		for arg in schema.Args:
-			if _arg == arg.name:
+			if _arg == arg.name or _arg == arg.typ:
 				return arg
 		return None
 		# ValueError("missing arg from schema?")
@@ -279,6 +279,8 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 			dschema.edges.add(Edge(step_var, c.Args[2], arg_num))
 	elif literal.name == "play" or literal.name == "play-seg" or literal.name == "cntg":
 		pass
+	elif literal.name == "truth":
+		c.Args[0].truth = bool(int(c.Args[1].name))
 	else:
 		raise ValueError("unknown predicate type\t{}".format(literal.name))
 
@@ -427,6 +429,7 @@ def addNegativeInitStates(formulae, initAction, init_effects, objects, obj_types
 
 			# create negative literal to add as negative initial step effect
 			literal_template_copy = literal_template.deepcopy()
+			# lit = build_literal(f, initAction)
 			lit = build_literal(f, literal_template_copy)
 			lit.truth = False
 			literal_template_copy.updateArgs()

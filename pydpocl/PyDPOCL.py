@@ -284,7 +284,7 @@ class GPlanner:
 
 	# Heuristic Methods #
 
-	def h_condition(self, plan, stepnum, precond):
+	def h_condition(self, plan, cndt_map, precond):
 		if precond.is_static:
 			return 0
 		if precond in plan.init:
@@ -298,7 +298,7 @@ class GPlanner:
 
 		min_so_far = float('inf')
 
-		for cndt in self.gsteps[stepnum].cndt_map[precond.ID]:
+		for cndt in cndt_map[precond.ID]:
 			if not self.gsteps[cndt].instantiable:
 				continue
 			# if not self.gsteps[cndt].height == 0:
@@ -321,7 +321,7 @@ class GPlanner:
 		self._h_visited.append(stepnum)
 		sumo = 1
 		for pre in self.gsteps[stepnum].preconds:
-			sumo += self.h_condition(plan, stepnum, pre)
+			sumo += self.h_condition(plan, self.gsteps[stepnum].cndt_map, pre)
 
 		if self.gsteps[stepnum].height > 0:
 			sumo += self.h_subplan(plan, self.gsteps[stepnum])
@@ -343,7 +343,7 @@ class GPlanner:
 
 
 			if len(flaw.s_need.choices) == 0:
-				sumo += self.h_condition(plan, flaw.s_need.stepnum, flaw.p)
+				sumo += self.h_condition(plan, flaw.s_need.cndt_map, flaw.p)
 
 		return sumo
 
@@ -353,11 +353,11 @@ class GPlanner:
 			for pre in sub_step.open_preconds:
 				if pre in abstract_step.preconds or pre in plan.init:
 					continue
-				sumo += self.h_condition(plan, sub_step.stepnum, pre)
+				sumo += self.h_condition(plan, self.gsteps[sub_step.stepnum].cndt_map, pre)
 		for pre in abstract_step.dummy.final.open_preconds:
 			if pre in abstract_step.preconds or pre in plan.init:
 				continue
-			sumo += self.h_condition(plan, abstract_step.dummy.final.stepnum, pre)
+			sumo += self.h_condition(plan, self.gsteps[abstract_step.dummy.final.stepnum].cndt_map, pre)
 		return sumo
 
 import sys
@@ -439,9 +439,9 @@ if __name__ == '__main__':
 		# problem_file = 'Ground_Compiler_Library//domains/unity_western_problem.pddl'
 
 		# domain_file = 'Ground_Compiler_Library//domains/Unity_Simple_Domain.pddl'
-		# problem_file = 'Ground_Compiler_Library//domains/Unity_Simple_Problem.pddl'
-		domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Simple.pddl'
-		problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Simple_Problem.pddl'
+		# problem_file = 'Ground_Compiler_Library//domains/Unity_Camera_Problem.pddl'
+		domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Camera.pddl'
+		problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Camera_Problem.pddl'
 
 	d_name = domain_file.split('/')[-1].split('.')[0]
 	p_name = problem_file.split('/')[-1].split('.')[0]
