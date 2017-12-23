@@ -7,6 +7,7 @@
   (:init (at bandit right)
          (at cowboy far-right)
 		 (can-show master far-right)
+		 (can-show master right)
 		 (can-show master duel-right)
 		 )
   (:goal (and

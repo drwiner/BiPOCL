@@ -117,7 +117,7 @@ def append_composite_step(gsteps, ground_composite_step, stepnum):
 	gsteps.append(ground_composite_step.sub_dummy_goal)
 	gsteps.append(ground_composite_step)
 
-	# ground_composite_step.stepnumber = stepnum
+	# ground_composite_step.stepnumber = step num
 	ground_composite_step.sub_dummy_init.root.stepnumber = stepnum
 	# ground_composite_step.sub_dummy_init.stepnumber = stepnum+ 1
 	ground_composite_step.sub_dummy_goal.root.stepnumber = stepnum + 1
@@ -574,10 +574,10 @@ def run_single_example(domain_file, problem_file):
 			gs.write('\n\n')
 
 	planner = GPlanner(gsteps)
-	planner.solve(k=1)
+	# planner.solve(k=1)
 
 
-def run_all_tests(domain_heading, domain_types, domain_number, problem_number):
+def run_all_tests():
 	# domain_heading = "Unity"
 	# domain_types = ["Simple", "VirtualCam"]
 	# domain_number = {"Simple": ["", "_2"], "VirtualCam": [""]}
@@ -585,20 +585,36 @@ def run_all_tests(domain_heading, domain_types, domain_number, problem_number):
 	domain_file_template = "D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/{}_Domain_{}{}.pddl"
 	problem_file_template = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/{}_{}_Problem{}.pddl'
 
-	# run_single_example(domain_file, problem_file)
-	for domain in domain_types:
-		for numb in domain_number[domain]:
-			df = domain_file_template.format(domain_heading, domain, numb)
-			for pnumb in problem_number[domain]:
-				pf = problem_file_template.format(domain_heading, domain, pnumb)
-				try:
-					run_single_example(df, pf)
-				except:
-					print("did not work on domain: {}, problem: {}".format(df, pf))
+	# # run_single_example(domain_file, problem_file)
+	# for domain in domain_types:
+	# 	for numb in domain_number[domain]:
+	# 		df = domain_file_template.format(domain_heading, domain, numb)
+	# 		for pnumb in problem_number[domain]:
+	# 			pf = problem_file_template.format(domain_heading, domain, pnumb)
+	# 			try:
+	# 				run_single_example(df, pf)
+	# 			except:
+	# 				print("did not work on domain: {}, problem: {}".format(df, pf))
+	df = domain_file_template.format("Unity", "Simple", "_2")
+	pf = problem_file_template.format("Unity", "Simple", "_2")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "Simple", "_3")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "Simple", "_4")
+	run_single_example(df, pf)
+
+	df = domain_file_template.format("Unity", "VirtualCam", "2")
+	pf = problem_file_template.format("Unity", "VirtualCam", "")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "VirtualCam", "_2")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "VirtualCam", "_3")
+	run_single_example(df, pf)
 
 if __name__ ==  '__main__':
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam2.pddl'
 	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem_3.pddl'
+	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_InitialStateTest_Problem.pddl'
 
 	from PyDPOCL import GPlanner
 	from Ground_Compiler_Library import precompile
@@ -609,11 +625,11 @@ if __name__ ==  '__main__':
 	# domain_number = {"Simple": ["", "_2"], "VirtualCam": [""]}
 	# problem_number = {"Simple": ["", "_2", "_3", "_4"], "VirtualCam": [""]}
 
-	domain_heading = "Unity"
-	domain_types = ["Simple", "VirtualCam"]
-	domain_number = {"Simple": ["_2"], "VirtualCam": ["", "_2"]}
-	problem_number = {"Simple": ["_2", "_3", "_4"], "VirtualCam": [""]}
+	# domain_heading = "Unity"
+	# domain_types = ["Simple",]
+	# domain_number = {"Simple": ["_2"], }
+	# problem_number = {"Simple": ["_2", "_3", "_4"]}
 
-	# run_all_tests(domain_heading, domain_types, domain_number, problem_number)
+	run_all_tests()
 
-	run_single_example(domain_file, problem_file)
+	# run_single_example(domain_file, problem_file)

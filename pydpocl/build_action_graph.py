@@ -385,24 +385,50 @@ def obTypesDict(object_types):
 	return obtypes
 
 
+def has_equal_args(a_list, b_list, agraph, bgraph):
+	for a, b in zip(a_list, b_list):
+		if not (a.isConsistent(b) and b.isConsistent(a)):
+			return False
+		if isinstance(a, Argument):
+			if a.name != b.name:
+				return False
+		elif isinstance(a, Operator):
+			if a.stepnumber != b.stepnumber:
+				return False
+		elif isinstance(a, Literal):
+			if a.name != b.name:
+				return False
+			if a.truth != b.truth:
+				return False
+			a_cond = Condition.subgraph(agraph, a)
+			b_cond = Condition.subgraph(bgraph, b)
+			if not has_equal_args(a_cond.Args,b_cond.Args, a_cond, b_cond):
+				return False
+	return True
+
+
 def addNegativeInitStates(formulae, initAction, init_effects, objects, obj_types):
 	"""
 	for each predicate, satisfy arguments with objects. if literal not in initial state, add negation
 	"""
 
 	# collect initial states as tuples
-	ie_args_collection = []
-	for init_eff in init_effects:
-		ie = Condition.subgraph(initAction, init_eff.sink)
-		ie.updateArgs()
-		ie_args = tuple([ie.name] + [arg.name for arg in ie.Args])
-		ie_args_collection.append(ie_args)
+	ie_args_collection = [Condition.subgraph(initAction, init_eff.sink) for init_eff in init_effects]
+
+	# for init_eff in init_effects:
+	# 	ie = Condition.subgraph(initAction, init_eff.sink)
+	# 	ie_args
+	# 	ie.updateArgs()
+	#
+	# 	ie_args = tuple([ie.name] + [arg.name for arg in ie.Args])
+	# 	ie_args_collection.append(ie_args)
 
 	# for each predicate formula in domain
 	for f, p in formulae:
-		if f.key in ["distance-between", "arg", "less-than", "play", "play-seg", "alu", "fol", "dur", "=", "bel", "obs-seg", "bel-alu", "obs-alu", "obs-seg-alu", "obs", "obs-seg-cntg", "cntg", "effect", "precond", "type", "linked", "linked-by", "<", "has-scale", "has-angle", "has-fov", "has-orient", "preconds"]:
+		if f.key in ["distance-between", "arg", "less-than", "play", "play-seg", "alu", "fol", "dur", "=", "obs-seg", "bel-alu", "obs-alu", "obs-seg-alu", "obs", "obs-seg-cntg", "cntg", "effect", "precond", "type", "linked", "linked-by", "<", "has-scale", "has-angle", "has-fov", "has-orient", "preconds"]:
 			continue
 		# create a predicate schema template
+		# if it's a step element or a plan element, then we need to consider all literal arguments
 		literal_template = Condition(root_element=Literal(name=f.key, num_args=len(p.parameters)))
 
 		# get consistent-typed object signatures
@@ -422,25 +448,49 @@ def addNegativeInitStates(formulae, initAction, init_effects, objects, obj_types
 		# for each candidate signature
 		for pt in param_tuples:
 
-			# ignore if discovered in initial state
-			ie = tuple([f.key] + [t.name for t in list(pt)])
-			if ie in ie_args_collection:
-				continue
-
 			# create negative literal to add as negative initial step effect
 			literal_template_copy = literal_template.deepcopy()
 			# lit = build_literal(f, initAction)
+			# literal_template_copy = Condition(root_element=Literal(name=f.key, num_args=len(p.parameters)))
 			lit = build_literal(f, literal_template_copy)
-			lit.truth = False
+			literal_template_copy.root.truth = True
+			literal_template_copy.root.ID = uuid4()
+			literal_template_copy.elements = set(list(literal_template_copy.elements))
+			literal_template_copy.edges = set(list(literal_template_copy.edges))
 			literal_template_copy.updateArgs()
 			# swap arguments of template
 			literal_template_copy.replaceArgs(pt)
 
+			in_initial_state = False
+			for ie in ie_args_collection:
+				if ie.name != literal_template_copy.name:
+					continue
+				if ie.truth != literal_template_copy.truth:
+					continue
+				if len(ie.Args) != len(literal_template_copy.Args):
+					continue
+				if has_equal_args(ie.Args, literal_template_copy.Args, ie, literal_template_copy):
+					continue
+				in_initial_state = True
+
+			if in_initial_state:
+				continue
+
+			# ignore if discovered in initial state
+			# ie = tuple([f.key] + [t.name for t in list(pt)])
+			# if ie in ie_args_collection:
+			# 	continue
+
+			# now set it false
+
+			literal_template_copy.root.truth = False
+
 			# update initial Action
 			print("building ground literal\t{}".format(literal_template_copy))
-			initAction.elements.update(literal_template_copy.elements)
-			initAction.edges.update(literal_template_copy.edges)
+			initAction.elements.update(list(literal_template_copy.elements))
+			initAction.edges.update(list(literal_template_copy.edges))
 			initAction.edges.add(Edge(initAction.root, literal_template_copy.root, 'effect-of'))
+			# print("new initial effect: {}".format(literal_template_copy))
 
 
 def compile_problem_objs(problem, obj_types):
