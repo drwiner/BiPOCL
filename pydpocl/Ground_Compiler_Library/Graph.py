@@ -145,6 +145,8 @@ class Graph(Element):
 		return {edge for edge in self.edges if edge.sink  == element and edge.source.typ == typ}
 	def getIncomingEdgesByTypeAndLabel(self, element, typ, label):
 		return {edge for edge in self.edges if edge.sink == element and edge.source.typ == typ and edge.label == label}
+	def getIncomingEdgesByLabel(self, element, label):
+		return {edge for edge in self.edges if edge.sink.ID == element.ID and edge.label == label}
 		
 	######       rGet       ####################
 	def rGetDescendants(self, element, Descendants=None):

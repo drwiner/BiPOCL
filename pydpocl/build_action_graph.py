@@ -214,12 +214,16 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 		snk = get_arg_from_arg_name(c.Args[1].arg_name, dschema)
 		link_condition = Condition.subgraph(dschema, c.Args[2])
 		dschema.CausalLinkGraph.addEdge(src, snk, link_condition)
+		dschema.edges.add(Edge(c.Args[0], c.Args[2], "effect-of"))
+		dschema.edges.add(Edge(c.Args[1], c.Args[2], "precond-of"))
 
 	elif literal.name == "linked":
 		src = get_arg_from_arg_name(c.Args[0].arg_name, dschema)
 		snk = get_arg_from_arg_name(c.Args[1].arg_name, dschema)
 		link_condition = Condition(root_element=Literal(arg_name='link-condition' + str(uuid4())[19:23]))
-
+		dschema.elements.add(link_condition.root)
+		dschema.edges.add(Edge(c.Args[0], link_condition.root, "effect-of"))
+		dschema.edges.add(Edge(c.Args[1], link_condition.root, "precond-of"))
 		dschema.CausalLinkGraph.addEdge(src, snk, link_condition)
 
 	elif literal.name == "type":
@@ -277,10 +281,12 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 			dschema.edges.add(Edge(step_var, arg, arg_num))
 		else:
 			dschema.edges.add(Edge(step_var, c.Args[2], arg_num))
-	elif literal.name == "play" or literal.name == "play-seg" or literal.name == "cntg":
+	elif literal.name == "play" or literal.name == "play-seg":
 		pass
 	elif literal.name == "truth":
 		c.Args[0].truth = bool(int(c.Args[1].name))
+	elif literal.name == "cntg":
+		dschema.OrderingGraph.addCntg(c.Args[0], c.Args[1])
 	else:
 		raise ValueError("unknown predicate type\t{}".format(literal.name))
 

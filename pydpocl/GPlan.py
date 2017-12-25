@@ -119,7 +119,7 @@ class GPlan:
 		swap_dict[new_step.dummy.init.ID] = d_i
 		self.steps.append(d_i)
 		# add flaws for each new_step precondition, but make s_need d_i and update cndt_map/ threat_map
-		d_i.swap_setup(new_step.cndts, new_step.cndt_map, new_step.threats, new_step.threat_map)
+		d_i.swap_setup(new_step.cndts, new_step.cndt_map, new_step.threats, new_step.threat_map, new_step.cntg_mental)
 		for pre in new_step.open_preconds:
 			self.flaws.insert(self, OPF(d_i, pre, new_step.height))
 		preconds = list(new_step.open_preconds)
@@ -229,6 +229,8 @@ class GPlan:
 		self.OrderingGraph.addEdge(new_step, mutable_s_need)
 		# add causal link
 		c_link = self.CausalLinkGraph.addEdge(new_step, mutable_s_need, mutable_p)
+		if mutable_p.ID in mutable_s_need.cntg_mental.keys() and new_step.stepnum in mutable_s_need.cntg_mental[mutable_p.ID]:
+			self.OrderingGraph.addCntg(new_step, mutable_s_need)
 
 		mutable_s_need.update_choices(self)
 
@@ -273,6 +275,9 @@ class GPlan:
 		# add causal link
 		c_link = self.CausalLinkGraph.addEdge(d_f, mutable_s_need, mutable_p)
 
+		if mutable_p.ID in mutable_s_need.cntg_mental.keys() and d_f.stepnum in mutable_s_need.cntg_mental[mutable_p.ID]:
+			self.OrderingGraph.addCntg(new_step, mutable_s_need)
+
 		mutable_s_need.update_choices(self)
 
 		# check if df -> s_need is threatened
@@ -307,8 +312,8 @@ class GPlan:
 		# 	self.flaws.insert(self, TCLF(d_f, cl))
 
 	def __lt__(self, other):
-		# if self.cost / (1 + math.log2(self.depth+1)) + self.heuristic != other.cost / (1 + math.log2(other.depth+1)) + other.heuristic:
-		# 	return self.cost / (1 + math.log2(self.depth+1)) + self.heuristic < other.cost / (1 + math.log2(other.depth+1)) + other.heuristic
+		if self.cost / (1 + math.log2(self.depth+1)) + self.heuristic != other.cost / (1 + math.log2(other.depth+1)) + other.heuristic:
+			return self.cost / (1 + math.log2(self.depth+1)) + self.heuristic < other.cost / (1 + math.log2(other.depth+1)) + other.heuristic
 		# if self.cost - math.log2(self.depth+1) + self.heuristic != other.cost - math.log2(other.depth+1) + other.heuristic:
 		# 	return self.cost - math.log2(self.depth+1) + self.heuristic < other.cost - math.log2(other.depth+1) + other.heuristic
 		# if self.cost - self.depth + self.heuristic != other.cost - other.depth + other.heuristic:
@@ -346,7 +351,7 @@ def topoSort(ordering_graph):
 	init_dummy = GStep(name='init_dummy')
 	ogr.elements.add(init_dummy)
 	for elm in list(ordering_graph.elements):
-		ogr.addOrdering(init_dummy, elm)
+		ogr.addEdge(init_dummy, elm)
 	S = {init_dummy}
 
 	#L = list(graph.Steps)

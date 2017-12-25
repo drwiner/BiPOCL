@@ -115,7 +115,7 @@ def filter_and_add_orderings(planets, RQ):
 		# add orderings
 		if len(orderings) > 0:
 			GtElm = planets[i].getElementById
-			planets[i].OrderingGraph.edges = {Edge(GtElm(ord.source.ID), GtElm(ord.sink.ID), '<') for ord in orderings}
+			planets[i].OrderingGraph.edges = {Edge(GtElm(ord.source.ID), GtElm(ord.sink.ID), ord.label) for ord in orderings}
 
 		indices.append(i)
 
@@ -147,15 +147,19 @@ def Linkify(Planets, RQ, GL):
 			# This condition could be a blank element literal
 			cond = Planets[i].getElementById(link.label.ID)
 
+			Dependency = Condition.subgraph(Planets[i], cond)
+			# if cond is None:
+			# 	cond = RQ.getElementById(link.label.ID)
+
 			# use the step numbers in order to reason about "ground steps" not these partial shits.
 			# ante_dict == cndt_dict
 			if src.stepnumber not in GL.ante_dict[snk.stepnumber]:
 				continue
 
-			if not GL.hasConsistentPrecondition(GL[snk.stepnumber], cond):
+			if not GL.hasConsistentPrecondition(GL[snk.stepnumber], Dependency, src.stepnumber):
 				continue
-
-			Planets[i].CausalLinkGraph.addEdge(src, snk, cond)
+			# pass token, not Dependency
+			Planets[i].CausalLinkGraph.addEdge(src, snk, Dependency)
 			Planets[i].OrderingGraph.addEdge(src, snk)
 			indices.append(i)
 
@@ -182,28 +186,24 @@ def Groundify(Planets, GL, has_links):
 
 	print('...Groundify - Creating Causal Links')
 	Discovered_Planets = []
+
 	for Plan in Planets:
+		nested_links = []
+		for link in Plan.CausalLinkGraph.edges:
+			pre_tokens = GL.getConsistentPreconditions(GL[link.sink.stepnumber], link.label, link.source.stepnumber)
+			link_alternatives = []
+			for token in pre_tokens:
+				_link = Edge(link.source, link.sink, token)
+				link_alternatives.append(_link)
+			nested_links.append(link_alternatives)
 
-		#print(Plan)
-		Libs = [LinkLib(i, link, GL) for i, link in enumerate(Plan.CausalLinkGraph.edges)]
+		# link_worlds = productByPosition(nested_links)
+		link_worlds = itertools.product(*nested_links)
 
-		#LW = [plan1 [link1.condition, link2.condition,..., link-n.condition],
-			#  plan2 [link1.condition, link2.condition, ..., link-m.condition],
-		    #  plan-k [l1,...,lz]]
-		LW = productByPosition(Libs)
-
-		for lw in LW:
-			# create new Planet ("discovered planet") for each linkworld.
-			NP = Plan.deepcopy()
-			for _link in list(lw):
-				pre_token = GL.getConsistentPrecondition(Action.subgraph(NP, _link.sink), _link.label)
-				#label = NP.getElementByID(_link.label.ID)
-				if pre_token != _link.label:
-					NP.ReplaceSubgraphs(pre_token, _link.label)
-				NP.CausalLinkGraph.edges.remove(_link)
-				NP.CausalLinkGraph.edges.add(Edge(_link.source, _link.sink, Condition.subgraph(NP, _link.label)))
-
-			Discovered_Planets.append(NP)
+		for links in link_worlds:
+			FPlan = Plan.deepcopy()
+			FPlan.CausalLinkGraph.edges = set(links)
+			Discovered_Planets.append(FPlan)
 
 	return Discovered_Planets
 
@@ -287,152 +287,3 @@ class ActionLib:
 
 	def __repr__(self):
 		return self.RS.__repr__()
-
-class LinkLib:
-
-	def __init__(self, position, link, GL):
-		"""
-		@param position: in list of links of Planet
-		@param link: ground steps
-		@param Plan: Plan containing link
-		@param GL: ground step library """
-
-		self.position = position
-		self.source = link.source
-		self.sink = link.sink
-		self.condition = link.label
-
-		#LinkLib is a library of potential conditions, just 1 if already specified
-		self._links = []
-
-		if not link.label.arg_name is None:
-			#linked-by
-			self._links = [Edge(link.source, link.sink, self.condition)]
-		else:
-			# add new condition for each potential condition
-			# "effect" mentioned in method below to emphasize whose condition becomes dependency
-			self._links = GL.getPotentialEffectLinkConditions(link.source, link.sink)
-			#self._links = story_GL.getPotentialLinkConditions(link.source, link.sink)
-
-	def __len__(self):
-		return len(self._links)
-
-	def __getitem__(self, position):
-		return self._links[position]
-
-	def __repr__(self):
-		return 'pos={}: {}--{}-> {}'.format(self.position, self.source, self.condition, self.sink)
-
-class ReuseLib:
-	def __init__(self, i, s_add, story_steps):
-		self.step = s_add
-		self._cndts = []
-		if s_add in story_steps:
-			#This element is coupled to another element already in story
-			self._cndts = [step for step in story_steps if s_add == step]
-			self._cndts[0].position = i
-		else:
-			#Reuse
-			for old_step in story_steps:
-				if old_step.stepnumber == s_add.stepnumber:
-					old_step.position = i
-					self._cndts.append(old_step)
-			s_add.position = i
-			#Add for first time
-			self._cndts.append(s_add)
-
-	def __len__(self):
-		return len(self._cndts)
-
-	def __getitem__(self, position):
-		return self._cndts[position]
-
-	def __repr__(self):
-		return str(self.step)
-
-
-@clock
-def Unify(story, other, GL):
-	#self is story, other is ground subplan, which may have elements/IDs already in story.
-
-	SSteps = set(story.Steps)
-	Uni_Libs = [ReuseLib(i, s_add, SSteps) for i, s_add in enumerate(other.Steps)]
-	Uni_Worlds = itertools.product(*Uni_Libs)
-	# for ul  in Uni_Libs:
-	# 	if len(ul._cndts) > 1:
-	# 		pass
-
-	New_Plans = set()
-	for UW in Uni_Worlds:
-		new_plan = story.deepcopy()
-
-		#For each step not already in story, add
-		AddNewSteps(UW, other, SSteps, new_plan)
-
-		for ord in other.OrderingGraph.edges:
-			new_plan.OrderingGraph.addEdge(UW[ord.source.position], UW[ord.sink.position])
-
-		for link in other.CausalLinkGraph.edges:
-			if UW[link.sink.position] not in SSteps:
-				#If its a new step, then there aren'tany flaws to remove
-				AddLink(link, new_plan, UW, remove_flaw=False)
-			else:
-				#if its already in plan, then remove flaw for tat dependency.
-				AddLink(link, new_plan, UW, remove_flaw=True)
-
-		#Add new flaws for other steps
-		for step in UW:
-			#other.root is the abstract step whose subplan is "other"
-			new_plan.OrderingGraph.addEdge(step, other.root)
-			if step not in SSteps:
-				AddNewFlaws(GL, step, new_plan)
-
-		if new_plan.isInternallyConsistent():
-			New_Plans.add(new_plan)
-
-	return New_Plans
-
-def AddNewSteps(UW, other, SSteps, new_plan):
-	for step in UW:
-		if step not in SSteps:
-			S_new = Action.subgraph(other, step).deepcopy()
-			S_new.root.arg_name = step.stepnumber
-			# move pieces
-			new_plan.elements.update(S_new.elements)
-			new_plan.edges.update(S_new.edges)
-			# place in order
-			new_plan.OrderingGraph.addEdge(new_plan.initial_dummy_step, S_new.root)
-			new_plan.OrderingGraph.addEdge(S_new.root, new_plan.final_dummy_step)
-
-def AddNewFlaws(GL, step, new_plan):
-	Step = Action.subgraph(new_plan, step)
-	# Step = Action.subgraph(new_plan, new_plan.getElmByRID(step.replaced_ID))
-
-	for pre in Step.Preconditions:
-		#this is a hack, if the precondition has two operator parents, then its in a causal link
-		cndts = {edge for edge in new_plan.edges if isinstance(edge.source, Operator) and edge.sink == pre.root}
-		if len(cndts) == 0:
-			raise ValueError('wait, no edge for this preconditon? impossible!')
-		if len(cndts) < 2:
-			new_plan.flaws.insert(GL, new_plan, Flaw((step, pre), 'opf'))
-
-	if step.is_decomp:
-		new_plan.flaws.insert(GL, new_plan, Flaw(GL[step.stepnumber].ground_subplan, 'dcf'))
-
-	new_plan.flaws.addCndtsAndRisks(GL, step)
-
-def AddLink(link, new_plan, UW, remove_flaw=True):
-
-	Source = Action.subgraph(new_plan, UW[link.source.position])
-	new_d = Source.getElmByRID(link.label.replaced_ID)
-	if new_d is None:
-		Sink = Action.subgraph(new_plan, UW[link.sink.position])
-		new_d = Sink.getElmByRID(link.label.replaced_ID)
-	D = Condition.subgraph(new_plan, new_d)
-	new_plan.CausalLinkGraph.addEdge(UW[link.source.position], UW[link.sink.position],D)
-
-	if remove_flaw:
-		flaws = new_plan.flaws.flaws
-		f = Flaw((UW[link.sink.position], D), 'opf')
-		if f in flaws:
-			new_plan.flaws.remove(f)

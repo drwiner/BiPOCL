@@ -328,7 +328,6 @@ class GLib:
 		# p_name = problem.split('/')[1].split('.')[0]
 		# self.name = d_name + '.' + p_name
 
-
 	def loadAll(self):
 		self.load(self._gsteps, self._gsteps)
 
@@ -376,7 +375,7 @@ class GLib:
 				self.threat_dict[_step.stepnumber].add(gstep.stepnumber)
 				self.flaw_threat_dict[_pre.replaced_ID].add(gstep.stepnumber)
 			else:
-				# self.eff_dict[_pre.replaced_ID].add(Eff.replaced_ID)
+				self.eff_dict[_pre.replaced_ID].add(Eff.replaced_ID)
 				self.id_dict[_pre.replaced_ID].add(gstep.stepnumber)
 				if _pre.name in ALU_TERMS:
 					self.cntg_mental[_pre.replaced_ID].add(gstep.stepnumber)
@@ -427,21 +426,59 @@ class GLib:
 
 		return cndts
 
+	# not currently used, would need to consider cntg-mental
 	def getConsistentEffect(self, S_Old, precondition):
 		effect_token = None
 		for eff in S_Old.effects:
-			if eff.replaced_ID in self.eff_dict[precondition.replaced_ID] or self.eff_dict[eff.replaced_ID] == \
-					self.eff_dict[precondition.replaced_ID]:
+			if eff.replaced_ID in self.eff_dict[precondition.replaced_ID] or \
+					self.eff_dict[eff.replaced_ID] == self.eff_dict[precondition.replaced_ID]:
 				effect_token = eff
 				break
 		if effect_token is None:
 			raise AttributeError('story_GL.eff_dict empty but id_dict has antecedent')
 		return effect_token
 
-	def hasConsistentPrecondition(self, Sink, effect):
-		for pre in Sink.preconditions:
-			if effect.replaced_ID in self.eff_dict[pre.replaced_ID]:
-				return True
+	def getConsistentPreconditions(self, Sink, Effect, src_stepnum):
+
+
+		consistent_effects = []
+		for Eff in self[src_stepnum].Effects:
+			if Eff.name != Effect.name:
+				continue
+			if not Eff.root.isConsistent(Effect.root) or not Effect.root.isConsistent(Eff.root):
+				continue
+			if is_consistent_args(Eff.Args, Effect.Args, Eff, Effect):
+				consistent_effects.append(Eff.replaced_ID)
+
+		if len(consistent_effects) == 0:
+			return False
+
+		consistent_dependencies = [Pre for eff_rid in consistent_effects
+		                            for Pre in Sink.Preconditions
+		                           if eff_rid in self.eff_dict[Pre.root.replaced_ID]]
+		# for Pre in Sink.Preconditions:
+		# 	for eff_rid in consistent_effects:
+		# 		if eff_rid in self.eff_dict[Pre.root.replaced_ID]:
+		# 			consistent_dependencies.append(eff_rid)
+		return consistent_dependencies
+
+	def hasConsistentPrecondition(self, Sink, Effect, src_stepnum):
+		consistent_effects = []
+		for Eff in self[src_stepnum].Effects:
+			if Eff.name != Effect.name:
+				continue
+			if not Eff.root.isConsistent(Effect.root) or not Effect.root.isConsistent(Eff.root):
+				continue
+			if is_consistent_args(Eff.Args, Effect.Args, Eff, Effect):
+				consistent_effects.append(Eff.replaced_ID)
+
+		if len(consistent_effects) == 0:
+			return False
+
+		for Pre in Sink.Preconditions:
+			for eff_rid in consistent_effects:
+				if eff_rid in self.eff_dict[Pre.root.replaced_ID]:
+					return True
 		return False
 
 	def getConsistentPrecondition(self, Sink, effect):
@@ -488,6 +525,19 @@ def is_equal_args(a_list, b_list, agraph, bgraph):
 				return False
 	return True
 
+
+def is_consistent_args(a_list, b_list, agraph, bgraph):
+	for a, b in zip(a_list, b_list):
+		if not (a.isConsistent(b) and b.isConsistent(a)):
+			return False
+		if isinstance(a, Literal):
+			a_cond = Condition.subgraph(agraph, a)
+			b_cond = Condition.subgraph(bgraph, b)
+			if not is_equal_args(a_cond.Args, b_cond.Args, a_cond, b_cond):
+				return False
+	return True
+
+
 def load_from_pickle(pickle_name):
 	ground_steps = []
 	i = 0
@@ -532,7 +582,7 @@ def view(condition, literal):
 			print(arg)
 
 
-def run_single_example(domain_file, problem_file):
+def run_single_example(domain_file, problem_file, run_planner=None):
 
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem.pddl'
@@ -561,6 +611,9 @@ def run_single_example(domain_file, problem_file):
 				if step.threat_map is not None:
 					if pre.ID in step.threat_map.keys():
 						gs.write('\n\t\t\trisks:\t{}'.format(str(step.threat_map[pre.ID])))
+				if step.cntg_mental is not None:
+					if pre.ID in step.cntg_mental.keys():
+						gs.write("\n\t\t\tcntg-mental:\t{}".format(str(step.cntg_mental[pre.ID])))
 
 			if step.height > 0:
 				gs.write('\n\tsub_steps:')
@@ -574,27 +627,17 @@ def run_single_example(domain_file, problem_file):
 			gs.write('\n\n')
 
 	planner = GPlanner(gsteps)
-	# planner.solve(k=1)
+
+	if run_planner is not None:
+		planner.solve(k=1)
 
 
 def run_all_tests():
-	# domain_heading = "Unity"
-	# domain_types = ["Simple", "VirtualCam"]
-	# domain_number = {"Simple": ["", "_2"], "VirtualCam": [""]}
-	# problem_number = {"Simple": ["", "_2", "_3", "_4"], "VirtualCam": [""]}
+
 	domain_file_template = "D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/{}_Domain_{}{}.pddl"
 	problem_file_template = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/{}_{}_Problem{}.pddl'
 
-	# # run_single_example(domain_file, problem_file)
-	# for domain in domain_types:
-	# 	for numb in domain_number[domain]:
-	# 		df = domain_file_template.format(domain_heading, domain, numb)
-	# 		for pnumb in problem_number[domain]:
-	# 			pf = problem_file_template.format(domain_heading, domain, pnumb)
-	# 			try:
-	# 				run_single_example(df, pf)
-	# 			except:
-	# 				print("did not work on domain: {}, problem: {}".format(df, pf))
+	# simple domain (_2)
 	df = domain_file_template.format("Unity", "Simple", "_2")
 	pf = problem_file_template.format("Unity", "Simple", "_2")
 	run_single_example(df, pf)
@@ -603,6 +646,16 @@ def run_all_tests():
 	pf = problem_file_template.format("Unity", "Simple", "_4")
 	run_single_example(df, pf)
 
+	# virtual cam domain
+	df = domain_file_template.format("Unity", "VirtualCam", "")
+	pf = problem_file_template.format("Unity", "VirtualCam", "")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "VirtualCam", "_2")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "VirtualCam", "_3")
+	run_single_example(df, pf)
+
+	# virtual cam domain (composite steps with height 2)
 	df = domain_file_template.format("Unity", "VirtualCam", "2")
 	pf = problem_file_template.format("Unity", "VirtualCam", "")
 	run_single_example(df, pf)
@@ -611,25 +664,25 @@ def run_all_tests():
 	pf = problem_file_template.format("Unity", "VirtualCam", "_3")
 	run_single_example(df, pf)
 
+	# virtual cam domain (composite steps with height 2, 2 sub-steps, and links)
+	df = domain_file_template.format("Unity", "VirtualCam", "3")
+	pf = problem_file_template.format("Unity", "VirtualCam", "")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "VirtualCam", "_2")
+	run_single_example(df, pf)
+	pf = problem_file_template.format("Unity", "VirtualCam", "_3")
+	run_single_example(df, pf)
+
 if __name__ ==  '__main__':
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam2.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem_3.pddl'
+	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam3.pddl'
+	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem_2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_InitialStateTest_Problem.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 
 	from PyDPOCL import GPlanner
 	from Ground_Compiler_Library import precompile
 
 	# run_all_tests()
-	# domain_heading = "Unity"
-	# domain_types = ["Simple", "VirtualCam"]
-	# domain_number = {"Simple": ["", "_2"], "VirtualCam": [""]}
-	# problem_number = {"Simple": ["", "_2", "_3", "_4"], "VirtualCam": [""]}
 
-	# domain_heading = "Unity"
-	# domain_types = ["Simple",]
-	# domain_number = {"Simple": ["_2"], }
-	# problem_number = {"Simple": ["_2", "_3", "_4"]}
-
-	run_all_tests()
-
-	# run_single_example(domain_file, problem_file)
+	run_single_example(domain_file, problem_file, True)

@@ -130,28 +130,6 @@ class Action(ElementGraph):
 			then, the arguments won't get a new replaced_ID.
 		"""
 
-		# for elm in self.elements:
-		# 	if isinstance(elm, Argument):
-		# 		continue
-		# 	elif type(elm) == Operator and elm != self.root:
-		# 		continue
-		# 		# elm.replaced_ID = elm.ID
-		# 	else:
-		# 		elm.replaced_ID = uuid4()
-		# for elm in self.preconditions:
-		# 	elm.replaced_ID = uuid4()
-		# print('check')
-		# for edge in self.edges:
-		# 	if edge.source != self.root:
-		# 		continue
-		# 	if isinstance(edge.sink, Argument):
-		# 		continue
-		# 	edge.sink.replaced_ID = uuid4()
-
-		# for elm in self.elements:
-		# 	if not isinstance(elm, Argument) and not isinstance(elm, Operator):
-		# 		elm.replaced_ID = uuid4()
-
 	def deepcopy(self, replace_internals=None, _replace_internals=None):
 		new_self = copy.deepcopy(self)
 		if replace_internals is not None:
@@ -352,18 +330,6 @@ class PlanElementGraph(ElementGraph):
 		if len(Plan.Step_Graphs) != len(Actions):
 			raise ValueError("extra steps?")
 
-		# for edge in Plan.edges:
-		# 	if edge.label == 'effect-of':
-		# 		elm = Plan.getElementById(edge.sink.ID)
-		# 		elm.replaced_ID = edge.sink.replaced_ID
-
-		# removed for now
-		# Plan.OrderingGraph = OrderingGraph()
-		# Plan.CausalLinkGraph = CausalLinkGraph()
-
-		# Plan.Steps = [A.root for A in Actions]
-		# Plan.edges = list(set(Plan.edges))
-
 		return Plan
 
 	def UnifyActions(self, P, G):
@@ -400,68 +366,10 @@ class PlanElementGraph(ElementGraph):
 
 		return True
 
-		# for elm in P.elements:
-		# 	NG.getElementById(elm.replaced_ID)
-		# 	NG.get
-		#
-		# for edge in list(NG.edges):
-		# 	# if edge.sink
-		# 	if edge.sink.replaced_ID == -1:
-		# 		sink = copy.deepcopy(edge.sink)
-		# 		sink.replaced_ID = edge.sink.ID
-		# 		self.elements.add(sink)
-		# 	else:
-		# 		sink = P.getElmByRID(edge.sink.replaced_ID)
-		# 		if sink is None:
-		# 			sink = copy.deepcopy(edge.sink)
-		# 			self.elements.add(sink)
-		#
-		# 	source = P.getElmByRID(edge.source.replaced_ID)
-		# 	if source is None:
-		# 		source = copy.deepcopy(edge.source)
-		# 		self.elements.add(source)
-		#
-		# 	self.edges.add(Edge(source, sink, edge.label))
-
 	def deepcopy(self):
 		new_self = copy.deepcopy(self)
 		new_self.ID = uuid4()
 		return new_self
-
-	def RemoveSubgraph(self, literal):
-		edges = list(self.edges)
-		elm = self.getElementById(literal.ID)
-		link = None
-		self.elements.remove(elm)
-
-		for edge in list(self.edges):
-			if edge.source == elm:
-				edges.remove(edge)
-			if link is None:
-				if edge.sink == elm:
-					link = edge
-		edges.remove(link)
-		self.edges = set(edges)
-		return link
-
-	def ReplaceSubgraphs(self, literal_old, literal_new):
-		edges = list(self.edges)
-		elm = self.getElementById(literal_old.ID)
-		link = None
-		self.elements.remove(elm)
-
-		for edge in list(self.edges):
-			if edge.source == elm:
-				edges.remove(edge)
-			if link is None:
-				if edge.sink == elm:
-					link = edge
-		edges.remove(link)
-		link.sink = literal_new
-		self.elements.add(literal_new)
-		self.edges = set(edges)
-		self.edges.add(link)
-		return link
 
 	def AddSubgraph(self, subgraph):
 		self.elements.update(subgraph.elements)
@@ -493,46 +401,6 @@ class PlanElementGraph(ElementGraph):
 			if nobodys_descendant:
 				root_steps.append(s)
 		return [Action.subgraph(self, step) for step in root_steps]
-
-
-	def detectTCLFperCL(self, GL, causal_link):
-		detectedThreatenedCausalLinks = set()
-		for step in self.Steps:
-			self.testThreat(GL, self.CausalLinkGraph.nonThreats, causal_link, step, detectedThreatenedCausalLinks)
-		return detectedThreatenedCausalLinks
-
-	def detectTCLFperStep(self, GL, step):
-		detectedThreatenedCausalLinks = set()
-		for causal_link in self.CausalLinkGraph.edges:
-			self.testThreat(GL, self.CausalLinkGraph.nonThreats, causal_link, step, detectedThreatenedCausalLinks)
-		return detectedThreatenedCausalLinks
-
-	def testThreat(self, GL, nonThreats, causal_link, step, dTCLFs):
-		if step in nonThreats[causal_link]:
-			return
-		if step == causal_link.source or step == causal_link.sink:
-			nonThreats[causal_link].add(step)
-			return
-		if self.OrderingGraph.isPath(causal_link.sink, step):
-			nonThreats[causal_link].add(step)
-			return
-		if self.OrderingGraph.isPath(step, causal_link.source):
-			nonThreats[causal_link].add(step)
-			return
-		if step.stepnumber not in GL.threat_dict[causal_link.sink.stepnumber]:
-			nonThreats[causal_link].add(step)
-			return
-		if test(Action.subgraph(self, step), causal_link):
-			dTCLFs.add(TCLF((step, causal_link), 'tclf'))
-		nonThreats[causal_link].add(step)
-
-	#@clock
-	def detectThreatenedCausalLinks(self, GL):
-		detectedThreatenedCausalLinks = set()
-		for causal_link in self.CausalLinkGraph.edges:
-			for step in self.Steps:
-				self.testThreat(GL, self.CausalLinkGraph.nonThreats, causal_link, step, detectedThreatenedCausalLinks)
-		return detectedThreatenedCausalLinks
 
 	def __repr__(self):
 		c = '\ncost {} + heuristic {}'.format(self.cost, self.heuristic)

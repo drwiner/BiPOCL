@@ -19,19 +19,31 @@ class OrderingGraph(Graph):
 		if len(self) == 0:
 			return True
 
+		# cycles mean not consistent
 		if self.detectCycle():
 			return False
-		return True
 
-	def addOrdering(self, source, sink):
-		self.elements.add(source)
-		self.elements.add(sink)
-		self.edges.add(Edge(source, sink, '<'))
+		# 2 cntgs means not consistent
+		if not self.cntg_consistent():
+			return False
+
+		return True
 
 	def addEdge(self, source, sink):
 		self.elements.add(source)
 		self.elements.add(sink)
 		self.edges.add(Edge(source, sink, '<'))
+		# check cntg_source of sink
+		cntg_of_sink = self.get_source_of_cntg(sink)
+		if cntg_of_sink != sink and cntg_of_sink != source:
+			self.addEdge(source, cntg_of_sink)
+		cntg_of_source = self.get_sink_of_cntg(source)
+		if cntg_of_source != source and cntg_of_source != sink:
+			self.addEdge(cntg_of_source, sink)
+
+	def addCntg(self, source, sink):
+		self.addEdge(source, sink)
+		self.edges.add(Edge(source, sink, "cntg"))
 
 	def detectCycle(self, ):
 		''' Returns True if cycle, False otherwise
@@ -90,6 +102,35 @@ class OrderingGraph(Graph):
 				return True
 		return False
 
+	def get_sink_of_cntg(self, start):
+		cntg_edges = list(self.getIncidentEdgesByLabel(start, "cntg"))
+		if len(cntg_edges) == 0:
+			return start
+		if len(cntg_edges) > 1:
+			raise ValueError("multiple cntg edges? that\'s impossible!!")
+		return self.get_sink_of_cntg(cntg_edges[0].sink)
+
+	def get_source_of_cntg(self, start):
+		cntg_edges = list(self.getIncomingEdgesByLabel(start, "cntg"))
+		if len(cntg_edges) == 0:
+			return start
+		if len(cntg_edges) > 1:
+			raise ValueError("multiple cntg edges? that\'s impossible!!")
+		return self.get_source_of_cntg(cntg_edges[0].source)
+
+	def cntg_consistent(self):
+		cntg_edges = [edge for edge in self.edges if edge.label == "cntg"]
+		sources = []
+		sinks = []
+		for edge in cntg_edges:
+			if edge.sink in sinks:
+				return False
+			if edge.source in sources:
+				return False
+			sources.append(edge.source)
+			sinks.append(edge.sink)
+		return True
+
 	def topoSort(self):
 		L = []
 		for step in self.elements:
@@ -124,7 +165,7 @@ class OrderingGraph(Graph):
 		return len({ordering for ordering in self.edges if ordering.source == step})
 
 	def __repr__(self):
-		return str(['{} < {}'.format(edge.source, edge.sink, edge.sink) for edge in self.edges])
+		return str(['{} < {}'.format(edge.source, edge.sink) for edge in self.edges])
 
 
 class CausalLinkGraph(OrderingGraph):
