@@ -25,22 +25,12 @@
 		(has ?c - person ?t - thing)
         (at ?thing - movable-thing ?place - place)
         (= ?o1 ?o2 - object)
-		(facing ?c1 ?c2 - person)
-		(arg ?i - integer ?s - plan-elmnt ?o - object)
 		(can-show ?cam - virtual-shot-cam ?p - place)
 		(bel ?p - plan-elmnt)
-		(bel-alu ?p - plan-elmnt)
-		(obs-alu ?p - plan-elmnt)
-		(obs-seg-alu ?s - step ?m - segment)
-		(obs-seg ?s - step ?m - segment)
-		(obs ?p - plan-elmnt)
-		(obs-seg-cntg ?s - step ?m - segment)
-		(truth ?l - literal ?j - bool)
-		(play ?s - step-s)
-		(play-seg ?s - step-s ?m - segment)
         )
 
     (:decomp-predicates
+        (arg ?i - integer ?s - plan-elmnt ?o - object)
 		(linked-by ?s ?t - step ?l - literal)
 		(< ?s1 ?s2 - step)
 		(has-scale ?s - step-c ?sc - scale)
@@ -50,6 +40,7 @@
 		(effect ?s - step ?l - literal)
 		(precond ?s - step ?l - literal)
 		(cntg ?d1 ?d2 - step-d)
+		(truth ?l - literal ?j - bool)
 	)
                     
     (:action strut
@@ -58,6 +49,7 @@
         :precondition (and (at ?c ?p1) (not (= ?p1 ?p2)) )
         :effect(and (not (at ?c ?p1)) (at ?c ?p2))
     )
+
 
 	(:action virtual-step-shot
 	    :type step-d

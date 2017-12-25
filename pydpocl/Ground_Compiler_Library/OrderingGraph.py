@@ -142,7 +142,6 @@ class OrderingGraph(Graph):
 					break
 		return L
 
-
 	def __lt__(self, other):
 		#only compared when already has same number of elements
 		if len(self.edges) != len(other.edges):
