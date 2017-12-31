@@ -32,6 +32,9 @@ def get_arg_from_op(arg_formula, schema):
 
 
 def get_arg_from_op_with_string(_arg, schema):
+	if hasattr(schema, "constants"):
+		if _arg in schema.constants.keys():
+			return schema.constants[_arg]
 	if hasattr(schema, "Args"):
 		schema.updateArgs()
 		for arg in schema.Args:
@@ -202,6 +205,8 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 	c = Condition.subgraph(dschema, literal)
 
 	if literal.name == "=":
+		if not literal.truth:
+			print("pbreak")
 		build_op_from_arg(c, dschema)
 
 	elif literal.name == "<":
@@ -213,14 +218,16 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 		src = get_arg_from_arg_name(c.Args[0].arg_name, dschema)
 		snk = get_arg_from_arg_name(c.Args[1].arg_name, dschema)
 		link_condition = Condition.subgraph(dschema, c.Args[2])
+		if link_condition.root.arg_name is None:
+			link_condition.root.arg_name = 'lc-' + str(uuid4())[19:23]
 		dschema.CausalLinkGraph.addEdge(src, snk, link_condition)
-		dschema.edges.add(Edge(c.Args[0], c.Args[2], "effect-of"))
-		dschema.edges.add(Edge(c.Args[1], c.Args[2], "precond-of"))
+		dschema.edges.add(Edge(c.Args[0], link_condition.root, "effect-of"))
+		dschema.edges.add(Edge(c.Args[1],link_condition.root, "precond-of"))
 
 	elif literal.name == "linked":
 		src = get_arg_from_arg_name(c.Args[0].arg_name, dschema)
 		snk = get_arg_from_arg_name(c.Args[1].arg_name, dschema)
-		link_condition = Condition(root_element=Literal(arg_name='link-condition' + str(uuid4())[19:23]))
+		link_condition = Condition(root_element=Literal(arg_name='lc-' + str(uuid4())[19:23]))
 		dschema.elements.add(link_condition.root)
 		dschema.edges.add(Edge(c.Args[0], link_condition.root, "effect-of"))
 		dschema.edges.add(Edge(c.Args[1], link_condition.root, "precond-of"))
@@ -254,6 +261,20 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 			raise ValueError("no args in type {} that are scale typed".format(c.Args[0].name))
 
 		arg_num, arg = args_with_scale[0]
+		dschema.edges.add(Edge(c.Args[0], arg, arg_num))
+
+	elif literal.name == "has-orient":
+		if c.Args[0].name is None:
+			raise ValueError("need to declare operator type of step-typed variable with \'type\' predicate, {}".format(literal))
+		schema_template = get_op_from_op_name(c.Args[0].name, op_graphs)
+		args_with_ort = [(i, arg.deepcopy()) for i, arg in enumerate(schema_template.Args) if arg.typ == "orient"]
+
+		if len(args_with_ort) > 1:
+			raise ValueError('too many args typed as scale')
+		if len(args_with_ort) == 0:
+			raise ValueError("no args in type {} that are scale typed".format(c.Args[0].name))
+
+		arg_num, arg = args_with_ort[0]
 		dschema.edges.add(Edge(c.Args[0], arg, arg_num))
 
 	elif literal.name == "effect":
@@ -339,6 +360,8 @@ def build_operators(actions, obj_types, cnsts):
 		operator_template = Action(name=action.name, root_element=step_typed_var)
 		# convert args
 		args = convert_params(action.parameters, obj_types)
+		# if action.decomp is not None:
+		# 	args = convert_params(action.decomp.sub_params, obj_types) + args
 		operator_template.constants = {cnst.name: cnst for cnst in cnsts}
 		schema = build_operator(action, operator_template, args)
 
@@ -348,11 +371,12 @@ def build_operators(actions, obj_types, cnsts):
 			dargs = convert_params(action.decomp.sub_params, obj_types) + args
 			# initially use all parameters to become decomposition schema args
 			dschema = make_decomp(action.name, dargs, action.decomp.formula, all_operators)
-
+			dschema.constants = operator_template.constants
 			# bipartite has second decomposition method
 			if type(action.decomp) == BipartiteStmt:
 				disc_params = convert_params(action.decomp.disc_params, obj_types)
 				# use same decomp schema, and just add new parameters
+
 				build_decomp(action.decomp.disc_formula, disc_params, dschema, all_operators)
 
 			schema.subplan = dschema
@@ -458,7 +482,7 @@ def addNegativeInitStates(formulae, initAction, init_effects, objects, obj_types
 			literal_template_copy = literal_template.deepcopy()
 			# lit = build_literal(f, initAction)
 			# literal_template_copy = Condition(root_element=Literal(name=f.key, num_args=len(p.parameters)))
-			lit = build_literal(f, literal_template_copy)
+			build_literal(f, literal_template_copy)
 			literal_template_copy.root.truth = True
 			literal_template_copy.root.ID = uuid4()
 			literal_template_copy.elements = set(list(literal_template_copy.elements))

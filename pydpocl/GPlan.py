@@ -211,6 +211,7 @@ class GPlan:
 					if self.OrderingGraph.isPath(clink.sink, new_substep):
 							continue
 					self.flaws.insert(self, TCLF(new_substep, clink))
+		# print('check')
 
 	# Resolve Methods #
 

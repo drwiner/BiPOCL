@@ -138,6 +138,7 @@ class Action(ElementGraph):
 			new_self._replaceInternals()
 		return new_self
 
+
 	# '''for debugging'''
 	# def getConditions(self):
 	# pres = {edge for edge in self.edges if edge.label == 'precond-of'}
@@ -295,40 +296,40 @@ class PlanElementGraph(ElementGraph):
 		edges = set().union(*[A.edges for A in Actions])
 		Plan = cls(name='Action_2_Plan', Elements=elements, Edges=edges)
 
-		# for each pair of elements that have same arg_name, merge.
-		replaced = []
-		for u, v in itertools.product(elements, elements):
-			if v in replaced or u in replaced:
-				continue
-			if u.ID == v.ID:
-				continue
-			# if u == v:
-			# 	continue
-			if not u.isConsistent(v):
-				continue
-			if u.arg_name == v.arg_name:
-				replacer = u
-				original = v
-				if type(u) == Operator:
-					if u.stepnumber != -1:
-						replacer = v
-						original = u
-						replacer.stepnumber = u.stepnumber
-					else:
-						replacer.stepnumber = v.stepnumber
-
-				outgoing_edges = [edge for edge in edges if edge.source == original]
-				Plan.replaceArg(original, replacer)
-				# u.merge(v)
-				for edge in outgoing_edges:
-					# edge.source = u
-					Plan.edges.remove(edge)
-					Plan.edges.add(Edge(replacer, edge.sink, edge.label))
-
-				replaced.append(original)
-
-		if len(Plan.Step_Graphs) != len(Actions):
-			raise ValueError("extra steps?")
+		# # for each pair of elements that have same arg_name, merge.
+		# replaced = []
+		# for u, v in itertools.product(elements, elements):
+		# 	if v in replaced or u in replaced:
+		# 		continue
+		# 	if u.ID == v.ID:
+		# 		continue
+		# 	# if u == v:
+		# 	# 	continue
+		# 	if not u.isConsistent(v):
+		# 		continue
+		# 	if u.arg_name == v.arg_name:
+		# 		replacer = u
+		# 		original = v
+		# 		if type(u) == Operator:
+		# 			if u.stepnumber != -1:
+		# 				replacer = v
+		# 				original = u
+		# 				replacer.stepnumber = u.stepnumber
+		# 			else:
+		# 				replacer.stepnumber = v.stepnumber
+		#
+		# 		outgoing_edges = [edge for edge in edges if edge.source == original]
+		# 		Plan.replaceArg(original, replacer)
+		# 		# u.merge(v)
+		# 		for edge in outgoing_edges:
+		# 			# edge.source = u
+		# 			Plan.edges.remove(edge)
+		# 			Plan.edges.add(Edge(replacer, edge.sink, edge.label))
+		#
+		# 		replaced.append(original)
+		#
+		# if len(Plan.Step_Graphs) != len(Actions):
+		# 	raise ValueError("extra steps?")
 
 		return Plan
 
@@ -347,8 +348,11 @@ class PlanElementGraph(ElementGraph):
 				# then get other kinds
 				e = NG.getElmByRID(elm.replaced_ID)
 			if e is None:
-				print("HERERER")
-				raise ValueError("cannot find elm: {}".format(elm))
+				continue
+				# it's as good as not here
+				# we can end up here because linked-by condition is on different step
+				# print("HERERER")
+				# raise ValueError("cannot find elm: {}".format(elm))
 			already_added_dict[e] = elm
 
 		for edge in NG.edges:

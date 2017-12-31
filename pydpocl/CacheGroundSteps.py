@@ -80,16 +80,30 @@ def groundDecompStepList(doperators, GL, stepnum=0, height=0):
 
 	print('...Creating Ground Decomp Steps')
 	for op in doperators:
+		# renaming all arg_names in order to make sure they're unique
+		op_template = copy.deepcopy(op)
+		for arg in op_template.subplan.Args:
+			if arg.arg_name is None:
+				arg.arg_name = str(arg.ID)[19: 23]
+			else:
+				arg.arg_name = str(arg.ID)[19: 23] + arg.arg_name
+
+		for elm in op_template.elements:
+			if elm.arg_name is None:
+				elm.arg_name = str(elm.ID)[19: 23]
+			else:
+				elm.arg_name = str(elm.ID)[19: 23] + elm.arg_name
+
 		print('processing operator: {}'.format(op))
 		try:
-			sub_plans = Plannify(op.subplan, GL, height)
+			sub_plans = Plannify(op_template.subplan, GL, height)
 		except:
 			continue
 
 		print("num_subplans: " + str(len(sub_plans)))
 		for i, sp in enumerate(sub_plans):
 			print(i)
-			GDO = op.deepcopy()
+			GDO = op_template.deepcopy()
 			GDO.is_decomp = True
 
 			print("rewrite Elms")
@@ -225,15 +239,29 @@ def prep_singleton(GL, gdo, sp, height):
 	gdo.root.is_decomp = True
 	print('_replacing internals')
 	# swap constructor IDs and replaced_IDs
+	"""
+	some bad practice about to happen here: replaced_ID is not changed for operators; what's important is that they changed for preconditions and effects. replaced_IDs are then used to track down the operator tokens in the subplan (sp). the regular IDs are changed, and waiting until after they're changed affects the dictionary key hash.
+	"""
 	gdo._replaceInternals()
 	print('replacing internals')
 	# gdo.replaceInternals()
+
 	print('init and dummy')
 	# Now create dummy init step and goal step
 
 	distinguished_steps(GL, gdo, height)
+	sp_copy = copy.deepcopy(sp)
+	# for elm in gdo.elements:
+	# 	if not isinstance(elm, Operator):
+	# 		continue
+	# 	elm_in_sp = sp_copy.getElmByRID(elm.replaced_ID)
+	# 	if elm_in_sp is None:
+	# 		continue
+	# 	elm_in_sp.ID = elm.ID
+	# sp.elements = set(list(sp_copy.elements))
+	# sp.edges = set(list(sp_copy.edges))
 
-	gdo.ground_subplan = copy.deepcopy(sp)
+	gdo.ground_subplan = sp_copy
 	# gdo.stepnumber = stepnum
 	gdo.ground_subplan.root = gdo.root
 	gdo.height = height + 1
@@ -295,7 +323,7 @@ class GLib:
 		print('...Creating PlanGraph base level')
 		self.loadAll()
 
-		for i in range(3):
+		for i in range(4):
 			print('...Creating PlanGraph decompositional level {}'.format(i+1))
 			try:
 				D = groundDecompStepList(comp_ops, self, stepnum=len(self._gsteps), height=i)
@@ -438,11 +466,10 @@ class GLib:
 			raise AttributeError('story_GL.eff_dict empty but id_dict has antecedent')
 		return effect_token
 
-	def getConsistentPreconditions(self, Sink, Effect, src_stepnum):
-
+	def getConsistentPreconditions(self, Source, Sink, Effect):
 
 		consistent_effects = []
-		for Eff in self[src_stepnum].Effects:
+		for Eff in Source.Effects:
 			if Eff.name != Effect.name:
 				continue
 			if not Eff.root.isConsistent(Effect.root) or not Effect.root.isConsistent(Eff.root):
@@ -462,23 +489,23 @@ class GLib:
 		# 			consistent_dependencies.append(eff_rid)
 		return consistent_dependencies
 
-	def hasConsistentPrecondition(self, Sink, Effect, src_stepnum):
-		consistent_effects = []
-		for Eff in self[src_stepnum].Effects:
-			if Eff.name != Effect.name:
-				continue
-			if not Eff.root.isConsistent(Effect.root) or not Effect.root.isConsistent(Eff.root):
-				continue
-			if is_consistent_args(Eff.Args, Effect.Args, Eff, Effect):
-				consistent_effects.append(Eff.replaced_ID)
+	def hasConsistentPrecondition(self, SinkNum, Effect):
+		# consistent_effects = []
+		# for Eff in Source.Effects:
+		# 	if Eff.name != Effect.name:
+		# 		continue
+		# 	if not Eff.root.isConsistent(Effect.root) or not Effect.root.isConsistent(Eff.root):
+		# 		continue
+		# 	if is_consistent_args(Eff.Args, Effect.Args, Eff, Effect):
+		# 		consistent_effects.append(Eff.replaced_ID)
+		#
+		# if len(consistent_effects) == 0:
+		# 	return False
 
-		if len(consistent_effects) == 0:
-			return False
-
-		for Pre in Sink.Preconditions:
-			for eff_rid in consistent_effects:
-				if eff_rid in self.eff_dict[Pre.root.replaced_ID]:
-					return True
+		for Pre in self[SinkNum].Preconditions:
+			if Effect.replaced_ID in self.eff_dict[Pre.root.replaced_ID]:
+				# if eff_rid in self.eff_dict[Pre.root.replaced_ID]:
+				return True
 		return False
 
 	def getConsistentPrecondition(self, Sink, effect):
@@ -565,7 +592,10 @@ def create_pickles(pickle_name):
 	ground_step_list = precompile.deelementize_ground_library(GL)
 	for i, gstep in enumerate(ground_step_list):
 		with open(pickle_name + str(i), 'wb') as ugly:
-			pickle.dump(gstep, ugly)
+			try:
+				pickle.dump(gstep, ugly)
+			except:
+				print('where?')
 
 	return ground_step_list
 
@@ -581,6 +611,15 @@ def view(condition, literal):
 		else:
 			print(arg)
 
+
+def plan_single_example(domain_file, problem_file):
+	d_name = domain_file.split('/')[-1].split('.')[0]
+	p_name = problem_file.split('/')[-1].split('.')[0]
+	uploadable_pickle_name = d_name + '.' + p_name
+	pname = "pickles/" + uploadable_pickle_name + "_"
+	gsteps = load_from_pickle(pname)
+	planner = GPlanner(gsteps)
+	planner.solve(k=1)
 
 def run_single_example(domain_file, problem_file, run_planner=None):
 
@@ -622,6 +661,7 @@ def run_single_example(domain_file, problem_file, run_planner=None):
 				gs.write('\n\tsub_orderings:')
 				for ord in step.sub_orderings.edges:
 					gs.write('\n\t\t{}'.format(str(ord.source) + ' < ' + str(ord.sink)))
+				gs.write('\n\tsub_links:')
 				for link in step.sub_links.edges:
 					gs.write('\n\t\t{}'.format(str(link)))
 			gs.write('\n\n')
@@ -630,6 +670,7 @@ def run_single_example(domain_file, problem_file, run_planner=None):
 
 	if run_planner is not None:
 		planner.solve(k=1)
+
 
 
 def run_all_tests():
@@ -677,12 +718,16 @@ if __name__ ==  '__main__':
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam3.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem_2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_InitialStateTest_Problem.pddl'
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
+	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Match2_2.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct2.pddl'
 	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
+	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
+	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 
 	from PyDPOCL import GPlanner
 	from Ground_Compiler_Library import precompile
 
 	# run_all_tests()
 
+	# plan_single_example(domain_file, problem_file)
 	run_single_example(domain_file, problem_file, True)

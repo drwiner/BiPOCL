@@ -30,7 +30,7 @@ def deelementize_ground_library(GL):
 
 		# all primitive steps (except for dummies) are in _gsteps before all decomp steps, where each level is totally ordered
 		if gstep.height > 0:
-			gstep.swap_substeps(g_steps, step, len(GL._gsteps))
+			gstep.swap_substeps(g_steps, GL, step)
 
 		g_steps.append(gstep)
 
@@ -42,8 +42,8 @@ def deelementize_ground_library(GL):
 	dummy_init.instantiable = False
 
 	goal_preconds = [GLiteral(p.name, [decompile(arg, p) for arg in p.Args],
-	                          p.truth, p.replaced_ID, (p.name, p.truth) not in GL.non_static_preds) for p in
-	                 GL[-1].Preconditions]
+	                          p.truth, p.replaced_ID, (p.name, p.truth) not in GL.non_static_preds)
+	                                                                    for p in GL[-1].Preconditions]
 	dummy_goal = GStep(GL[-1].name, ["_"], goal_preconds, GL[-1].stepnumber, GL[-1].height)
 	dummy_goal.setup(GL.ante_dict, GL.id_dict, GL.threat_dict, GL.flaw_threat_dict, GL.cntg_mental)
 	dummy_goal.instantiable = False

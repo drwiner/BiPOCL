@@ -29,10 +29,22 @@ class OrderingGraph(Graph):
 
 		return True
 
+	def addLabeledEdge(self, source, sink, label):
+		if label == "cntg":
+			self.addCntg(source, sink)
+		else:
+			self.addEdge(source, sink)
+
 	def addEdge(self, source, sink):
+
+		if self.isPath(source, sink):
+			return
 		self.elements.add(source)
 		self.elements.add(sink)
 		self.edges.add(Edge(source, sink, '<'))
+
+		if self.isCntgPath(source, sink):
+			return
 		# check cntg_source of sink
 		cntg_of_sink = self.get_source_of_cntg(sink)
 		if cntg_of_sink != sink and cntg_of_sink != source:
@@ -102,6 +114,18 @@ class OrderingGraph(Graph):
 				return True
 		return False
 
+	def isCntgPath(self, start, finish):
+		while True:
+			cntg_edges = list(self.getIncomingEdgesByLabel(finish, "cntg"))
+			if len(cntg_edges) == 0:
+				break
+			if len(cntg_edges) > 1:
+				raise ValueError("multiple cntg edges? that\'s impossible!!")
+			if cntg_edges[0].source == start:
+				return True
+			finish = cntg_edges[0].source
+		return False
+
 	def get_sink_of_cntg(self, start):
 		cntg_edges = list(self.getIncidentEdgesByLabel(start, "cntg"))
 		if len(cntg_edges) == 0:
@@ -122,6 +146,7 @@ class OrderingGraph(Graph):
 		cntg_edges = [edge for edge in self.edges if edge.label == "cntg"]
 		sources = []
 		sinks = []
+		# cntg must be s -> t -> u and cannot exist another s -> s' or t' -> u
 		for edge in cntg_edges:
 			if edge.sink in sinks:
 				return False
@@ -129,6 +154,16 @@ class OrderingGraph(Graph):
 				return False
 			sources.append(edge.source)
 			sinks.append(edge.sink)
+			# cannot be an ordering between cntg edge e.g. s --cntg--> t and s < u < t
+			ordering_edges = [ord for ord in self.edges if ord.source == edge.source and ord.sink != edge.sink and ord.label == "<"]
+			for ord in ordering_edges:
+				if self.isPath(ord.sink, edge.sink):
+					return False
+			ordering_edges = [ord for ord in self.edges if ord.sink == edge.sink and ord.source != edge.source and ord.label == "<"]
+			for ord in ordering_edges:
+				if self.isPath(edge.source, ord.source):
+					return False
+
 		return True
 
 	def topoSort(self):

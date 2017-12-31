@@ -9,6 +9,7 @@ import itertools
 
 @clock
 def Plannify(RQ, GL, h):
+
 	print('height: {}'.format(h))
 	#An ActionLib for steps in RQ - ActionLib is a container w/ all of its possible instances as ground steps
 	print('...ActionLibs')
@@ -39,47 +40,61 @@ def Plannify(RQ, GL, h):
 
 	print('...Linkify')
 	#Linkify installs orderings and causal links from RQ/decomp to Planets, rmvs Planets which cannot support links
-	has_links = Linkify(Planets, RQ, GL)
+	Plans = Linkify(Planets, RQ, GL)
 
 	print('...Groundify')
 	#Groundify is the process of replacing partial steps with its ground step, and removing inconsistent planets
-	Plans = Groundify(Planets, GL, has_links)
+	# Plans = Groundify(Planets, GL, has_links)
 
 	print('...returning consistent plans')
 	return [Plan for Plan in Plans if Plan is not None and Plan.isInternallyConsistent()]
 
 
-def partialUnify(PS, _map):
+def unify(gs, _map):
 	if _map is False:
 		return False
-#	NS = PS.deepcopy()
-	NS = copy.deepcopy(PS)
-	effects = [edge.sink for edge in NS.edges if edge.label == 'effect-of' and edge.source == NS.root]
-	for elm in effects:
-		if elm in _map:
-			g_elm = _map[elm]
-			elm.merge(g_elm)
-			elm.replaced_ID = g_elm.replaced_ID
+	gs_copy = gs.deepcopy()
+	for key, val in _map.items():
+		for elm in gs_copy.elements:
+			if val == elm:
+				elm.arg_name = key.arg_name
+				break
+	gs_copy.replaceInternals()
+	gs_copy.root.stepnumber = gs.stepnumber
+	gs_copy.root.height = gs.height
+	gs_copy.height = gs.height
+	gs_copy.is_decomp = gs.is_decomp
+	return gs_copy
 
-	NSE = list(NS.elements)
-	for elm in NSE:
-		if elm in _map:
-			g_elm = _map[elm]
-			elm.merge(g_elm)
-			elm.replaced_ID = g_elm.replaced_ID
-			if elm.replaced_ID == -1:
-				# this is an object/constant
-				ge = copy.deepcopy(g_elm)
-				ge.replaced_ID = ge.ID
-				ge.arg_name = elm.arg_name
-				NS.assign(elm, ge)
-				#elm.replaced_ID = g_elm.ID
-				#elm.ID = g_elm.ID
-	# NS.root.stepnumber = PS.root.stepnumber
-	NS.height = PS.height
-	NS.root.height = PS.root.height
-	NS.updateArgs()
-	return NS
+
+			#	NS = PS.deepcopy()
+	# NS = copy.deepcopy(PS)
+	# effects = [edge.sink for edge in NS.edges if edge.label == 'effect-of' and edge.source == NS.root]
+	# for elm in effects:
+	# 	if elm in _map:
+	# 		g_elm = _map[elm]
+	# 		elm.merge(g_elm)
+	# 		elm.replaced_ID = g_elm.replaced_ID
+	#
+	# NSE = list(NS.elements)
+	# for elm in NSE:
+	# 	if elm in _map:
+	# 		g_elm = _map[elm]
+	# 		elm.merge(g_elm)
+	# 		elm.replaced_ID = g_elm.replaced_ID
+	# 		if elm.replaced_ID == -1:
+	# 			# this is an object/constant
+	# 			ge = copy.deepcopy(g_elm)
+	# 			ge.replaced_ID = ge.ID
+	# 			ge.arg_name = elm.arg_name
+	# 			NS.assign(elm, ge)
+	# 			#elm.replaced_ID = g_elm.ID
+	# 			#elm.ID = g_elm.ID
+	# # NS.root.stepnumber = PS.root.stepnumber
+	# NS.height = PS.height
+	# NS.root.height = PS.root.height
+	# NS.updateArgs()
+	# return NS
 
 
 def isArgNameConsistent(Partially_Ground_Steps):
@@ -114,12 +129,29 @@ def filter_and_add_orderings(planets, RQ):
 
 		# add orderings
 		if len(orderings) > 0:
-			GtElm = planets[i].getElementById
-			planets[i].OrderingGraph.edges = {Edge(GtElm(ord.source.ID), GtElm(ord.sink.ID), ord.label) for ord in orderings}
+			GtElm = getElementByArgName
+			for ord in orderings:
+				source = GtElm(planets[i], ord.source.arg_name)
+				sink = GtElm(planets[i], ord.sink.arg_name)
+				planets[i].OrderingGraph.addLabeledEdge(source, sink, ord.label)
 
 		indices.append(i)
 
 	planets[:] = [planets[i] for i in indices]
+
+
+def getElementByArgName(plan, arg_name):
+	same_arg_named_elements = []
+	for element in plan.elements:
+		if element.arg_name == arg_name:
+			same_arg_named_elements.append(element)
+			return element
+	# if len(same_arg_named_elements) > 1:
+	# 	print('check')
+	# elif len(same_arg_named_elements) == 0:
+	raise ValueError("element not found")
+	# return same_arg_named_elements[0]
+
 
 
 def Linkify(Planets, RQ, GL):
@@ -141,12 +173,14 @@ def Linkify(Planets, RQ, GL):
 	for link in links:
 		indices = []
 		for i in range(len(Planets)):
-
-			src = Planets[i].getElementById(link.source.ID)
-			snk = Planets[i].getElementById(link.sink.ID)
+			src = getElementByArgName(Planets[i], link.source.arg_name)
+			snk = getElementByArgName(Planets[i], link.sink.arg_name)
+			# src = Planets[i].getElementById(link.source.ID)
+			# snk = Planets[i].getElementById(link.sink.ID)
 			# This condition could be a blank element literal
-			cond = Planets[i].getElementById(link.label.ID)
-
+			# cond = Planets[i].getElementById(link.label.ID)
+			cond = getElementByArgName(Action.subgraph(Planets[i], snk), link.label.root.arg_name)
+			# this cond could be precondition or effect (we didn't bother to discriminate
 			Dependency = Condition.subgraph(Planets[i], cond)
 			# if cond is None:
 			# 	cond = RQ.getElementById(link.label.ID)
@@ -156,8 +190,11 @@ def Linkify(Planets, RQ, GL):
 			if src.stepnumber not in GL.ante_dict[snk.stepnumber]:
 				continue
 
-			if not GL.hasConsistentPrecondition(GL[snk.stepnumber], Dependency, src.stepnumber):
+			if src.stepnumber not in GL.id_dict[cond.replaced_ID]:
 				continue
+
+			# if not GL.hasConsistentPrecondition(snk.stepnumber, Dependency):
+			# 	continue
 			# pass token, not Dependency
 			Planets[i].CausalLinkGraph.addEdge(src, snk, Dependency)
 			Planets[i].OrderingGraph.addEdge(src, snk)
@@ -169,17 +206,41 @@ def Linkify(Planets, RQ, GL):
 	if len(Planets) == 0:
 		raise ValueError('no Planet could support links in {}'.format(RQ.name))
 
+	return Planets
+
+	# Discovered_Planets = []
+	#
+	# for Plan in Planets:
+	# 	nested_links = []
+	# 	for link in Plan.CausalLinkGraph.edges:
+	# 		pre_tokens = GL.getConsistentPreconditions(GL[link.sink.stepnumber], link.label, link.source.stepnumber)
+	# 		link_alternatives = []
+	# 		for token in pre_tokens:
+	# 			_link = Edge(link.source, link.sink, token)
+	# 			link_alternatives.append(_link)
+	# 		nested_links.append(link_alternatives)
+	#
+	# 	# link_worlds = productByPosition(nested_links)
+	# 	link_worlds = itertools.product(*nested_links)
+	#
+	# 	for links in link_worlds:
+	# 		FPlan = Plan.deepcopy()
+	# 		FPlan.CausalLinkGraph.edges = set(links)
+	# 		Discovered_Planets.append(FPlan)
+
+	return Discovered_Planets
+
 	return True
 
 
 def Groundify(Planets, GL, has_links):
 	print('...Groundify - Unifying Actions with GL')
-	for i, Planet in enumerate(Planets):
-		print("... Planet {}".format(i))
-		for Step in Planet.Root_Graphs:
-			print('... Unifying {} with {}'.format(Step, GL[Step.stepnumber]))
-			# Unify Actions (1) swaps step graphs with ground step
-			Planet.UnifyActions(Step, GL[Step.stepnumber])
+	# for i, Planet in enumerate(Planets):
+	# 	print("... Planet {}".format(i))
+	# 	for Step in Planet.Root_Graphs:
+	# 		print('... Unifying {} with {}'.format(Step, GL[Step.stepnumber]))
+	# 		# Unify Actions (1) swaps step graphs with ground step
+	# 		Planet.UnifyActions(Step, GL[Step.stepnumber])
 
 	if not has_links:
 		return Planets
@@ -234,27 +295,17 @@ class ActionLib:
 
 			if len(self.RS.elements) == 1:
 				# then it only has a root
-				RS_copy = copy.deepcopy(self.RS)
-				RS_copy.root.merge(gs.root)
-				RS_copy.root.replaced_ID = gs.root.replaced_ID
-				self.append(RS_copy, gs)
+				self.append(gs, {self.RS.root: gs.root})
 				continue
-			# if
+
 			# return a set of E(RS) --> E(gs) mappings, if possible
 			elm_maps = gs.findConsistentSubgraph(self.RS)
 			if len(elm_maps) == 0:
 				continue
-			""" for each map, we're going to unify JUST THOSE elements in the mapping
-			 (for instance, an "operator element" might not yet be assigned a particular schema)
-			 We don't just swap completely because we must respect global bindings for this world """
+
 			for map in elm_maps:
-				if len(map) == 0:
-					RS_copy = copy.deepcopy(self.RS)
-					RS_copy.root.merge(gs.root)
-					RS_copy.root.replaced_ID = gs.root.replaced_ID
-					self.append(partialUnify(RS_copy, map), gs)
-				else:
-					self.append(partialUnify(self.RS, map), gs)
+				self.append(gs, map)
+
 		if len(self) == 0:
 			raise ValueError('no gstep compatible with RS {}'.format(self))
 
@@ -267,12 +318,9 @@ class ActionLib:
 	def __setitem__(self, key, value):
 		self._cndts[key] = value
 
-	def append(self, item, gs):
-		item.root.stepnumber = gs.stepnumber
-		item.root.height = gs.height
-		item.height = gs.height
-		item.is_decomp = gs.is_decomp
-		self._cndts.append(item)
+	def append(self, gs, map):
+		gs_copy = unify(gs, map)
+		self._cndts.append(gs_copy)
 
 	@property
 	def edges(self):

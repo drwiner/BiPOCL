@@ -98,11 +98,33 @@ class GStep:
 		self.threat_map = threatmap
 		self.cntg_Mental = cntgmap
 
-	def swap_substeps(self, gsteps, decomp_step, num_GL_steps):
-		change_dict = {step: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Steps}
+	def swap_substeps(self, gsteps, GL, decomp_step):
+		change_dict = {step.root: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
+		self.create_composite_gstep(gsteps, decomp_step, change_dict)
+
+		children = []
+		for root_graph in decomp_step.ground_subplan.Root_Graphs:
+			tree = build_tree(gsteps, GL, root_graph.root)
+			children.append(tree)
+		decomp_step.root.arg_name = "dis da root"
+		root_dict = {"elm": decomp_step.root, "gstep": self, "children": children}
+
+		traverse_and_prune(root_dict, {}, {})
+		# print('see result')
+		# change_dict = {step: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
+
+
+	def create_composite_gstep(self, gsteps, decomp_step, change_dict):
 		self.sub_steps = list(change_dict.values())
 		for edge in decomp_step.ground_subplan.OrderingGraph.edges:
-			self.sub_orderings.addEdge(change_dict[edge.source], change_dict[edge.sink])
+			source = change_dict[edge.source]
+			# if source.height > 0:
+			# source = change_dict[edge.source].dummy[1]
+			sink = change_dict[edge.sink]
+			# if sink.height > 0:
+			# 	sink = change_dict[edge.sink].dummy[0]
+			self.sub_orderings.addLabeledEdge(source, sink, edge.label)
+
 		for edge in decomp_step.ground_subplan.CausalLinkGraph.edges:
 			new_sink = change_dict[edge.sink]
 			# Condition.subgraph(subplan, edge.label)
@@ -206,6 +228,110 @@ class GStep:
 
 	def __repr__(self):
 		return self.__str__()
+
+
+def traverse_and_prune(root_dict, visited_dict, parent_dict):
+
+	visited_dict.update({root_dict["elm"].arg_name: root_dict["gstep"]})
+
+	new_children = []
+	reroute_dict = {}
+	for child_dict in root_dict['children']:
+		child_elm = child_dict["elm"]
+
+		if child_elm.arg_name in visited_dict.keys():
+			reroute_dict[child_dict["gstep"]] = child_elm.arg_name
+
+			continue
+
+		traverse_and_prune(child_dict, visited_dict, parent_dict)
+		parent_dict[child_dict["gstep"]] = root_dict["gstep"]
+		new_children.append(child_dict)
+
+	if len(reroute_dict) > 0:
+		prune(root_dict, new_children, visited_dict, reroute_dict, parent_dict)
+	else:
+		root_dict["gstep"].sub_steps = [child["gstep"] for child in root_dict['children']]
+
+	return root_dict
+
+
+def prune(root_dict, new_children, visited_dict, reroute_dict, parent_dict):
+	root_gstep = root_dict["gstep"]
+	new_substeps = [child["gstep"] for child in new_children]
+	root_gstep.sub_steps = new_substeps
+
+	old_orderings = list(root_gstep.sub_orderings.edges)
+	root_gstep.sub_orderings.edges = set()
+	for edge in old_orderings:
+
+		source_elm = reroute_dict[edge.source]
+		source = visited_dict[source_elm]
+		sink_elm = reroute_dict[edge.sink]
+		sink = visited_dict[sink_elm]
+
+		parent = parent_dict[source]
+		if parent != parent_dict[sink]:
+			raise ValueError("check this")
+		parent.sub_orderings.addLabeledEdge(source, sink, edge.label)
+
+	old_links = list(root_gstep.sub_links.edges)
+	root_gstep.sub_links.edges = set()
+	for edge in old_links:
+
+		source_elm = reroute_dict[edge.source]
+		source = visited_dict[source_elm]
+		sink_elm = reroute_dict[edge.sink]
+		sink = visited_dict[sink_elm]
+
+		parent = parent_dict[source]
+		if parent != parent_dict[sink]:
+			raise ValueError("check this")
+
+		g_label = GLiteral(edge.label.name, edge.label.Args, edge.label.truth, -1, None)
+		for p in sink.preconds:
+			if p != g_label:
+				continue
+			parent.sub_links.addEdge(source, sink, p)
+			parent.sub_orderings.addEdge(source, sink)
+			sink.fulfill(p)
+			break
+
+		# root_gstep.sub_links.edges.add(Edge(source, sink, edge.label))
+
+
+def build_tree(gsteps, GL, root):
+
+	root_gstep = gsteps[root.stepnumber].instantiate()
+	if root_gstep.height == 0:
+		return {"elm": root, "children": [], "gstep": root_gstep}
+
+	children_dict = {child.root: build_tree(gsteps, GL, child.root) for child in GL[root.stepnumber].ground_subplan.Root_Graphs}
+
+	children = list(children_dict.values())
+
+	root_gstep.sub_orderings.edges = set()
+	for ordering in GL[root.stepnumber].ground_subplan.OrderingGraph.edges:
+		source = children_dict[ordering.source]['gstep']
+		sink = children_dict[ordering.sink]['gstep']
+		root_gstep.sub_orderings.addLabeledEdge(source, sink, ordering.label)
+
+	root_gstep.sub_links.edges = set()
+	for edge in GL[root.stepnumber].ground_subplan.CausalLinkGraph.edges:
+		source = children_dict[edge.source]['gstep']
+		sink = children_dict[edge.sink]['gstep']
+
+		g_label = GLiteral(edge.label.name, edge.label.Args, edge.label.truth, -1, None)
+		for p in sink.preconds:
+			if p != g_label:
+				continue
+			root_gstep.sub_links.addEdge(source, sink, p)
+			root_gstep.sub_orderings.addEdge(source, sink)
+			sink.fulfill(p)
+			break
+
+
+	return {"elm": root, "children": children, "gstep": root_gstep}
 
 
 class GLiteral:
