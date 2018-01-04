@@ -276,6 +276,7 @@ class PlanElementGraph(ElementGraph):
 
 		self.OrderingGraph = OrderingGraph()
 		self.CausalLinkGraph = CausalLinkGraph()
+		self.DecompGraph = OrderingGraph()
 
 		self.nonequals = set()
 		self.flaws = FlawLib()
@@ -310,12 +311,13 @@ class PlanElementGraph(ElementGraph):
 
 		new_ords = []
 		new_links = []
+		new_decomps = []
 		for A in Actions:
 			if hasattr(A, "ground_subplan"):
 				for elm in A.ground_subplan.elements:
 					if elm not in elements and type(elm) == Operator:
 						elm.arg_name = str(uuid4())[19:23] + elm.arg_name
-				process_subplan(A.ground_subplan, elements, edges, new_ords, new_links)
+				process_subplan(A.ground_subplan, elements, edges, new_ords, new_links, new_decomps)
 
 		arg_dict = {op: op.arg_name for op in elements if type(op) == Operator}
 		inv_map = {v: k for k, v in arg_dict.items()}
@@ -344,14 +346,18 @@ class PlanElementGraph(ElementGraph):
 
 		update_ords = []
 		update_links = []
+		update_decomps = []
 		for ord in new_ords:
 			update_ords.append(Edge(inv_map[ord.source.arg_name], inv_map[ord.sink.arg_name], ord.label))
 		for link in new_links:
 			update_links.append(Edge(inv_map[link.source.arg_name], inv_map[link.sink.arg_name], link.label))
+		for decomp in new_decomps:
+			update_decomps.append(Edge(inv_map[decomp.source.arg_name], inv_map[decomp.sink.arg_name], decomp.label))
 
 		Plan = cls(name='Action_2_Plan', Elements=set(new_elements), Edges=set(new_edges))
 		Plan.OrderingGraph.edges = set(update_ords)
 		Plan.CausalLinkGraph.edges = set(update_links)
+		Plan.DecompGraph.edges = set(update_decomps)
 
 		return Plan
 
@@ -402,12 +408,13 @@ class PlanElementGraph(ElementGraph):
 			   ''.join(['{}'.format(o) for o in order]) + '*CausalLinks:\n' + ''.join(['{}'.format(link) for link in links]) + '}'
 
 
-def process_subplan(gsub, new_elms, new_edges, new_ords, new_links):
+def process_subplan(gsub, new_elms, new_edges, new_ords, new_links, new_decomps):
 	""" Recursively add elements (step-typed elements added to arg_dict) Orderings, and Causal Links"""
 	new_elms.update(gsub.elements)
 	new_edges.update(gsub.edges)
 	new_ords.extend(gsub.OrderingGraph.edges)
 	new_links.extend(gsub.CausalLinkGraph.edges)
+	new_decomps.extend([Edge(gsub.root, elm, "<") for elm in gsub.elements if type(elm) == Operator])
 	for step in gsub.Step_Graphs:
 		if hasattr(step, "ground_subplan"):
 			for elm in step.ground_subplan.elements:

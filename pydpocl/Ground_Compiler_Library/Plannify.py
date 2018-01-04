@@ -71,36 +71,6 @@ def unify(gs, _map):
 	return gs_copy
 
 
-			#	NS = PS.deepcopy()
-	# NS = copy.deepcopy(PS)
-	# effects = [edge.sink for edge in NS.edges if edge.label == 'effect-of' and edge.source == NS.root]
-	# for elm in effects:
-	# 	if elm in _map:
-	# 		g_elm = _map[elm]
-	# 		elm.merge(g_elm)
-	# 		elm.replaced_ID = g_elm.replaced_ID
-	#
-	# NSE = list(NS.elements)
-	# for elm in NSE:
-	# 	if elm in _map:
-	# 		g_elm = _map[elm]
-	# 		elm.merge(g_elm)
-	# 		elm.replaced_ID = g_elm.replaced_ID
-	# 		if elm.replaced_ID == -1:
-	# 			# this is an object/constant
-	# 			ge = copy.deepcopy(g_elm)
-	# 			ge.replaced_ID = ge.ID
-	# 			ge.arg_name = elm.arg_name
-	# 			NS.assign(elm, ge)
-	# 			#elm.replaced_ID = g_elm.ID
-	# 			#elm.ID = g_elm.ID
-	# # NS.root.stepnumber = PS.root.stepnumber
-	# NS.height = PS.height
-	# NS.root.height = PS.root.height
-	# NS.updateArgs()
-	# return NS
-
-
 def isArgNameConsistent(Partially_Ground_Steps):
 
 	arg_name_dict = {}
@@ -138,8 +108,20 @@ def filter_and_add_orderings(planets, RQ):
 				source = GtElm(planets[i], ord.source.arg_name)
 				sink = GtElm(planets[i], ord.sink.arg_name)
 				planets[i].OrderingGraph.addLabeledEdge(source, sink, ord.label)
+				if ord.label != "<":
+					continue
+				source_terminals = planets[i].DecompGraph.rGetDescendants(source)
+				sink_terminals = planets[i].DecompGraph.rGetDescendants(sink)
+				for d_src, d_snk in itertools.product(source_terminals, sink_terminals):
+					if d_src == source or d_snk == sink:
+						continue
+					if d_src == d_snk:
+						continue
+					planets[i].OrderingGraph.addEdge(d_src, d_snk)
 
 		indices.append(i)
+
+
 
 	planets[:] = [planets[i] for i in indices]
 
