@@ -111,11 +111,24 @@ class Action(ElementGraph):
 		self.ID = uuid4()
 		for elm in self.elements:
 			if not isinstance(elm, Argument):
-				elm.ID = uuid4()
+				if hasattr(self, "ground_subplan"):
+					# then also replace sub-plan ops
+					sub_plan_elm = self.ground_subplan.getElementById(elm.ID)
+					elm.ID = uuid4()
+					if sub_plan_elm is not None:
+						sub_plan_elm.ID = elm.ID
+						if elm.arg_name is not None and elm.arg_name != sub_plan_elm.arg_name:
+							sub_plan_elm.arg_name = elm.arg_name
+				else:
+					elm.ID = uuid4()
 
 		# need this to refresh mutable IDs
 		self.elements = set(list(self.elements))
 		self.edges = set(list(self.edges))
+		if hasattr(self, "ground_subplan"):
+			self.ground_subplan.elements = set(list(self.ground_subplan.elements))
+			self.ground_subplan.edges = set(list(self.ground_subplan.edges))
+			# print('check result')
 
 	# USE THIS ONLY when creating GROUND STEPS for first time (replacing replaced_ID)
 	def _replaceInternals(self):
@@ -294,7 +307,47 @@ class PlanElementGraph(ElementGraph):
 
 		elements = set().union(*[A.elements for A in Actions])
 		edges = set().union(*[A.edges for A in Actions])
-		Plan = cls(name='Action_2_Plan', Elements=elements, Edges=edges)
+
+		arg_dict = {op: op.arg_name for op in elements if type(op) == Operator}
+		inv_map = {v: k for k, v in arg_dict.items()}
+
+		new_edges = []
+		for edge in edges:
+			must_replace = False
+			source = edge.source
+			sink = edge.sink
+			if type(source) == Operator:
+				source = inv_map[source.arg_name]
+				must_replace = True
+			if type(sink) == Operator:
+				sink = inv_map[sink.arg_name]
+				must_replace = True
+			if must_replace:
+				new_edges.append(Edge(source, sink, edge.label))
+			else:
+				new_edges.append(edge)
+		new_elements = []
+		for elm in elements:
+			if type(elm) == Operator:
+				new_elements.append(inv_map[elm.arg_name])
+			else:
+				new_elements.append(elm)
+
+		new_ords = []
+		new_links = []
+		for A in Actions:
+			if hasattr(A, "ground_subplan"):
+				""" Recursively add elements (step-typed elements added to arg_dict) Orderings, and Causal Links"""
+				for ord in A.ground_subplan.OrderingGraph.edges:
+					new_ords.append(Edge(inv_map[ord.source.arg_name], inv_map[ord.sink.arg_name], ord.label))
+				for link in A.ground_subplan.CausalLinkGraph.edges:
+					new_links.append(Edge(inv_map[link.source.arg_name], inv_map[link.sink.arg_name], link.label))
+
+		Plan = cls(name='Action_2_Plan', Elements=set(new_elements), Edges=set(new_edges))
+		Plan.OrderingGraph.edges = set(new_ords)
+		Plan.CausalLinkGraph.edges = set(new_links)
+
+		return Plan
 
 		# # for each pair of elements that have same arg_name, merge.
 		# replaced = []
@@ -331,7 +384,7 @@ class PlanElementGraph(ElementGraph):
 		# if len(Plan.Step_Graphs) != len(Actions):
 		# 	raise ValueError("extra steps?")
 
-		return Plan
+
 
 	def UnifyActions(self, P, G):
 		# Used by Plannify

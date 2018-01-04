@@ -4,11 +4,11 @@ from uuid import uuid4
 from Ground_Compiler_Library.Element import Argument, Element, Operator, Literal
 from Ground_Compiler_Library.Graph import Edge
 from Ground_Compiler_Library.ElementGraph import ElementGraph
-from Ground_Compiler_Library.PlanElementGraph import Condition
+from Ground_Compiler_Library.PlanElementGraph import Condition, Action
 import copy
 import collections
 from clockdeco import clock
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 # import json
 # import jsonpickle
 dummyTuple = namedtuple('dummyTuple', ['init', 'final'])
@@ -23,7 +23,7 @@ class GStep:
 	Read-Only Ground Step
 	"""
 
-	def __init__(self, operator, args, preconditions, stepnum, height):
+	def __init__(self, operator, args, preconditions, effects, stepnum, height):
 
 		# READ-ONLY ATTRIBUTES #
 		# schema refers to the name of the operator
@@ -34,6 +34,7 @@ class GStep:
 		self.ID = uuid4()
 		# preconds is a list of GCond
 		self.preconds = preconditions
+		self.effects = effects
 		# stepnum is the ground step constructor type
 		self.stepnum = stepnum
 		self.stepnumber = stepnum
@@ -96,20 +97,77 @@ class GStep:
 		self.cndt_map = cndtmap
 		self.threats = threats
 		self.threat_map = threatmap
-		self.cntg_Mental = cntgmap
+		self.cntg_mental = cntgmap
 
+	# for each sub-step in sub-plan, create gstep
 	def swap_substeps(self, gsteps, GL, decomp_step):
-		change_dict = {step.root: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
-		self.create_composite_gstep(gsteps, decomp_step, change_dict)
+		# base case - sub-steps are all height = 0
+		primitive_substeps = [arg for arg in decomp_step.ground_subplan.elements
+		                      if type(arg) == Operator and arg.height == 0]
+		composite_substeps = [arg for arg in decomp_step.ground_subplan.elements
+		                      if type(arg) == Operator and arg.height > 0]
 
-		children = []
-		for root_graph in decomp_step.ground_subplan.Root_Graphs:
-			tree = build_tree(gsteps, GL, root_graph.root)
-			children.append(tree)
-		decomp_step.root.arg_name = "dis da root"
-		root_dict = {"elm": decomp_step.root, "gstep": self, "children": children}
+		if len(composite_substeps) == 0:
+			prim_dict = {step: gsteps[step.stepnumber].instantiate() for step in primitive_substeps}
+			self.create_composite_gstep(gsteps, decomp_step, prim_dict)
+		else:
+			# links and orderings in intermediate stage
+			# change_dict = {step.root: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
 
-		traverse_and_prune(root_dict, {}, {})
+			change_dict = {}
+			for step in decomp_step.ground_subplan.Step_Graphs:
+
+				Args = [decompile(arg, decomp_step.ground_subplan) for arg in step.Args]
+				preconds = [GLiteral(p.name, [decompile(arg, p) for arg in p.Args],
+				                     p.truth, p.replaced_ID, (p.name, p.truth) not in GL.non_static_preds)
+				            for p in step.Preconditions]
+				effects = [GLiteral(e.name, [decompile(arg, e) for arg in e.Args],
+				                    e.truth, e.replaced_ID, (e.name, e.truth) not in GL.non_static_preds)
+				           for e in step.Effects]
+				schema = str(step)
+				step_copy = GStep(schema, Args, preconds, effects, step.stepnumber, step.height)
+				step_copy.ID = step.root.ID
+				st_t = gsteps[step.stepnumber].instantiate()
+				step_copy.swap_setup(st_t.cndts, st_t.cndt_map, st_t.threats, st_t.threat_map, st_t.cntg_mental)
+
+				# give no children
+				if step.height > 0:
+					init_step = st_t.dummy[0]
+					init_step.schema = "begin:" + str(step)
+					final_step = st_t.dummy[1]
+					final_step.schema = "finish:" + str(step)
+					step_copy.dummy = dummyTuple(init_step, final_step)
+
+					step_copy.sub_steps = []
+					step_copy.sub_orderings = OrderingGraph()
+					step_copy.sub_links = CausalLinkGraph()
+				change_dict[step.root] = step_copy
+				# self.sub_steps.append(step)
+			self.create_composite_gstep(gsteps, decomp_step, change_dict)
+
+			# comp_dict = {step: decomp_step.ground_subplan.OrderingGraph for step in composite_substeps if step == 1}
+			#
+			# children = []
+			# for root_graph in decomp_step.ground_subplan.Root_Graphs:
+			# 	tree = build_tree(gsteps, GL, root_graph.root)
+			# 	children.append(tree)
+			# decomp_step.root.arg_name = "dis da root"
+			# root_dict = {"elm": decomp_step.root, "gstep": self, "children": children}
+			#
+			# traverse_and_prune(root_dict, {}, {})
+
+	# def swap_substeps(self, gsteps, GL, decomp_step):
+	# 	change_dict = {step.root: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
+	# 	self.create_composite_gstep(gsteps, decomp_step, change_dict)
+	#
+	# 	children = []
+	# 	for root_graph in decomp_step.ground_subplan.Root_Graphs:
+	# 		tree = build_tree(gsteps, GL, root_graph.root)
+	# 		children.append(tree)
+	# 	decomp_step.root.arg_name = "dis da root"
+	# 	root_dict = {"elm": decomp_step.root, "gstep": self, "children": children}
+	#
+	# 	traverse_and_prune(root_dict, {}, {})
 		# print('see result')
 		# change_dict = {step: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
 
@@ -130,6 +188,7 @@ class GStep:
 			# Condition.subgraph(subplan, edge.label)
 			g_label = GLiteral(edge.label.name, edge.label.Args, edge.label.truth, -1, None)
 			for p in new_sink.preconds:
+
 				if p != g_label:
 					continue
 				self.sub_links.addEdge(change_dict[edge.source], new_sink, p)
@@ -374,7 +433,7 @@ class GLiteral:
 			t = 'not-'
 		if self.truth is None:
 			t = "(-)"
-		return '{}{}'.format(t, self.name)
+		return '{}{}'.format(t, self.name) + str([arg.name for arg in self.Args])
 
 
 #@clock
@@ -415,3 +474,13 @@ def prioritize_cndt(cndt, whose):
 				continue
 			whose.cndt_map[pre.ID].remove(cndt.stepnum)
 			whose.cndt_map[pre.ID].insert(0, cndt.stepnum)
+
+
+def decompile(arg, p):
+	if isinstance(arg, Argument):
+		return arg
+	elif isinstance(arg, Operator):
+		arg.arg_name = str(Action.subgraph(p, arg))
+	elif isinstance(arg, Literal):
+		arg.arg_name = str(Condition.subgraph(p, arg))
+	return arg

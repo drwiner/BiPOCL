@@ -53,6 +53,9 @@ def Plannify(RQ, GL, h):
 def unify(gs, _map):
 	if _map is False:
 		return False
+	# if gs.height > 0:
+	# 	print('check here')
+
 	gs_copy = gs.deepcopy()
 	for key, val in _map.items():
 		for elm in gs_copy.elements:
@@ -64,6 +67,7 @@ def unify(gs, _map):
 	gs_copy.root.height = gs.height
 	gs_copy.height = gs.height
 	gs_copy.is_decomp = gs.is_decomp
+
 	return gs_copy
 
 
@@ -227,10 +231,6 @@ def Linkify(Planets, RQ, GL):
 	# 		FPlan = Plan.deepcopy()
 	# 		FPlan.CausalLinkGraph.edges = set(links)
 	# 		Discovered_Planets.append(FPlan)
-
-	return Discovered_Planets
-
-	return True
 
 
 def Groundify(Planets, GL, has_links):

@@ -212,7 +212,16 @@ class GPlanner:
 
 			# insert our new mutated plan into the frontier
 			self.insert(new_plan)
+			"""
+			NOTE -> may need to push in information about what sub-step to not add
+				It's based on which precondition args are step-typed
 
+				Q - could these be nested? Q(P(T(bandit,strut-1), N(bandit)), T(cowboy, strut-1)
+				A - yes, needs to decompile into args - some of which are operator tokens
+
+				Q - how do we know which operator tokens (in args, preconds, and effects) correspond to which sub-steps?
+				A - [   ], we may need some kind of sub-step dictionary whose keys are args in preconds and effects, or create some central repo
+			"""
 
 	def reuse_step(self, plan, flaw):
 		s_need, p = flaw.flaw

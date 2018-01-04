@@ -177,7 +177,7 @@ class GPlan:
 				source = source.dummy.final
 			if sink.height > 0:
 				sink = sink.dummy.init
-			self.OrderingGraph.addEdge(source, sink)
+			self.OrderingGraph.addLabeledEdge(source, sink, edge.label)
 
 		# sub links
 		for edge in new_step.sub_links.edges:

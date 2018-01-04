@@ -141,18 +141,32 @@ def append_composite_step(gsteps, ground_composite_step, stepnum):
 	stepnum += 3
 	return stepnum
 
+
+def decompile(arg, p):
+	arg_copy = copy.deepcopy(arg)
+	if isinstance(arg, Argument):
+		return arg_copy
+	elif isinstance(arg, Operator):
+		arg_copy.arg_name = str(Action.subgraph(p, arg))
+	elif isinstance(arg, Literal):
+		arg_copy.arg_name = str(Condition.subgraph(p, arg))
+	return arg_copy
+
+
 def distinguished_steps(GL, gdo, height):
 
-	dummy_init = Action(name='begin:' + str(gdo.name))
+	dummy_init = Action(name='begin:' + str(gdo.name) + "-" + str(gdo.root.stepnumber) + str([decompile(arg, gdo) for arg in gdo.Args]))
 	dummy_init.has_cndt = False
+	dummy_init.root.name = dummy_init.name
 
 	for condition in gdo.Preconditions:
 		dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
 		dummy_init.edges.update(condition.edges)
 		dummy_init.elements.update(condition.elements)
 
-	dummy_goal = Action(name='finish:' + str(gdo.name))
+	dummy_goal = Action(name='finish:' + str(gdo.name) + "-" + str(gdo.root.stepnumber) + str([decompile(arg, gdo) for arg in gdo.Args]))
 	dummy_goal.is_cndt = False
+	dummy_goal.root.name = dummy_goal.name
 
 	for condition in gdo.Effects:
 		if not GL.check_has_effect(condition, height + 1):
@@ -169,7 +183,7 @@ def distinguished_steps(GL, gdo, height):
 # @clock
 def rewriteElms(GDO, sp, objects, obtypes, h):
 
-	sp_arg_dict = {elm.arg_name: elm for elm in sp.elements}
+	sp_arg_dict = {elm.arg_name: elm for elm in sp.elements if elm.arg_name is not None}
 	needs_substituting = []
 	print(GDO)
 	for i, arg in enumerate(GDO.Args):
@@ -179,6 +193,8 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 			if arg.name is None:
 				needs_substituting.append(i)
 				continue
+			else:
+				print('check here')
 			# raise ValueError("just checking if this is possible")
 		sp_elm = sp_arg_dict[arg.arg_name]
 		print("suplan elm: " + str(sp_elm))
@@ -619,7 +635,8 @@ def plan_single_example(domain_file, problem_file):
 	pname = "pickles/" + uploadable_pickle_name + "_"
 	gsteps = load_from_pickle(pname)
 	planner = GPlanner(gsteps)
-	planner.solve(k=1)
+	p = planner.solve(k=1)
+	return p, gsteps
 
 def run_single_example(domain_file, problem_file, run_planner=None):
 
@@ -714,12 +731,21 @@ def run_all_tests():
 	pf = problem_file_template.format("Unity", "VirtualCam", "_3")
 	run_single_example(df, pf)
 
+
+# def construct_state_space(steps):
+# 	init = steps[0].effects
+
 if __name__ ==  '__main__':
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam3.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem_2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_InitialStateTest_Problem.pddl'
+
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Match2_2.pddl'
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct2.pddl'
+
+	# issue domain:
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct3.pddl'
+
+	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct.pddl'
 	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
@@ -729,5 +755,10 @@ if __name__ ==  '__main__':
 
 	# run_all_tests()
 
-	# plan_single_example(domain_file, problem_file)
+	# plan_output, gsteps = plan_single_example(domain_file, problem_file)
+	# plan_steps = list(plan_output[0].OrderingGraph.topoSort())
+
 	run_single_example(domain_file, problem_file, True)
+	print('output')
+	# for step in plan.OrderingGraph.topoSort():
+	# 	print(step)
