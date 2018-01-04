@@ -308,6 +308,15 @@ class PlanElementGraph(ElementGraph):
 		elements = set().union(*[A.elements for A in Actions])
 		edges = set().union(*[A.edges for A in Actions])
 
+		new_ords = []
+		new_links = []
+		for A in Actions:
+			if hasattr(A, "ground_subplan"):
+				for elm in A.ground_subplan.elements:
+					if elm not in elements and type(elm) == Operator:
+						elm.arg_name = str(uuid4())[19:23] + elm.arg_name
+				process_subplan(A.ground_subplan, elements, edges, new_ords, new_links)
+
 		arg_dict = {op: op.arg_name for op in elements if type(op) == Operator}
 		inv_map = {v: k for k, v in arg_dict.items()}
 
@@ -333,95 +342,18 @@ class PlanElementGraph(ElementGraph):
 			else:
 				new_elements.append(elm)
 
-		new_ords = []
-		new_links = []
-		for A in Actions:
-			if hasattr(A, "ground_subplan"):
-				""" Recursively add elements (step-typed elements added to arg_dict) Orderings, and Causal Links"""
-				for ord in A.ground_subplan.OrderingGraph.edges:
-					new_ords.append(Edge(inv_map[ord.source.arg_name], inv_map[ord.sink.arg_name], ord.label))
-				for link in A.ground_subplan.CausalLinkGraph.edges:
-					new_links.append(Edge(inv_map[link.source.arg_name], inv_map[link.sink.arg_name], link.label))
+		update_ords = []
+		update_links = []
+		for ord in new_ords:
+			update_ords.append(Edge(inv_map[ord.source.arg_name], inv_map[ord.sink.arg_name], ord.label))
+		for link in new_links:
+			update_links.append(Edge(inv_map[link.source.arg_name], inv_map[link.sink.arg_name], link.label))
 
 		Plan = cls(name='Action_2_Plan', Elements=set(new_elements), Edges=set(new_edges))
-		Plan.OrderingGraph.edges = set(new_ords)
-		Plan.CausalLinkGraph.edges = set(new_links)
+		Plan.OrderingGraph.edges = set(update_ords)
+		Plan.CausalLinkGraph.edges = set(update_links)
 
 		return Plan
-
-		# # for each pair of elements that have same arg_name, merge.
-		# replaced = []
-		# for u, v in itertools.product(elements, elements):
-		# 	if v in replaced or u in replaced:
-		# 		continue
-		# 	if u.ID == v.ID:
-		# 		continue
-		# 	# if u == v:
-		# 	# 	continue
-		# 	if not u.isConsistent(v):
-		# 		continue
-		# 	if u.arg_name == v.arg_name:
-		# 		replacer = u
-		# 		original = v
-		# 		if type(u) == Operator:
-		# 			if u.stepnumber != -1:
-		# 				replacer = v
-		# 				original = u
-		# 				replacer.stepnumber = u.stepnumber
-		# 			else:
-		# 				replacer.stepnumber = v.stepnumber
-		#
-		# 		outgoing_edges = [edge for edge in edges if edge.source == original]
-		# 		Plan.replaceArg(original, replacer)
-		# 		# u.merge(v)
-		# 		for edge in outgoing_edges:
-		# 			# edge.source = u
-		# 			Plan.edges.remove(edge)
-		# 			Plan.edges.add(Edge(replacer, edge.sink, edge.label))
-		#
-		# 		replaced.append(original)
-		#
-		# if len(Plan.Step_Graphs) != len(Actions):
-		# 	raise ValueError("extra steps?")
-
-
-
-	def UnifyActions(self, P, G):
-		# Used by Plannify
-
-		NG = G.deepcopy()
-
-		already_added_dict = dict()
-
-		for elm in P.elements:
-			print(elm.replaced_ID)
-			# first, try to get operator tokens
-			e = NG.getElementById(elm.replaced_ID)
-			if e is None:
-				# then get other kinds
-				e = NG.getElmByRID(elm.replaced_ID)
-			if e is None:
-				continue
-				# it's as good as not here
-				# we can end up here because linked-by condition is on different step
-				# print("HERERER")
-				# raise ValueError("cannot find elm: {}".format(elm))
-			already_added_dict[e] = elm
-
-		for edge in NG.edges:
-			if edge.source not in already_added_dict.keys():
-				if edge.source.replaced_ID == -1:
-					edge.source.replaced_ID = edge.source.ID
-				already_added_dict[edge.source] = edge.source
-				self.elements.add(edge.source)
-			if edge.sink not in already_added_dict.keys():
-				if edge.sink.replaced_ID == -1 and not isinstance(edge.sink, Argument):
-					edge.sink.replaced_ID = edge.sink.ID
-				already_added_dict[edge.sink] = edge.sink
-				self.elements.add(edge.sink)
-			self.edges.add(Edge(already_added_dict[edge.source], already_added_dict[edge.sink], edge.label))
-
-		return True
 
 	def deepcopy(self):
 		new_self = copy.deepcopy(self)
@@ -468,6 +400,20 @@ class PlanElementGraph(ElementGraph):
 		return 'PLAN: ' + str(self.ID) + c + '\n*Steps: \n' + ''.join(['{}'.format(step) for step in steps]) + \
 			   '*Orderings:\n' + \
 			   ''.join(['{}'.format(o) for o in order]) + '*CausalLinks:\n' + ''.join(['{}'.format(link) for link in links]) + '}'
+
+
+def process_subplan(gsub, new_elms, new_edges, new_ords, new_links):
+	""" Recursively add elements (step-typed elements added to arg_dict) Orderings, and Causal Links"""
+	new_elms.update(gsub.elements)
+	new_edges.update(gsub.edges)
+	new_ords.extend(gsub.OrderingGraph.edges)
+	new_links.extend(gsub.CausalLinkGraph.edges)
+	for step in gsub.Step_Graphs:
+		if hasattr(step, "ground_subplan"):
+			for elm in step.ground_subplan.elements:
+				if elm not in new_elms and type(elm) == Operator:
+					elm.arg_name = str(uuid4()) + elm.arg_name
+			process_subplan(step.ground_subplan, new_elms, new_edges, new_ords, new_links)
 
 #@clock
 def test(step, causal_link):
