@@ -6,13 +6,14 @@ from Ground_Compiler_Library.Element import Operator, Literal, Argument
 from Ground_Compiler_Library.PlanElementGraph import Condition, Action
 
 def decompile(arg, p):
+
 	if isinstance(arg, Argument):
 		return arg
 	elif isinstance(arg, Operator):
-		arg.arg_name = str(Action.subgraph(p, arg))
+		return Action.subgraph(p, arg)
 	elif isinstance(arg, Literal):
-		arg.arg_name = str(Condition.subgraph(p, arg))
-	return arg
+		return Condition.subgraph(p, arg)
+
 
 
 def deelementize_ground_library(GL):

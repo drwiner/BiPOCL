@@ -79,9 +79,9 @@ class GPlan:
 		self.cost += 1
 		# self.cost += (2 * 2 + 1) - (step.height * step.height)
 		if step.height > 0:
-			self.insert_decomp(step)
+			return self.insert_decomp(step)
 		else:
-			self.insert_primitive(step)
+			return self.insert_primitive(step)
 
 
 	def insert_primitive(self, new_step):
@@ -108,6 +108,8 @@ class GPlan:
 				continue
 			if new_step.stepnum in edge.sink.threat_map[edge.label.ID]:
 				self.flaws.insert(self, TCLF(new_step, edge))
+
+		return None
 
 	def insert_decomp(self, new_step):
 		# magic happens here
@@ -163,16 +165,24 @@ class GPlan:
 			if new_substep.depth > self.depth:
 				self.depth = new_substep.depth
 
-			self.insert(new_substep)
+			poss_swaps = self.insert(new_substep)
+			if poss_swaps is not None:
+				swap_dict.update(poss_swaps)
 
 			# if your substeps have children, make those children fit between your init and
 			if new_substep.height > 0:
 				self.OrderingGraph.addEdge(new_substep.dummy.final, d_f)
 				self.OrderingGraph.addEdge(d_i, new_substep.dummy.init)
+			else:
+				self.OrderingGraph.addEdge(new_substep, d_f)
+				self.OrderingGraph.addEdge(d_i, new_substep)
 
 		# sub orderings
 		for edge in new_step.sub_orderings.edges:
+			# try:
 			source, sink = swap_dict[edge.source.ID], swap_dict[edge.sink.ID]
+			# except:
+			# 	pass
 			if source.height > 0:
 				source = source.dummy.final
 			if sink.height > 0:
@@ -211,6 +221,8 @@ class GPlan:
 					if self.OrderingGraph.isPath(clink.sink, new_substep):
 							continue
 					self.flaws.insert(self, TCLF(new_substep, clink))
+
+		return swap_dict
 		# print('check')
 
 	# Resolve Methods #

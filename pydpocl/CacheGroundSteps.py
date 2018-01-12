@@ -11,7 +11,8 @@ from build_action_graph import parseDomAndProb
 from Ground_Compiler_Library.Graph import Edge
 from Flaws import FlawLib
 import hashlib
-
+from PyDPOCL import GPlanner
+from Ground_Compiler_Library import precompile
 
 def cache_ground_steps(operators, objects, obtypes, stepnum=None, gsd=None):
 
@@ -193,8 +194,6 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 			if arg.name is None:
 				needs_substituting.append(i)
 				continue
-			else:
-				print('check here')
 			# raise ValueError("just checking if this is possible")
 		sp_elm = sp_arg_dict[arg.arg_name]
 		print("suplan elm: " + str(sp_elm))
@@ -215,6 +214,7 @@ def rewriteElms(GDO, sp, objects, obtypes, h):
 			GDO.replaceArg(arg, sp_elm)
 	print('almost out')
 	GDO.updateArgs()
+	# this may not be needed anymore
 	for (u,v) in GDO.nonequals:
 		if GDO.Args[u] == GDO.Args[v]:
 			return False, None
@@ -267,15 +267,6 @@ def prep_singleton(GL, gdo, sp, height):
 
 	distinguished_steps(GL, gdo, height)
 	sp_copy = copy.deepcopy(sp)
-	# for elm in gdo.elements:
-	# 	if not isinstance(elm, Operator):
-	# 		continue
-	# 	elm_in_sp = sp_copy.getElmByRID(elm.replaced_ID)
-	# 	if elm_in_sp is None:
-	# 		continue
-	# 	elm_in_sp.ID = elm.ID
-	# sp.elements = set(list(sp_copy.elements))
-	# sp.edges = set(list(sp_copy.edges))
 
 	gdo.ground_subplan = sp_copy
 	# gdo.stepnumber = stepnum
@@ -448,14 +439,6 @@ class GLib:
 				return True
 		return False
 
-	# def getPotentialLinkConditions(self, src, snk):
-	# 	cndts = []
-	# 	for pre in self[snk.stepnumber].preconditions:
-	# 		if src.stepnumber not in self.id_dict[pre.replaced_ID]:
-	# 			continue
-	# 		cndts.append(Edge(src,snk, copy.deepcopy(pre)))
-	# 	return cndts
-
 	def getPotentialEffectLinkConditions(self, src, snk):
 		"""
 		Given source and sink steps, return {eff(src) \cap pre(snk)}
@@ -506,17 +489,6 @@ class GLib:
 		return consistent_dependencies
 
 	def hasConsistentPrecondition(self, SinkNum, Effect):
-		# consistent_effects = []
-		# for Eff in Source.Effects:
-		# 	if Eff.name != Effect.name:
-		# 		continue
-		# 	if not Eff.root.isConsistent(Effect.root) or not Effect.root.isConsistent(Eff.root):
-		# 		continue
-		# 	if is_consistent_args(Eff.Args, Effect.Args, Eff, Effect):
-		# 		consistent_effects.append(Eff.replaced_ID)
-		#
-		# if len(consistent_effects) == 0:
-		# 	return False
 
 		for Pre in self[SinkNum].Preconditions:
 			if Effect.replaced_ID in self.eff_dict[Pre.root.replaced_ID]:
@@ -598,11 +570,19 @@ def load_from_pickle(pickle_name):
 	return ground_steps
 
 
-def create_pickles(pickle_name):
-	operators, decomps, objects, object_types, initAction, goalAction = parseDomAndProb(domain_file, problem_file)
+def create_pickles(pickle_name, cache_GL=None, decache_GL=None):
+	if decache_GL is not None and decache_GL is not False:
+		with open(pickle_name + '.pkl', 'rb') as ugly:
+			GL = pickle.load(ugly)
+	else:
+		operators, decomps, objects, object_types, initAction, goalAction = parseDomAndProb(domain_file, problem_file)
 
-	print("creating ground actions......\n")
-	GL = GLib(operators, decomps, objects, object_types, initAction, goalAction)
+		print("creating ground actions......\n")
+		GL = GLib(operators, decomps, objects, object_types, initAction, goalAction)
+
+	if cache_GL is not None and cache_GL is not False:
+		with open(pickle_name + '.pkl', 'wb') as ugly:
+			pickle.dump(GL, ugly)
 
 
 	ground_step_list = precompile.deelementize_ground_library(GL)
@@ -615,8 +595,6 @@ def create_pickles(pickle_name):
 
 	return ground_step_list
 
-
-# def append_cache(pickle_name):
 
 def view(condition, literal):
 	c = Condition.subgraph(condition, literal)
@@ -638,7 +616,8 @@ def plan_single_example(domain_file, problem_file):
 	p = planner.solve(k=1)
 	return p, gsteps
 
-def run_single_example(domain_file, problem_file, run_planner=None):
+
+def run_single_example(domain_file, problem_file, cache_GL=None, decache_GL=None, run_planner=None):
 
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_VirtualCam.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_VirtualCam_Problem.pddl'
@@ -648,8 +627,10 @@ def run_single_example(domain_file, problem_file, run_planner=None):
 
 	pname = "pickles/" + uploadable_pickle_name + "_"
 
+	# if lfp is not None:
+	# 	gsteps = load_from_pickle(pname)
 	# gsteps = load_from_pickle(pname)
-	gsteps = create_pickles(pname)
+	gsteps = create_pickles(pname, cache_GL, decache_GL)
 	print('test')
 
 	with open('gs_' + uploadable_pickle_name, 'w') as gs:
@@ -686,7 +667,8 @@ def run_single_example(domain_file, problem_file, run_planner=None):
 	planner = GPlanner(gsteps)
 
 	if run_planner is not None:
-		planner.solve(k=1)
+		return planner.solve(k=1)
+	return None
 
 
 
@@ -732,6 +714,16 @@ def run_all_tests():
 	run_single_example(df, pf)
 
 
+import pickle
+import re
+
+def upload(plan_steps, name):
+	# n = re.sub('[^A-Za-z0-9]+', '', name)
+	print(name)
+	with open(name, 'wb') as afile:
+		pickle.dump(plan_steps, afile)
+
+
 # def construct_state_space(steps):
 # 	init = steps[0].effects
 
@@ -743,22 +735,25 @@ if __name__ ==  '__main__':
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Match2_2.pddl'
 
 	# issue domain:
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct3.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct5.pddl'
 
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct.pddl'
 	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 
-	from PyDPOCL import GPlanner
-	from Ground_Compiler_Library import precompile
+
 
 	# run_all_tests()
 
-	# plan_output, gsteps = plan_single_example(domain_file, problem_file)
-	# plan_steps = list(plan_output[0].OrderingGraph.topoSort())
 
-	run_single_example(domain_file, problem_file, True)
+
+	plan_output = run_single_example(domain_file, problem_file, cache_GL=None, decache_GL=None, run_planner=True)
+	# plan_output, gsteps = plan_single_example(domain_file, problem_file)
+	plan_steps = list(plan_output[0].OrderingGraph.topoSort())
+	# plan_steps = list(plan_output[0].OrderingGraph.topoSort())
+	if plan_steps is not None:
+		upload(plan_steps, "cached_plan_CA5.pkl")
 	print('output')
 	# for step in plan.OrderingGraph.topoSort():
 	# 	print(step)

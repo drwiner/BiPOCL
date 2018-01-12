@@ -382,24 +382,24 @@ class PlanElementGraph(ElementGraph):
 	def Step_Graphs(self):
 		return [Action.subgraph(self, step) for step in self.Steps]
 
-	@property
-	def Root_Graphs(self):
-		root_steps = []
-		for s in self.Steps:
-			nobodys_descendant = True
-			for t in self.Steps:
-				if s == t:
-					continue
-				if s in self.rGetDescendants(t):
-					nobodys_descendant = False
-					break
-			if nobodys_descendant:
-				root_steps.append(s)
-		return [Action.subgraph(self, step) for step in root_steps]
+	# @property
+	# def Root_Graphs(self):
+	# 	root_steps = []
+	# 	for s in self.Steps:
+	# 		nobodys_descendant = True
+	# 		for t in self.Steps:
+	# 			if s == t:
+	# 				continue
+	# 			if s in self.rGetDescendants(t):
+	# 				nobodys_descendant = False
+	# 				break
+	# 		if nobodys_descendant:
+	# 			root_steps.append(s)
+	# 	return [Action.subgraph(self, step) for step in root_steps]
 
 	def __repr__(self):
 		c = '\ncost {} + heuristic {}'.format(self.cost, self.heuristic)
-		steps = [''.join('\t' + str(step) + '\n' for step in self.Root_Graphs)]
+		steps = [''.join('\t' + str(step) + '\n' for step in self.Step_Graphs)]
 		order = [''.join('\t' + str(ordering.source) + ' < ' + str(ordering.sink) + '\n' for ordering in
 			self.OrderingGraph.edges)]
 		links = [''.join('\t' + str(cl) + '\n' for cl in self.CausalLinkGraph.edges)]

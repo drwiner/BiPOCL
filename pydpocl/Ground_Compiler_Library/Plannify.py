@@ -23,28 +23,23 @@ def Plannify(RQ, GL, h):
 
 	print('...Planets')
 	#A Planet is a plan s.t. all steps are "arg_name consistent", but a step may not be equiv to some ground step
-	# Planets = [PlanElementGraph.Actions_2_Plan(W, h) for W in Worlds if isArgNameConsistent(W)]
-	Planets = []
-	for i, W in enumerate(Worlds):
-		if not isArgNameConsistent(W):
-			continue
-		# if len(W) != len(RQ.Root_Graphs):
-		# 	continue
-		# if i > 1055:
-		# 	print('here')
-		p = PlanElementGraph.Actions_2_Plan(W,h)
-		if p is None:
-			continue
-		Planets.append(p)
-		# break
+	Planets = [PlanElementGraph.Actions_2_Plan(W, h) for W in Worlds if isArgNameConsistent(W, RQ.Args, RQ.nonequals)]
+	# Planets = []
+	# for i, W in enumerate(Worlds):
+	# 	if not isArgNameConsistent(W):
+	# 		continue
+	# 	p = PlanElementGraph.Actions_2_Plan(W,h)
+	# 	if p is None:
+	# 		continue
+	# 	Planets.append(p)
+
+	print("...Orderings")
+	# Filter "None" planets, which exist if they did not have step at level "h", and add ReQuired orderings
+	Planets = filter_and_add_orderings(Planets, RQ)
 
 	print('...Linkify')
-	#Linkify installs orderings and causal links from RQ/decomp to Planets, rmvs Planets which cannot support links
+	# Add orderings and links, remove consistent action combinations
 	Plans = Linkify(Planets, RQ, GL)
-
-	print('...Groundify')
-	#Groundify is the process of replacing partial steps with its ground step, and removing inconsistent planets
-	# Plans = Groundify(Planets, GL, has_links)
 
 	print('...returning consistent plans')
 	return [Plan for Plan in Plans if Plan is not None and Plan.isInternallyConsistent()]
@@ -71,12 +66,12 @@ def unify(gs, _map):
 	return gs_copy
 
 
-def isArgNameConsistent(Partially_Ground_Steps):
+def isArgNameConsistent(actions, args, nonequals):
 
 	arg_name_dict = {}
 
-	for PGS in Partially_Ground_Steps:
-		for elm in PGS.elements:
+	for action in actions:
+		for elm in action.elements:
 			if elm.arg_name is None:
 				continue
 			else:
@@ -86,7 +81,18 @@ def isArgNameConsistent(Partially_Ground_Steps):
 					return False
 				elif not arg_name_dict[elm.arg_name].isConsistent(elm):
 					return False
+
+	for u, v in nonequals:
+		a, b = arg_name_dict[args[u].arg_name], arg_name_dict[args[v].arg_name]
+		if a.name == b.name:
+			return False
+
 	return True
+
+# def isArgEqCons(actions, args, nonequals):
+# 	for u,v in nonequals:
+# 		a, b = args[u].arg_name, args[v].arg_name
+
 
 
 def productByPosition(Libs):
@@ -102,28 +108,36 @@ def filter_and_add_orderings(planets, RQ):
 			continue
 
 		# add orderings
-		if len(orderings) > 0:
-			GtElm = getElementByArgName
-			for ord in orderings:
-				source = GtElm(planets[i], ord.source.arg_name)
-				sink = GtElm(planets[i], ord.sink.arg_name)
-				planets[i].OrderingGraph.addLabeledEdge(source, sink, ord.label)
-				if ord.label != "<":
+		if len(orderings) == 0:
+			continue
+
+		GtElm = getElementByArgName
+		for ord in orderings:
+			source = GtElm(planets[i], ord.source.arg_name)
+			sink = GtElm(planets[i], ord.sink.arg_name)
+			planets[i].OrderingGraph.addLabeledEdge(source, sink, ord.label)
+			if ord.label != "<":
+				continue
+			source_terminals = planets[i].DecompGraph.rGetDescendants(source)
+			sink_terminals = planets[i].DecompGraph.rGetDescendants(sink)
+			for d_src, d_snk in itertools.product(source_terminals, sink_terminals):
+				if d_src == source or d_snk == sink:
 					continue
-				source_terminals = planets[i].DecompGraph.rGetDescendants(source)
-				sink_terminals = planets[i].DecompGraph.rGetDescendants(sink)
-				for d_src, d_snk in itertools.product(source_terminals, sink_terminals):
-					if d_src == source or d_snk == sink:
-						continue
-					if d_src == d_snk:
-						continue
-					planets[i].OrderingGraph.addEdge(d_src, d_snk)
+				if d_src == d_snk:
+					continue
+				if (d_src.typ == "step-s" and d_snk.typ != 'step-s') or (d_snk.typ == 'step-s' and d_src.typ != "step-s"):
+					continue
+				planets[i].OrderingGraph.addEdge(d_src, d_snk)
+				# if d_snk not in source_terminals:
+				# 	if d_snk.typ != 'step-s':
+				# 		planets[i].OrderingGraph.addEdge(source, d_snk)
+				# if d_src not in sink_terminals:
+				# 	if d_src.typ != 'step-s':
+				# 		planets[i].OrderingGraph.addEdge(d_src, sink)
 
 		indices.append(i)
 
-
-
-	planets[:] = [planets[i] for i in indices]
+	return [planets[i] for i in indices]
 
 
 def getElementByArgName(plan, arg_name):
@@ -139,7 +153,6 @@ def getElementByArgName(plan, arg_name):
 	# return same_arg_named_elements[0]
 
 
-
 def Linkify(Planets, RQ, GL):
 	"""
 	:param Planets: A list of plan-element-graphs
@@ -147,8 +160,6 @@ def Linkify(Planets, RQ, GL):
 	:param GL: Ground Library
 	:return: List of Plan-element-graphs which include causal link and ordering graphs
 	"""
-	# Filter "None" planets, which exist if they did not have step at level "h", and add ReQuired orderings
-	filter_and_add_orderings(Planets, RQ)
 
 	# If there's no causal link requirements, end here.
 	links = RQ.CausalLinkGraph.edges
@@ -161,26 +172,15 @@ def Linkify(Planets, RQ, GL):
 		for i in range(len(Planets)):
 			src = getElementByArgName(Planets[i], link.source.arg_name)
 			snk = getElementByArgName(Planets[i], link.sink.arg_name)
-			# src = Planets[i].getElementById(link.source.ID)
-			# snk = Planets[i].getElementById(link.sink.ID)
-			# This condition could be a blank element literal
-			# cond = Planets[i].getElementById(link.label.ID)
 			cond = getElementByArgName(Action.subgraph(Planets[i], snk), link.label.root.arg_name)
-			# this cond could be precondition or effect (we didn't bother to discriminate
 			Dependency = Condition.subgraph(Planets[i], cond)
-			# if cond is None:
-			# 	cond = RQ.getElementById(link.label.ID)
 
-			# use the step numbers in order to reason about "ground steps" not these partial shits.
-			# ante_dict == cndt_dict
 			if src.stepnumber not in GL.ante_dict[snk.stepnumber]:
 				continue
 
 			if src.stepnumber not in GL.id_dict[cond.replaced_ID]:
 				continue
 
-			# if not GL.hasConsistentPrecondition(snk.stepnumber, Dependency):
-			# 	continue
 			# pass token, not Dependency
 			Planets[i].CausalLinkGraph.addEdge(src, snk, Dependency)
 			Planets[i].OrderingGraph.addEdge(src, snk)
@@ -193,62 +193,6 @@ def Linkify(Planets, RQ, GL):
 		raise ValueError('no Planet could support links in {}'.format(RQ.name))
 
 	return Planets
-
-	# Discovered_Planets = []
-	#
-	# for Plan in Planets:
-	# 	nested_links = []
-	# 	for link in Plan.CausalLinkGraph.edges:
-	# 		pre_tokens = GL.getConsistentPreconditions(GL[link.sink.stepnumber], link.label, link.source.stepnumber)
-	# 		link_alternatives = []
-	# 		for token in pre_tokens:
-	# 			_link = Edge(link.source, link.sink, token)
-	# 			link_alternatives.append(_link)
-	# 		nested_links.append(link_alternatives)
-	#
-	# 	# link_worlds = productByPosition(nested_links)
-	# 	link_worlds = itertools.product(*nested_links)
-	#
-	# 	for links in link_worlds:
-	# 		FPlan = Plan.deepcopy()
-	# 		FPlan.CausalLinkGraph.edges = set(links)
-	# 		Discovered_Planets.append(FPlan)
-
-
-def Groundify(Planets, GL, has_links):
-	print('...Groundify - Unifying Actions with GL')
-	# for i, Planet in enumerate(Planets):
-	# 	print("... Planet {}".format(i))
-	# 	for Step in Planet.Root_Graphs:
-	# 		print('... Unifying {} with {}'.format(Step, GL[Step.stepnumber]))
-	# 		# Unify Actions (1) swaps step graphs with ground step
-	# 		Planet.UnifyActions(Step, GL[Step.stepnumber])
-
-	if not has_links:
-		return Planets
-
-	print('...Groundify - Creating Causal Links')
-	Discovered_Planets = []
-
-	for Plan in Planets:
-		nested_links = []
-		for link in Plan.CausalLinkGraph.edges:
-			pre_tokens = GL.getConsistentPreconditions(GL[link.sink.stepnumber], link.label, link.source.stepnumber)
-			link_alternatives = []
-			for token in pre_tokens:
-				_link = Edge(link.source, link.sink, token)
-				link_alternatives.append(_link)
-			nested_links.append(link_alternatives)
-
-		# link_worlds = productByPosition(nested_links)
-		link_worlds = itertools.product(*nested_links)
-
-		for links in link_worlds:
-			FPlan = Plan.deepcopy()
-			FPlan.CausalLinkGraph.edges = set(links)
-			Discovered_Planets.append(FPlan)
-
-	return Discovered_Planets
 
 
 class ActionLib:

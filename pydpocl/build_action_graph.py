@@ -253,29 +253,29 @@ def compile_decomp_literal(literal, dschema, op_graphs):
 			raise ValueError("need to declare operator type of step-typed variable with \'type\' predicate, {}".format(literal))
 
 		schema_template = get_op_from_op_name(c.Args[0].name, op_graphs)
-		args_with_scale = [(i, arg.deepcopy()) for i, arg in enumerate(schema_template.Args) if arg.typ == "scale"]
+		args_with_scale = [i for i, arg in enumerate(schema_template.Args) if arg.typ == "scale"]
 
 		if len(args_with_scale) > 1:
 			raise ValueError('too many args typed as scale')
 		if len(args_with_scale) == 0:
 			raise ValueError("no args in type {} that are scale typed".format(c.Args[0].name))
 
-		arg_num, arg = args_with_scale[0]
-		dschema.edges.add(Edge(c.Args[0], arg, arg_num))
+		arg_num = args_with_scale[0]
+		dschema.edges.add(Edge(c.Args[0], c.Args[1], arg_num))
 
 	elif literal.name == "has-orient":
 		if c.Args[0].name is None:
 			raise ValueError("need to declare operator type of step-typed variable with \'type\' predicate, {}".format(literal))
 		schema_template = get_op_from_op_name(c.Args[0].name, op_graphs)
-		args_with_ort = [(i, arg.deepcopy()) for i, arg in enumerate(schema_template.Args) if arg.typ == "orient"]
+		args_with_ort = [i for i, arg in enumerate(schema_template.Args) if arg.typ == "orient"]
 
 		if len(args_with_ort) > 1:
-			raise ValueError('too many args typed as scale')
+			raise ValueError('too many args typed as orient')
 		if len(args_with_ort) == 0:
-			raise ValueError("no args in type {} that are scale typed".format(c.Args[0].name))
+			raise ValueError("no args in type {} that are orient typed".format(c.Args[0].name))
 
-		arg_num, arg = args_with_ort[0]
-		dschema.edges.add(Edge(c.Args[0], arg, arg_num))
+		arg_num = args_with_ort[0]
+		dschema.edges.add(Edge(c.Args[0], c.Args[1], arg_num))
 
 	elif literal.name == "effect":
 		dschema.edges.add(Edge(c.Args[0], c.Args[1], "effect-of"))
@@ -499,7 +499,7 @@ def addNegativeInitStates(formulae, initAction, init_effects, objects, obj_types
 					continue
 				if len(ie.Args) != len(literal_template_copy.Args):
 					continue
-				if has_equal_args(ie.Args, literal_template_copy.Args, ie, literal_template_copy):
+				if not has_equal_args(ie.Args, literal_template_copy.Args, ie, literal_template_copy):
 					continue
 				in_initial_state = True
 
