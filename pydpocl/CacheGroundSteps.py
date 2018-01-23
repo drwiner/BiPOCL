@@ -161,21 +161,30 @@ def distinguished_steps(GL, gdo, height):
 	dummy_init.root.name = dummy_init.name
 
 	for condition in gdo.Preconditions:
+		if condition.name not in GL.non_static_preds:
+			continue
 		dummy_init.edges.add(Edge(dummy_init.root, condition.root, 'effect-of'))
 		dummy_init.edges.update(condition.edges)
 		dummy_init.elements.update(condition.elements)
+	dummy_init.instantiable = False
+
+	""" One does not need to add preconditions to the dummy_init - these are marked as completed during initial insertion
+	In other words. when we insert a decompositional step, its preconditions are passed to its dummy_init.
+	"""
 
 	dummy_goal = Action(name='finish:' + str(gdo.name) + "-" + str(gdo.root.stepnumber) + str([decompile(arg, gdo) for arg in gdo.Args]))
 	dummy_goal.is_cndt = False
 	dummy_goal.root.name = dummy_goal.name
 
 	for condition in gdo.Effects:
+		dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, "effect-of"))
+		dummy_goal.edges.update(condition.edges)
+		dummy_goal.elements.update(condition.elements)
 		if not GL.check_has_effect(condition, height + 1):
 			# this is a pattern effect.
 			continue
 		dummy_goal.edges.add(Edge(dummy_goal.root, condition.root, 'precond-of'))
-		dummy_goal.edges.update(condition.edges)
-		dummy_goal.elements.update(condition.elements)
+	dummy_goal.instantiable = False
 
 	gdo.sub_dummy_init = dummy_init
 	gdo.sub_dummy_goal = dummy_goal
@@ -391,6 +400,8 @@ class GLib:
 				continue
 			if self._parseEffects(gstep, _step, _pre) > 0:
 				self.ante_dict[_step.stepnumber].add(gstep.stepnumber)
+				if gstep.height > 0:
+					self.ante_dict[_step.stepnumber].add(gstep.sub_dummy_goal.stepnumber)
 
 	# @clock
 	def _parseEffects(self, gstep, _step, _pre):
@@ -409,11 +420,19 @@ class GLib:
 			if Eff.truth != _pre.truth:
 				self.threat_dict[_step.stepnumber].add(gstep.stepnumber)
 				self.flaw_threat_dict[_pre.replaced_ID].add(gstep.stepnumber)
+				if gstep.height > 0:
+					self.threat_dict[_step.stepnumber].add(gstep.sub_dummy_goal.stepnumber)
+					self.flaw_threat_dict[_pre.replaced_ID].add(gstep.sub_dummy_goal.stepnumber)
 			else:
 				self.eff_dict[_pre.replaced_ID].add(Eff.replaced_ID)
 				self.id_dict[_pre.replaced_ID].add(gstep.stepnumber)
+				if gstep.height > 0:
+					self.id_dict[_pre.replaced_ID].add(gstep.sub_dummy_goal.stepnumber)
+
 				if _pre.name in ALU_TERMS:
 					self.cntg_mental[_pre.replaced_ID].add(gstep.stepnumber)
+					if gstep.height >0:
+						self.cntg_mental[_pre.replaced_ID].add(gstep.sub_dummy_goal.stepnumber)
 
 				count += 1
 		return count
@@ -735,25 +754,19 @@ if __name__ ==  '__main__':
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Match2_2.pddl'
 
 	# issue domain:
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct5.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Arrive1.pddl'
 
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Arrive_Problem.pddl'
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 
-
-
-	# run_all_tests()
-
-
-
-	plan_output = run_single_example(domain_file, problem_file, cache_GL=None, decache_GL=None, run_planner=True)
+	plan_output = run_single_example(domain_file, problem_file, cache_GL=None, decache_GL=None, run_planner=None)
 	# plan_output, gsteps = plan_single_example(domain_file, problem_file)
 	plan_steps = list(plan_output[0].OrderingGraph.topoSort())
 	# plan_steps = list(plan_output[0].OrderingGraph.topoSort())
 	if plan_steps is not None:
-		upload(plan_steps, "cached_plan_CA5.pkl")
+		upload(plan_steps, "cached_plan_Arrive.pkl")
 	print('output')
 	# for step in plan.OrderingGraph.topoSort():
 	# 	print(step)

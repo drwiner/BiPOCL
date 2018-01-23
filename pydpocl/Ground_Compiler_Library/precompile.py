@@ -34,7 +34,9 @@ def deelementize_ground_library(GL):
 
 		# all primitive steps (except for dummies) are in _gsteps before all decomp steps, where each level is totally ordered
 		if gstep.height > 0:
-			gstep.swap_substeps(g_steps, GL, step)
+			swap_map = gstep.swap_substeps(g_steps, GL, step)
+			gstep.compile_do_not_insert_list(GL.eff_dict, swap_map)
+			# gstep.
 
 		g_steps.append(gstep)
 

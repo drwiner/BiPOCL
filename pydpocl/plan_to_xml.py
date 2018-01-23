@@ -26,7 +26,7 @@ FAB_STEPS = ["strut", "turn-to"]
 # ANIM_MAP = {"strut": "Stroll"}
 FAB_TYPES = {"strut": "navigate"}
 
-ORIENTS = {"front": '0', "behind": "180", "behind-right": 150}
+ORIENTS = {"front": '0', "behind": "180", "behind-right": 210, "behind-left": 150}
 
 # FAB_TYPES = {"strut": nav_step_to_xml, "turn-to": "animate"}
 CAM_STEPS = ["cam"]
@@ -131,11 +131,23 @@ def discourse_to_xml(steps, fab_timeline):
 	for step in steps:
 		# cam - shot - segment
 		step_tokens = step.schema.split("-")
-		segment = step_tokens[2]
+		fab_step_ref = get_steps_in_args(step.Args)[0]
+
+		# type_of_camera_being_used = step_tokens[1]
+
+		if step_tokens[1] == "virtual":
+			segment = step.Args[2].name
+			type_of_camera_being_used = "virtual"
+
+		#
+		else:
+			segment = step_tokens[2]
+			type_of_camera_being_used = "cam"
 		# if "cam-shot" then the argument signature is step +
-		fab_step_ref = step.Args[0]
-		step_id_query = str(fab_step_ref.root.ID)[19:23]
-		fab_start_time, fab_gstep, fab_xml = get_fabxml_from_timeline(step_id_query, fab_timeline)
+
+		# fab_step_ref = step.Args[0]
+
+		fab_start_time, fab_gstep, fab_xml = get_fabxml_from_timeline(fab_step_ref, fab_timeline)
 		target = list(fab_xml.getiterator("gameobject_name"))[0].text
 
 		arg_dict = {}
@@ -147,11 +159,16 @@ def discourse_to_xml(steps, fab_timeline):
 
 		""" Customized Extraction - need to standardize for when multiple values, or when values not present
 		"""
-		orient = ORIENTS[arg_dict["orient"]]
+		if step_tokens[1] == "virtual":
+			orient = None
+		else:
+			orient = ORIENTS[arg_dict["orient"]]
 		# fab_xml.
 
-		xml_method = DISC_METHODS[fab_xml.attrib["type"]]
-		step_root, this_duration = xml_method(before_time, fab_gstep, orient, segment, target, fab_start_time, fab_xml)
+		type_of_action_being_filmed = fab_xml.attrib["type"]
+		xml_method = DISC_METHODS[type_of_action_being_filmed][type_of_camera_being_used]
+		step_root, this_duration = xml_method(before_time, fab_gstep, orient, segment, target, fab_start_time, fab_xml,
+		                                      step.Args[0].name)
 		# step_root = xml_method(step.schema, before_time, this_duration, this_fab_start_time, orient, target, fab_xml)
 		plan_root.append(step_root)
 
@@ -159,8 +176,31 @@ def discourse_to_xml(steps, fab_timeline):
 	return collection_root
 
 
-def nav_cam_shot_to_xml(before_time, fab_gstep, orient, segment, target, fab_start_time, fab_xml):
-# schema_name, before_time, shot_duration, fab_start, orient, aim_target, fab_xml):
+def get_steps_in_args(args):
+	return [arg for arg in args if hasattr(arg, "stepnumber")]
+
+
+def nav_virtual_shot_to_xml(before_time, fab_gstep, orient, segment, target, fab_start_time, fab_xml, camName):
+	fab_tokens = fab_gstep.schema.split("-")
+	# fab_with_num = fab_tokens[0] + "-" + fab_tokens[1]
+	s, f = FAB_SEGMENTS[fab_tokens[0]][segment]
+	fab_duration = list(fab_xml.getiterator("duration"))[0].text
+	this_duration = f * float(fab_duration) - s * float(fab_duration)
+	this_fab_start_time = fab_start_time + s * float(fab_duration)
+
+	step_root = etree.Element("Clip", name=fab_gstep.schema, type="nav_virtual")
+	etree.SubElement(step_root, "start").text = str(before_time)
+	etree.SubElement(step_root, "duration").text = str(this_duration)
+	# etree.SubElement(step_root, "fov").text = str(25)
+	etree.SubElement(step_root, "fabulaStart").text = str(this_fab_start_time)
+	etree.SubElement(step_root, "aimTarget").text = str(target)
+	etree.SubElement(step_root, "virtualCamName").text = camName
+
+	return step_root, this_duration
+
+
+def nav_cam_shot_to_xml(before_time, fab_gstep, orient, segment, target, fab_start_time, fab_xml, camName=None):
+
 	fab_tokens = fab_gstep.schema.split("-")
 	# fab_with_num = fab_tokens[0] + "-" + fab_tokens[1]
 	s, f = FAB_SEGMENTS[fab_tokens[0]][segment]
@@ -192,7 +232,8 @@ def nav_cam_shot_to_xml(before_time, fab_gstep, orient, segment, target, fab_sta
 	return step_root, this_duration
 
 
-def get_fabxml_from_timeline(fab_step_id, fab_timeline):
+def get_fabxml_from_timeline(fab_step_ref, fab_timeline):
+	fab_step_id = str(fab_step_ref.root.ID)[19:23]
 	fab_step_in_fab_timeline = None
 	for bt, fab_id, fab_step, fab_step_xml in fab_timeline:
 		if fab_id == fab_step_id:
@@ -200,11 +241,20 @@ def get_fabxml_from_timeline(fab_step_id, fab_timeline):
 			break
 	if fab_step_in_fab_timeline is None:
 		print('initiaiting a hack')
-		fab_step_in_fab_timeline = fab_timeline[0][3]
-		fab_step = fab_timeline[0][2]
-		bt = fab_timeline[0][0]
+		# get nearest same-stepnumber step
+		bt, fab_step, fab_step_in_fab_timeline = get_nearest_same_stepnumber_step(fab_step_ref, fab_timeline)
+
 	return bt, fab_step, fab_step_in_fab_timeline
 
+
+def get_nearest_same_stepnumber_step(fab_step_ref, fab_timeline):
+	# no such thing as "nearest" unless we demarked which steps are already shown via prior discoures steps, and that's still a hack so why bother
+	# print('not done here')
+	step_num = fab_step_ref.stepnumber
+	for bt, four_id, step_action, clip_element in fab_timeline:
+		if step_action.stepnumber == step_num:
+			return bt, step_action, clip_element
+	raise ValueError("didn't find a step with same stepnumber")
 
 def fab_step_to_id(gstep):
 	return gstep.schema.split("-")[2].split("[")[0]
@@ -227,21 +277,28 @@ def reload(name):
 	return plan_steps
 
 
-
 FAB_METHODS = {"strut": nav_step_to_xml, "turn-to": "animate"}
-DISC_METHODS = {"navigate": nav_cam_shot_to_xml}
+DISC_METHODS = {"navigate": {"virtual": nav_virtual_shot_to_xml,
+                             "cam": nav_cam_shot_to_xml}
+                }
 
 if __name__ ==  '__main__':
 
-	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_ContAct3.pddl'
-	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
+	domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Arrive1.pddl'
+	problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Arrive_Problem.pddl'
 
 	# plan_output, gsteps = plan_single_example(domain_file, problem_file)
 	# plan_steps = [step for step in plan_output[0].OrderingGraph.topoSort()]
 
 	# upload(plan_steps, "plan")
-	plan_steps = reload("cached_plan_CA5.pkl")
+	# plan_steps = reload("cached_plan_CA5.pkl")
+	plan_steps = reload("cached_plan_Arrive.pkl")
 	# plan_steps = [step for step in plan_output.OrderingGraph.topoSort()]
+	with open("arrival_plan.txt", 'w') as wtp:
+		for step in plan_steps:
+			wtp.write(str(step))
+			wtp.write("\n")
+
 	print("ok")
 
 

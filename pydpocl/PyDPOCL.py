@@ -148,7 +148,7 @@ class GPlanner:
 			# Select Flaw
 			flaw = plan.flaws.next()
 			plan.name += '[' + str(flaw.flaw_type)[0] + ']'
-			log_message('{} selected : {}\n'.format(flaw.name, flaw))
+			log_message('{} selected : {}\n'.format(flaw.name, flaw.flaw))
 
 			self.plan_num = 0
 
@@ -180,7 +180,7 @@ class GPlanner:
 				if self.gsteps[cndt].height > flaw.level:
 					continue
 
-			# cannot add a step which is the inital step
+			# cannot add a step which is the inital step, or a dummy sub-step
 			if not self.gsteps[cndt].instantiable:
 				continue
 			# clone plan and new step
@@ -198,8 +198,13 @@ class GPlanner:
 			# pass depth to new Added step.
 			new_step.depth = mutable_s_need.depth
 
+			# check if any substeps are already in the plan via mutable_p
+			do_not_insert_list = None
+			if new_step.height > 0 and len(new_step.do_not_insert_map[mutable_p.ID]) > 0:
+				do_not_insert_list = new_step.do_not_insert_map[mutable_p.ID]
+
 			# recursively insert new step and substeps into plan, adding orderings and flaws
-			new_plan.insert(new_step)
+			new_plan.insert(new_step, do_not_insert_list)
 			log_message('Add step {} to plan {}\n'.format(str(new_step), new_plan.name))
 
 			# resolve s_need with the new step

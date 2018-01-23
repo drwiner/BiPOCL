@@ -111,6 +111,7 @@ class GStep:
 		if len(composite_substeps) == 0:
 			prim_dict = {step: gsteps[step.stepnumber].instantiate() for step in primitive_substeps}
 			self.create_composite_gstep(gsteps, decomp_step, prim_dict)
+			return prim_dict
 		else:
 			# links and orderings in intermediate stage
 			# change_dict = {step.root: gsteps[step.stepnumber].instantiate() for step in decomp_step.ground_subplan.Root_Graphs}
@@ -154,6 +155,7 @@ class GStep:
 				change_dict[step.root] = step_copy
 				# self.sub_steps.append(step)
 			self.create_composite_gstep(gsteps, decomp_step, change_dict, do_not_add_as_substep)
+			return change_dict
 
 	@clock
 	def create_composite_gstep(self, gsteps, decomp_step, change_dict, do_not_add_as_substep=None):
@@ -210,6 +212,31 @@ class GStep:
 		# add init_step as top cndt for all
 
 		self.dummy = dummyTuple(init_step, final_step)
+
+	def compile_do_not_insert_list(self, eff_dict, step_swap_map):
+		"""
+		Compile a mapping from precondition IDs to sub_steps.
+		1. precondition matches THIS step as establisher
+		2. THIS step has height > 0
+		3. THIS step has a mapping from preconditino IDs to its sub_steps
+		4. mark these sub_steps as DO NOT INSERT during planning
+		"""
+		eff_ids = {eff.ID: eff for eff in self.effects}
+		relevant_effects = defaultdict(list)
+		for k, v in eff_dict.items():
+			for v_i in v:
+				if v_i not in eff_ids.keys():
+					continue
+				relevant_effects[eff_ids[v_i]].append(k)
+
+		# relevant_effects = {eff_ids[v_i]: k for k, v in eff_dict.items() for v_i in v if v_i in eff_ids.keys()}
+
+		# relevant_effects = {eff: eff_dict[eff.ID] for eff in self.effects}
+		self.do_not_insert_map = {}
+		for eff, pre_IDs in relevant_effects.items():
+			gstep_list = [step_swap_map[arg.root] for arg in eff.Args if type(arg) == Action]
+			for pid in pre_IDs:
+				self.do_not_insert_map[pid] = gstep_list
 
 	def instantiate(self, default_refresh=None, default_None_is_to_refresh_open_preconds=None):
 		new_self = copy.deepcopy(self)

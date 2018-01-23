@@ -18,20 +18,31 @@ def Plannify(RQ, GL, h):
 	except:
 		return []
 
-	#A World is a combination of one ground-instance from each step
-	Worlds = productByPosition(Libs)
+	sum = 1
+	for lib in Libs:
+		sum *= len(lib._cndts)
+	if sum > 100000000:
+		# then need to take short cuts
+		print(sum)
+		Worlds = revised_compilation_strategy(Libs, GL, RQ)
+	else:
+		#A World is a combination of one ground-instance from each step
+		Worlds = productByPosition(Libs)
 
 	print('...Planets')
 	#A Planet is a plan s.t. all steps are "arg_name consistent", but a step may not be equiv to some ground step
 	Planets = [PlanElementGraph.Actions_2_Plan(W, h) for W in Worlds if isArgNameConsistent(W, RQ.Args, RQ.nonequals)]
 	# Planets = []
 	# for i, W in enumerate(Worlds):
-	# 	if not isArgNameConsistent(W):
+	# 	# print(i)
+	# 	if not isArgNameConsistent(W, RQ.Args, RQ.nonequals):
 	# 		continue
+	# 	# print("arg name consistent")
 	# 	p = PlanElementGraph.Actions_2_Plan(W,h)
 	# 	if p is None:
 	# 		continue
 	# 	Planets.append(p)
+
 
 	print("...Orderings")
 	# Filter "None" planets, which exist if they did not have step at level "h", and add ReQuired orderings
@@ -43,6 +54,61 @@ def Plannify(RQ, GL, h):
 
 	print('...returning consistent plans')
 	return [Plan for Plan in Plans if Plan is not None and Plan.isInternallyConsistent()]
+
+
+def revised_compilation_strategy(ActionLibs, GL, RQ):
+	from collections import defaultdict
+	"""
+	A] create a fab-step dictionary for each action representative of the libraries if type = step-s
+	B] Find which other ActionLib-actions have fab-steps as argument, if arg_name is matching in fab-step dict
+	C] for each fab-step permutation, create world where actions-with-fab-arguments are consistent
+	"""
+	fab_libs = []
+	fab_pos = []
+	cam_step_dict = defaultdict(list)
+	leftover_libs = []
+	for lib in ActionLibs:
+		if lib.root.typ == 'step-s':
+			fab_libs.append(lib)
+			fab_pos.append(lib.position)
+		elif lib.root.typ == 'step-c':
+			for i, arg in enumerate(lib.RS.Args):
+				if type(arg) != Operator:
+					continue
+				elif arg.typ != 'step-s':
+					continue
+				elif arg.arg_name is None:
+					continue
+				cam_step_dict[lib.position].append((arg.arg_name, i))
+		else:
+			leftover_libs.append(lib)
+
+	worlds = []
+	fab_worlds = itertools.product(*[lib._cndts for lib in fab_libs])
+	print('checko')
+	for fw in fab_worlds:
+		fw_world = {step.root.arg_name: step.stepnumber for step in fw}
+
+		cndt_lists_dict = {pos: [step] for pos, step in zip(fab_pos, fw)}
+
+		for cs_position, arg_names in cam_step_dict.items():
+			# print(cs_position)
+			cs_lib = ActionLibs[cs_position]
+			vcndt_list = list(cs_lib._cndts)
+			for argname, j in arg_names:
+				vcndts = [cndt.stepnumber for cndt in vcndt_list if type(cndt.Args[j]) == Operator and cndt.Args[j].stepnumber == fw_world[argname]]
+				vcndt_list = [item for item in vcndt_list if item.stepnumber in vcndts]
+
+			cndt_lists_dict[cs_position] = vcndt_list
+
+		if len(leftover_libs) > 0:
+			for ll in leftover_libs:
+				cndt_lists_dict[ll.position] = ll._cndts
+
+		cndt_list = [item[1] for item in sorted(cndt_lists_dict.items(), key=lambda x: x[0])]
+		poss_worlds = itertools.product(*cndt_list)
+		worlds.extend(poss_worlds)
+	return worlds
 
 
 def unify(gs, _map):
@@ -75,7 +141,7 @@ def isArgNameConsistent(actions, args, nonequals):
 			if elm.arg_name is None:
 				continue
 			else:
-				if not elm.arg_name in arg_name_dict.keys():
+				if elm.arg_name not in arg_name_dict.keys():
 					arg_name_dict[elm.arg_name] = elm
 				elif not elm.isConsistent(arg_name_dict[elm.arg_name]):
 					return False
@@ -102,6 +168,9 @@ def productByPosition(Libs):
 def filter_and_add_orderings(planets, RQ):
 	orderings = RQ.OrderingGraph.edges
 	indices = []
+	if len(orderings) == 0:
+		return planets
+
 	for i in range(len(planets)):
 		# filter None Planets, which are scratched possible worlds
 		if planets[i] is None:
@@ -164,7 +233,8 @@ def Linkify(Planets, RQ, GL):
 	# If there's no causal link requirements, end here.
 	links = RQ.CausalLinkGraph.edges
 	if len(links) == 0:
-		return False
+		return Planets
+		# return False
 
 	# For each link, test if the planet supports that link
 	for link in links:

@@ -74,12 +74,12 @@ class GPlan:
 
 	# Insert Methods #
 
-	def insert(self, step):
+	def insert(self, step, dni=None):
 		# baseline condition:
 		self.cost += 1
 		# self.cost += (2 * 2 + 1) - (step.height * step.height)
 		if step.height > 0:
-			return self.insert_decomp(step)
+			return self.insert_decomp(step, dni)
 		else:
 			return self.insert_primitive(step)
 
@@ -111,7 +111,7 @@ class GPlan:
 
 		return None
 
-	def insert_decomp(self, new_step):
+	def insert_decomp(self, new_step, dni=None):
 		# magic happens here
 		swap_dict = dict()
 
@@ -165,7 +165,12 @@ class GPlan:
 			if new_substep.depth > self.depth:
 				self.depth = new_substep.depth
 
+			if dni is not None:
+				if substep in dni:
+					continue
+
 			poss_swaps = self.insert(new_substep)
+
 			if poss_swaps is not None:
 				swap_dict.update(poss_swaps)
 
@@ -179,6 +184,11 @@ class GPlan:
 
 		# sub orderings
 		for edge in new_step.sub_orderings.edges:
+			if dni is not None:
+				if edge.source in dni:
+					continue
+				elif edge.sink in dni:
+					continue
 			# try:
 			source, sink = swap_dict[edge.source.ID], swap_dict[edge.sink.ID]
 			# except:
@@ -202,6 +212,9 @@ class GPlan:
 
 			# check if this link is threatened
 			for substep in new_step.sub_steps:
+				if dni is not None and substep in dni:
+					continue
+
 				new_substep = swap_dict[substep.ID]
 				if new_substep.ID in {clink.source.ID, clink.sink.ID}:
 					continue

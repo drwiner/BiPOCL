@@ -368,7 +368,7 @@ def build_operators(actions, obj_types, cnsts):
 		if action.decomp is None:
 			primitive_operators.append(schema)
 		else:
-			dargs = convert_params(action.decomp.sub_params, obj_types) + args
+			dargs = args + convert_params(action.decomp.sub_params, obj_types)
 			# initially use all parameters to become decomposition schema args
 			dschema = make_decomp(action.name, dargs, action.decomp.formula, all_operators)
 			dschema.constants = operator_template.constants
@@ -380,6 +380,7 @@ def build_operators(actions, obj_types, cnsts):
 				build_decomp(action.decomp.disc_formula, disc_params, dschema, all_operators)
 
 			schema.subplan = dschema
+			schema.subplan.nonequals.update(schema.nonequals)
 			composite_operators.append(schema)
 
 		all_operators.append(schema)

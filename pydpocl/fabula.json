@@ -1,0 +1,28 @@
+[
+    {
+        "method_used": "nav_act", 
+        "start": 0, 
+        "duration": 8.813333333333334, 
+        "step_num": 3, 
+        "end_pos_name": "duel-right", 
+        "animation_name": "strut", 
+        "step_id": "9000", 
+        "gameobject_name": "bandit", 
+        "start_pos_name": "right", 
+        "name": "strut-3-9000['bandit', 'right', 'duel-right']", 
+        "type": "navigate"
+    }, 
+    {
+        "method_used": "nav_act", 
+        "start": 8.813333333333334, 
+        "duration": 10.386666666666667, 
+        "step_num": 20, 
+        "end_pos_name": "duel-left", 
+        "animation_name": "strut", 
+        "step_id": "addc", 
+        "gameobject_name": "cowboy", 
+        "start_pos_name": "left", 
+        "name": "strut-20-addc['cowboy', 'left', 'duel-left']", 
+        "type": "navigate"
+    }
+]
