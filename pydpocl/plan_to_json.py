@@ -3,6 +3,7 @@ Read plan solution, use time table to coordinate times
 """
 import json
 from CacheGroundSteps import plan_single_example
+from plan_to_lists import make_partial_ordered_list
 
 # from Ground_Compiler_Library.GElm import GStep, GLiteral
 dist_dict = {}
@@ -133,6 +134,28 @@ def fabula_to_json(init, steps):
 		before_time += step_duration
 		clips.append(sub_root)
 
+	return clips
+
+
+def fabula_to_json_po(init, nested_po_steps):
+	before_time = 0
+	before_state = init
+	clips = []
+	for po_list in nested_po_steps:
+		max_step_duration = 0
+		for step in po_list:
+			step_tokens = step.schema.split("-")[:2]
+			# step_with_num = step_tokens[0] + "-" + step_tokens[1]
+			xml_method = FAB_METHODS[step_tokens[0]]
+
+			# e.g.:  nav_step_to_xml   (state, step, step_token, begin_time, duration)
+			sub_root, step_duration = xml_method(before_state, step, step_tokens[0], before_time)
+			before_state = transition_state(before_state, step)
+			clips.append(sub_root)
+			if step_duration > max_step_duration:
+				max_step_duration = step_duration
+
+		before_time += step_duration
 	return clips
 
 
@@ -304,18 +327,25 @@ if __name__ ==  '__main__':
 
 	# upload(plan_steps, "plan")
 	# plan_steps = reload("cached_plan_CA5.pkl")
-	plan_steps = reload("cached_plan_Arrive.pkl")
-	# plan_steps = [step for step in plan_output.OrderingGraph.topoSort()]
-	with open("arrival_plan.txt", 'w') as wtp:
-		for step in plan_steps:
-			wtp.write(str(step))
-			wtp.write("\n")
+	# plan_steps = reload("cached_plan_Arrive.pkl")
+	plan = reload("full_plan_Arrive.pkl")
+	fab_partial_ordering = make_partial_ordered_list(plan, FAB_STEPS)
 
-	print("ok")
+	#
+	# print("organize into partial order")
+	# # plan_steps = [step for step in plan_output.OrderingGraph.topoSort()]
+	# with open("arrival_plan.txt", 'w') as wtp:
+	# 	for step in plan_steps:
+	# 		wtp.write(str(step))
+	# 		wtp.write("\n")
+	#
+	# print("ok")
 
-
+	plan_steps = [step for step in plan.OrderingGraph.topoSort()]
 	fab_steps, disc_steps = step_extraction(plan_steps)
-	fab_list = fabula_to_json(set(plan_steps[0].effects), fab_steps)
+
+	fab_list = fabula_to_json_po(set(plan_steps[0].effects), fab_partial_ordering)
+	# fab_list = fabula_to_json(set(plan_steps[0].effects), fab_steps)
 
 	disc_list = discourse_to_json(disc_steps, fab_list)
 

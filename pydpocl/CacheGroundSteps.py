@@ -761,12 +761,16 @@ if __name__ ==  '__main__':
 	# domain_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Domain_Cntg2.pddl'
 	# problem_file = 'D:/documents/python/cinepydpocl/pydpocl/Ground_Compiler_Library/domains/Unity_Cntg_Problem.pddl'
 
-	plan_output = run_single_example(domain_file, problem_file, cache_GL=None, decache_GL=None, run_planner=None)
-	# plan_output, gsteps = plan_single_example(domain_file, problem_file)
-	plan_steps = list(plan_output[0].OrderingGraph.topoSort())
+	# plan_output = run_single_example(domain_file, problem_file, cache_GL=None, decache_GL=None, run_planner=None)
+
+	plan_output, gsteps = plan_single_example(domain_file, problem_file)
+	upload(plan_output[0], "full_plan_Arrive.pkl")
+
+	# # plan_output, gsteps = plan_single_example(domain_file, problem_file)
 	# plan_steps = list(plan_output[0].OrderingGraph.topoSort())
-	if plan_steps is not None:
-		upload(plan_steps, "cached_plan_Arrive.pkl")
-	print('output')
-	# for step in plan.OrderingGraph.topoSort():
-	# 	print(step)
+	# # plan_steps = list(plan_output[0].OrderingGraph.topoSort())
+	# if plan_steps is not None:
+	# 	upload(plan_steps, "cached_plan_Arrive.pkl")
+	# print('output')
+	# # for step in plan.OrderingGraph.topoSort():
+	# # 	print(step)
